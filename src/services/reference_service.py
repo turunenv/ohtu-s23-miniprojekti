@@ -7,6 +7,9 @@ class ReferenceService:
         }
 
     def get_fields_of_reference_type(self, type):
+        if not type in self.fields_from_type:
+            return []
+        
         return self.fields_from_type[type]
     
     def create_reference(self, content):
