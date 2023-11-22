@@ -1,4 +1,3 @@
-from database_connection import get_db_connection
 from entities.book_reference import BookReference
 
 class ReferenceRepository:
@@ -14,7 +13,7 @@ class ReferenceRepository:
         """
         cursor = self._connection.cursor()
         cursor.execute(
-            "INSERT INTO books (ref_key, author, title, year, publisher) VALUES (?, ?)"
+            "INSERT INTO books (ref_key, author, title, year, publisher) VALUES (?, ?)",
             (book.ref_key, book.author, book.title, book.year, book.publisher)
         )
 

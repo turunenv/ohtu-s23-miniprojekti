@@ -46,14 +46,13 @@ class App:
                 input = self.io.read(f"Add {f} of the {source_type}: ")                        
             rd[f] = input
 
-        ### self.reference_service.add_reference(rd)
-        self.list.append(rd)
+        self.reference_service.add_reference(rd)
 
         print("ADDED!")
 
     def list_references(self):
         
-        ### self.list = self.reference_service.getAll()
+        self.list = self.reference_service.get_all()
         for r in self.list:
             print(r)
         
