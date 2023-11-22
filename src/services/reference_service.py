@@ -1,5 +1,5 @@
 from entities.book_reference import BookReference
-# from repositories.reference_repository import ReferenceRepository
+from repositories.reference_repository import ReferenceRepository
 
 class ReferenceService:
     def __init__(self, reference_repository):
