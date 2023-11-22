@@ -22,4 +22,4 @@ class ReferenceService:
                 self._reference_repository.create_book(book)
 
     def get_all(self):
-        return self._reference_repository.find_all()
+        return self._reference_repository.get_all()
