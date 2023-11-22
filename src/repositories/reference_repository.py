@@ -13,7 +13,7 @@ class ReferenceRepository:
         """
         cursor = self._connection.cursor()
         cursor.execute(
-            "INSERT INTO books (ref_key, author, title, year, publisher) VALUES (?, ?)",
+            "INSERT INTO books (ref_key, author, title, year, publisher) VALUES (?, ?, ?, ?, ?)",
             (book.ref_key, book.author, book.title, book.year, book.publisher)
         )
 
@@ -27,7 +27,7 @@ class ReferenceRepository:
             Returns a list of BookReferences
         """
         cursor = self._connection.cursor()
-        cursor.execute("SELECT * from books")
+        cursor.execute("SELECT * FROM books")
 
         books = cursor.fetchall()
 
