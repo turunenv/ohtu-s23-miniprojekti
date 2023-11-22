@@ -47,5 +47,5 @@ class ReferenceRepository:
     def delete_all_books(self):
         cursor = self._connection.cursor()
 
-        cursor.execute("delete from book_references")
-        cursor.commit()
+        cursor.execute("DELETE from book_references")
+        self._connection.commit()
