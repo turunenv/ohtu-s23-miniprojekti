@@ -22,10 +22,15 @@ class App:
 
     def add_reference(self):
 
+        self.io.write("Type \"cancel\" to stop cancel")
+
         source_type = self.io.read("Give source type: ")
 
         list_of_fields = self.reference_service.get_fields_of_reference_type(source_type)
         
+        if source_type == "cancel":
+                return
+
         if not list_of_fields:
             self.io.write("ERROR: Source type not supported!")
             return
@@ -36,6 +41,9 @@ class App:
         for f in list_of_fields:
 
             input = self.io.read(f"Add {f} of the {source_type}: ")
+
+            if input == "cancel":
+                return
 
             while f == "ref_key" and self.reference_service.ref_key_taken(input):
                 self.io.write("This ref_key is already taken!!")
