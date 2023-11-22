@@ -34,10 +34,17 @@ class App:
         
         # rd = Reference Dictionary, Yhden viiteen tiedot dictionaryssä
         rd = {}
-        
+        rd["type"] = source_type
+
         # Luetaan käyttäjän syöte jokaiseen vaadittuun kenttään
         for f in list_of_fields:
-            rd[f] = self.io.read(f"Add {f} of the {source_type}: ")
+
+            input = self.io.read(f"Add {f} of the {source_type}: ")
+            # Validoidaan syöte
+            while input == "":
+                print("This field is required!")
+                input = self.io.read(f"Add {f} of the {source_type}: ")                        
+            rd[f] = input
 
         ### self.reference_service.add_reference(rd)
         self.list.append(rd)
