@@ -25,7 +25,9 @@ class ReferenceService:
                     content["publisher"]
                 )
 
-                self._reference_repository.create_book(book)
+                return self._reference_repository.create_book(book)
+
 
     def get_all(self):
         return self._reference_repository.get_all()
+

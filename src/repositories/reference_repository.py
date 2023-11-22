@@ -12,12 +12,18 @@ class ReferenceRepository:
             book (_type_): BookReference
         """
         cursor = self._connection.cursor()
-        cursor.execute(
-            "INSERT INTO book_references (ref_key, author, title, year, publisher) VALUES (?, ?, ?, ?, ?)",
-            (book.ref_key, book.author, book.title, book.year, book.publisher)
-        )
+        try:
+            cursor.execute(
+                "INSERT INTO book_references (ref_key, author, title, year, publisher) VALUES (?, ?, ?, ?, ?)",
+                (book.ref_key, book.author, book.title, book.year, book.publisher)
+            )
 
-        self._connection.commit()
+            self._connection.commit()
+        except Exception as e:
+            print(e)
+            return False
+
+        return True
 
 
     def get_all(self):

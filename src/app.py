@@ -1,7 +1,6 @@
 class App:
     
     def __init__(self, io, rs):
-        ### self.reference_service =
         self.list = []
         self.io = io
         self.reference_service = rs
@@ -10,29 +9,35 @@ class App:
 
         while True:
             
+            # Kysytään käyttäjältä komentoa
             command = self.io.read("Command (add or list)")
 
             if not command:
                 break
 
+            # Lisätään viite
             if command == "add":
-                # Lisätään viite
                 self.add_reference()
             
+            # Listataan viitteet
             if command == "list":
                 self.list_references()
 
     def add_reference(self):
-        # Kysytään viitteen tyyppiä = source_type
+
+        # Kysytään viitteen tyyppiä
         source_type = self.io.read("Give source type: ")
 
+        # Haetaan lista viitetyypin pakollisista kentistä
         list_of_fields = self.reference_service.get_fields_of_reference_type(source_type)
         
+        # Jos viitetyyppiä ei löydy serviceltä, ilmoitetaan käyttäjälle ja aloitetaan alusta
         if not list_of_fields:
-            print("ERROR: Source type not supported!")
+            self.io.write("ERROR: Source type not supported!")
             return
         
-        # rd = Reference Dictionary, Yhden viiteen tiedot dictionaryssä
+        # Alustetaan dictionary, johon viitteen tiedot talletetaan
+        # Viitetyyppi lisätään
         rd = {}
         rd["type"] = source_type
 
@@ -40,20 +45,24 @@ class App:
         for f in list_of_fields:
 
             input = self.io.read(f"Add {f} of the {source_type}: ")
+
             # Validoidaan syöte
-            while input == "":
-                print("This field is required!")
-                input = self.io.read(f"Add {f} of the {source_type}: ")                        
+            while input.strip() == "":
+                self.io.write("This field is required!")
+                input = self.io.read(f"Add {f} of the {source_type}: ")
+
             rd[f] = input
 
-        self.reference_service.create_reference(rd)
+        # Lähetetään viite servicen avulla tietokantaan
+        if self.reference_service.create_reference(rd):
+            self.io.write("ADDED!")
 
-        print("ADDED!")
 
     def list_references(self):
-        
+
+        # Haetaan kaikki talletetut viitteet serviceltä tulostetaan ne komentoriville
         self.list = self.reference_service.get_all()
         for r in self.list:
-            print(r)
+            self.io.write(r)
         
 
