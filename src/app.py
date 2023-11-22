@@ -46,7 +46,7 @@ class App:
                 input = self.io.read(f"Add {f} of the {source_type}: ")                        
             rd[f] = input
 
-        self.reference_service.add_reference(rd)
+        self.reference_service.create_reference(rd)
 
         print("ADDED!")
 
