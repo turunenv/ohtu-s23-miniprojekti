@@ -46,6 +46,10 @@ class App:
 
             input = self.io.read(f"Add {f} of the {source_type}: ")
 
+            while f == "ref_key" and self.reference_service.ref_key_taken(input):
+                self.io.write("This ref_key is already taken!!")
+                input = self.io.read(f"Add {f} of the {source_type}: ")
+
             # Validoidaan syöte
             while input.strip() == "":
                 self.io.write("This field is required!")

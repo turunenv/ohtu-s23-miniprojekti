@@ -24,10 +24,13 @@ class ReferenceService:
                     content["year"],
                     content["publisher"]
                 )
-
+                
                 return self._reference_repository.create_book(book)
 
 
     def get_all(self):
         return self._reference_repository.get_all()
 
+    def ref_key_taken(self, key):
+       list = map(lambda x: x.ref_key, self.get_all())
+       return key in list
