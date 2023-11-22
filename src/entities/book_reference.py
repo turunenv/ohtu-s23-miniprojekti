@@ -15,3 +15,6 @@ class BookReference:
         # self.editor = editor
         # self.volume = volume
         # self.pages = pages
+
+    def __str__(self):
+        return f"KEY: {self.ref_key:10} AUTHOR: {self.author:25} TITLE: {self.title:20} YEAR: {self.year:5} PUBLISHER: {self.publisher:15}"
