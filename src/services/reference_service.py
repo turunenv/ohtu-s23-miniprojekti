@@ -17,7 +17,13 @@ class ReferenceService:
     def create_reference(self, content):
         match content["type"]:
             case "book":
-                book = BookReference(content["ref_key"], content["author"], content["title"], content["year"], content["publisher"])
+                book = BookReference(
+                    content["ref_key"],
+                    content["author"],
+                    content["title"],
+                    content["year"],
+                    content["publisher"]
+                )
 
                 self._reference_repository.create_book(book)
 
