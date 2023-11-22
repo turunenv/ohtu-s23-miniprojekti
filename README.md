@@ -1,5 +1,7 @@
 # Miniprojekti
 
+![GHA_workflow_badge](https://github.com/turunenv/ohtu-s23-miniprojekti/workflows/CI/badge.svg)
+
 ## Backlogit
 - [Product backlog](https://github.com/users/turunenv/projects/1)
 - [Sprint backlog ja burndown kaavio](https://docs.google.com/spreadsheets/d/1_CVzRfBNQlAJu8JO0la84PiaUmfVOdazKIZoOWZOVVI/edit#gid=0)
