@@ -56,7 +56,7 @@ Sovellus aukeaa näkymään:
 Command (add or list)
 ```
 
-Antamalla komennon add voit lisätä viitteen.
+Antamalla komennon ***add*** voit lisätä viitteen.
 Sovellus pyytää seuraavia tietoja:
 
 - Give source type eli viitteen tyyppi
@@ -66,4 +66,9 @@ Sovellus pyytää seuraavia tietoja:
 - Add year of the book eli kirjan julkaisuvuosi
 - Add publisher of the book eli kirjan julkaisija
 
-Antamalla komennon list sovellus antaa listan lisätyistä viitteistä.
+Antamalla komennon ***list*** sovellus antaa listan lisätyistä viitteistä.
+
+Sovelluksen voi sulkea painamalla enteriä näkymässä:
+```
+Command (add or list)
+```
