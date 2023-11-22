@@ -51,7 +51,7 @@ Suorita ohjelma komennolla:
 python3 src/index.py
 ```
 
-### Kommennot
+### Komennot
 
 Sovellus aukeaa näkymään:
 ```
