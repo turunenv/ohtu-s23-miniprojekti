@@ -9,7 +9,6 @@
 # Definition of Done
 
 - Requirements met.
-- Fully commented code.
 - Python test coverage at > 70%.
 - Pushed to main branch and main branch is not broken.
 
