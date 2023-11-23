@@ -9,7 +9,7 @@ class App:
 
         while True:
             
-            command = self.io.read("Command (add or list)")
+            command = self.io.read("Command (add or list or delete)")
 
             if not command:
                 break
@@ -17,8 +17,11 @@ class App:
             if command == "add":
                 self.add_reference()
             
-            if command == "list":
+            elif command == "list":
                 self.list_references()
+
+            elif command == "delete":
+                self.delete_reference()
 
     def add_reference(self):
 
@@ -62,7 +65,17 @@ class App:
     def list_references(self):
 
         self.list = self.reference_service.get_all()
+        r = "REF_KEY"
+        a = "AUTHOR"
+        t = "TITLE"
+        y = "YEAR"
+        p = "PUBLISHER"
+        self.io.write(f"{r:10} {a:25} {t:20} {y:5} {p:15}")
         for r in self.list:
             self.io.write(r)
         
+    def delete_reference(self):
+        # TODO
+        pass
+    
 
