@@ -9,7 +9,7 @@
 # Definition of Done
 
 - Requirements met.
-- Python test coverage at > 70%.
+- Python test coverage at a decent level
 - Pushed to main branch and main branch is not broken.
 
 ## Asennus
