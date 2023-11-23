@@ -25,7 +25,7 @@ class App:
 
     def add_reference(self):
 
-        self.io.write("Type \"cancel\" to stop cancel")
+        self.io.write("Type \"cancel\" to cancel")
 
         source_type = self.io.read("Give source type: ")
 
