@@ -1,5 +1,4 @@
 from entities.book_reference import BookReference
-from repositories.reference_repository import ReferenceRepository
 
 class ReferenceService:
     def __init__(self, reference_repository):
@@ -8,12 +7,12 @@ class ReferenceService:
         }
         self._reference_repository = reference_repository
 
-    def get_fields_of_reference_type(self, type):
-        if not type in self.fields_from_type:
+    def get_fields_of_reference_type(self, reference_type):
+        if not reference_type in self.fields_from_type:
             return []
-        
-        return self.fields_from_type[type]
-    
+
+        return self.fields_from_type[reference_type]
+
     def create_reference(self, content):
         match content["type"]:
             case "book":
@@ -24,7 +23,7 @@ class ReferenceService:
                     content["year"],
                     content["publisher"]
                 )
-                
+
                 return self._reference_repository.create_book(book)
 
 
@@ -32,5 +31,5 @@ class ReferenceService:
         return self._reference_repository.get_all()
 
     def ref_key_taken(self, key):
-       list = map(lambda x: x.ref_key, self.get_all())
-       return key in list
+        ref_list = map(lambda x: x.ref_key, self.get_all())
+        return key in ref_list

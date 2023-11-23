@@ -1,5 +1,5 @@
 class App:
-    
+
     def __init__(self, io, rs):
         self.list = []
         self.io = io
@@ -8,7 +8,7 @@ class App:
     def run(self):
 
         while True:
-            
+
             command = self.io.read("Command (add or list or delete)")
 
             if not command:
@@ -16,7 +16,7 @@ class App:
 
             if command == "add":
                 self.add_reference()
-            
+
             elif command == "list":
                 self.list_references()
 
@@ -30,33 +30,33 @@ class App:
         source_type = self.io.read("Give source type: ")
 
         list_of_fields = self.reference_service.get_fields_of_reference_type(source_type)
-        
+
         if source_type == "cancel":
-                return
+            return
 
         if not list_of_fields:
             self.io.write("ERROR: Source type not supported!")
             return
-        
+
         rd = {}
         rd["type"] = source_type
 
         for f in list_of_fields:
 
-            input = self.io.read(f"Add {f} of the {source_type}: ")
+            user_input = self.io.read(f"Add {f} of the {source_type}: ")
 
-            if input == "cancel":
+            if user_input == "cancel":
                 return
 
-            while f == "ref_key" and self.reference_service.ref_key_taken(input):
+            while f == "ref_key" and self.reference_service.ref_key_taken(user_input):
                 self.io.write("This ref_key is already taken!!")
-                input = self.io.read(f"Add {f} of the {source_type}: ")
+                user_input = self.io.read(f"Add {f} of the {source_type}: ")
 
-            while input.strip() == "":
+            while user_input.strip() == "":
                 self.io.write("This field is required!")
-                input = self.io.read(f"Add {f} of the {source_type}: ")
+                user_input = self.io.read(f"Add {f} of the {source_type}: ")
 
-            rd[f] = input
+            rd[f] = user_input
 
         if self.reference_service.create_reference(rd):
             self.io.write("ADDED!")
@@ -73,9 +73,6 @@ class App:
         self.io.write(f"{r:10} {a:25} {t:20} {y:5} {p:15}")
         for r in self.list:
             self.io.write(r)
-        
-    def delete_reference(self):
-        # TODO
-        pass
-    
 
+    def delete_reference(self):
+        pass

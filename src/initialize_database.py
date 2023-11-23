@@ -34,4 +34,3 @@ def initialize_database():
 
     drop_tables(connection)
     create_tables(connection)
-

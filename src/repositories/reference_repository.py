@@ -14,7 +14,8 @@ class ReferenceRepository:
         cursor = self._connection.cursor()
         try:
             cursor.execute(
-                "INSERT INTO book_references (ref_key, author, title, year, publisher) VALUES (?, ?, ?, ?, ?)",
+                "INSERT INTO book_references"
+                "(ref_key, author, title, year, publisher) VALUES (?, ?, ?, ?, ?)",
                 (book.ref_key, book.author, book.title, book.year, book.publisher)
             )
 
@@ -43,7 +44,7 @@ class ReferenceRepository:
             books_list.append(BookReference(book[0], book[1], book[2], book[3], book[4]))
 
         return books_list
-    
+
     def delete_all_books(self):
         cursor = self._connection.cursor()
 

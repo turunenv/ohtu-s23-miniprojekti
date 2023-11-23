@@ -17,4 +17,6 @@ class BookReference:
         # self.pages = pages
 
     def __str__(self):
-        return f"{self.ref_key:10} {self.author:25} {self.title:20} {self.year:5} {self.publisher:15}"
+        return (
+            f"{self.ref_key:10} {self.author:25} {self.title:20} {self.year:5} {self.publisher:15}"
+        )
