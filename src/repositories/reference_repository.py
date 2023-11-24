@@ -45,6 +45,50 @@ class ReferenceRepository:
 
         return books_list
 
+    def get_book_by_ref_key(self, ref_key):
+        """Finds a reference by ref_key from the database. Works only with books atm
+
+        Returns:
+            Returns a single BookReference or None if not found.
+        """
+        cursor = self._connection.cursor()
+
+        cursor.execute("SELECT * FROM book_references WHERE ref_key = ?", (ref_key,))
+
+        book = cursor.fetchone()
+
+        if book:
+            # If a row is found, create a BookReference object
+            return BookReference(book[0], book[1], book[2], book[3], book[4])
+        else:
+            # If no row is found, return None
+            return None
+
+    def delete_book_by_ref_key(self, ref_key):
+        """Deletes a book by ref_key from the database.
+
+        Returns:
+            Returns True if the book was successfully deleted, False otherwise.
+        """
+        cursor = self._connection.cursor()
+
+        try:
+            cursor.execute("DELETE FROM book_references WHERE ref_key = ?", (ref_key,))
+            self._connection.commit()
+
+            # Check if any rows were affected (i.e., if the book was found and deleted)
+            if cursor.rowcount > 0:
+                return True
+            else:
+                return False
+
+        except Exception as e:
+            # Handle exceptions (e.g., database error)
+            return False
+        finally:
+            # Close the cursor
+            cursor.close()
+
     def delete_all_books(self):
         cursor = self._connection.cursor()
 

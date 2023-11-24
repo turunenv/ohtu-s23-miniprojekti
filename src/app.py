@@ -75,4 +75,37 @@ class App:
             self.io.write(r)
 
     def delete_reference(self):
-        pass
+        self.io.write("Type \"cancel\" to cancel")
+
+        source_ref_key = self.io.read("Give source reference key: ")
+
+        if source_ref_key == "cancel":
+            return
+
+        if source_ref_key and self.reference_service.ref_key_taken(source_ref_key):
+            self.io.write("Are you sure you want to delete the following reference:")
+
+            self.source_fields = self.reference_service.get_book_by_ref_key(source_ref_key)
+            r = "REF_KEY"
+            a = "AUTHOR"
+            t = "TITLE"
+            y = "YEAR"
+            p = "PUBLISHER"
+            self.io.write(f"{r:10} {a:25} {t:20} {y:5} {p:15}")
+            self.io.write(self.source_fields)
+        else: 
+            self.io.write("Incorrect reference key!")
+            return
+
+
+        confirmation = self.io.read("(Y to continue)")
+        if confirmation.lower() == "y":
+            if self.reference_service.delete_book_by_ref_key(source_ref_key):
+                self.io.write("DELETED!")
+                return
+            else: 
+                self.io.write("Something went wrong with deleting the reference")
+                return
+        else:
+            self.io.write("Deletion canceled")
+
