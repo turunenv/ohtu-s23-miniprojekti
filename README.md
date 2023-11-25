@@ -5,8 +5,8 @@
 [Github Actions](https://github.com/turunenv/ohtu-s23-miniprojekti/actions)
 
 ## Backlogit
-- [Product backlog](https://github.com/users/turunenv/projects/1)
-- [Sprint backlog ja burndown kaavio](https://docs.google.com/spreadsheets/d/1_CVzRfBNQlAJu8JO0la84PiaUmfVOdazKIZoOWZOVVI/edit#gid=0)
+- [Backlogit](https://github.com/users/turunenv/projects/1)
+- [Taskien estimointi ja burndown kaavio](https://docs.google.com/spreadsheets/d/1_CVzRfBNQlAJu8JO0la84PiaUmfVOdazKIZoOWZOVVI/edit#gid=0)
 
 # Definition of Done
 
