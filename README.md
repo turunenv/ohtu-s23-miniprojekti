@@ -1,6 +1,7 @@
 # Miniprojekti
 
 ![GHA_workflow_badge](https://github.com/turunenv/ohtu-s23-miniprojekti/workflows/CI/badge.svg)
+[![codecov](https://codecov.io/gh/turunenv/ohtu-s23-miniprojekti/graph/badge.svg?token=ZYGSDB5DQM)](https://codecov.io/gh/turunenv/ohtu-s23-miniprojekti)
 
 [Github Actions](https://github.com/turunenv/ohtu-s23-miniprojekti/actions)
 
