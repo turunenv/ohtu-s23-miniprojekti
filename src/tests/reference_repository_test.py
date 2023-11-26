@@ -6,11 +6,12 @@ from database_connection import get_db_connection
 
 repository = ReferenceRepository(get_db_connection())
 
+
 class TestReferenceRepository(unittest.TestCase):
     def setUp(self):
         repository.delete_all_books()
         self.test_book = BookReference("1", "Pekka", "Kokeilua",
-                                  2002, "OTA")
+                                       2002, "OTA")
 
     def test_create_book_works_with_valid_input(self):
         success = repository.create_book(self.test_book)

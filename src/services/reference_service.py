@@ -1,5 +1,6 @@
 from entities.book_reference import BookReference
 
+
 class ReferenceService:
     def __init__(self, reference_repository):
         self.fields_from_type = {
@@ -26,15 +27,14 @@ class ReferenceService:
 
                 return self._reference_repository.create_book(book)
 
-
     def get_all(self):
         return self._reference_repository.get_all()
 
     def get_book_by_ref_key(self, ref_key):
-        return self._reference_repository.get_book_by_ref_key(ref_key) 
+        return self._reference_repository.get_book_by_ref_key(ref_key)
 
     def delete_book_by_ref_key(self, ref_key):
-        return self._reference_repository.delete_book_by_ref_key(ref_key)    
+        return self._reference_repository.delete_book_by_ref_key(ref_key)
 
     def ref_key_taken(self, key):
         ref_list = map(lambda x: x.ref_key, self.get_all())

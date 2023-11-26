@@ -2,6 +2,7 @@ import unittest
 from entities.book_reference import BookReference
 from services.reference_service import ReferenceService
 
+
 class FakeReferenceRepository:
     def __init__(self):
         self.references = []
@@ -22,6 +23,7 @@ class FakeReferenceRepository:
     def delete_book_by_ref_key(self, ref_key):
         return True
 
+
 class TestReferenceService(unittest.TestCase):
     def setUp(self):
         self.reference_service = ReferenceService(FakeReferenceRepository())
@@ -32,7 +34,6 @@ class TestReferenceService(unittest.TestCase):
         self.test_book["title"] = "test_title"
         self.test_book["year"] = "2023"
         self.test_book["publisher"] = "OTA"
-
 
     def test_create_reference(self):
         self.reference_service.create_reference(self.test_book)
@@ -46,13 +47,14 @@ class TestReferenceService(unittest.TestCase):
         self.assertEqual(expected_book.year, self.test_book["year"])
         self.assertEqual(expected_book.publisher, self.test_book["publisher"])
 
-
     def test_get_fields_of_reference_type_book(self):
         fields = self.reference_service.get_fields_of_reference_type("book")
-        self.assertEqual(fields, ["ref_key", "author", "title", "year", "publisher"])
+        self.assertEqual(fields, ["ref_key", "author",
+                         "title", "year", "publisher"])
 
     def test_get_fields_of_reference_type_not_found_returns_empty(self):
-        fields = self.reference_service.get_fields_of_reference_type("notfound")
+        fields = self.reference_service.get_fields_of_reference_type(
+            "notfound")
         self.assertEqual(len(fields), 0)
 
     def test_get_book_by_ref_key_calls_repository(self):

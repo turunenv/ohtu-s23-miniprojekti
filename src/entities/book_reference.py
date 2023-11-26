@@ -6,6 +6,7 @@ class BookReference:
         Optional arguments:
             -editor, volume, pages
     """
+
     def __init__(self, ref_key, author, title, year, publisher):
         self.ref_key = ref_key
         self.author = author

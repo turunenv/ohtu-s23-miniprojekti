@@ -1,5 +1,6 @@
 from entities.book_reference import BookReference
 
+
 class ReferenceRepository:
 
     def __init__(self, connection):
@@ -26,7 +27,6 @@ class ReferenceRepository:
 
         return True
 
-
     def get_all(self):
         """Finds all references from database.
 
@@ -41,7 +41,8 @@ class ReferenceRepository:
         books_list = []
 
         for book in books:
-            books_list.append(BookReference(book[0], book[1], book[2], book[3], book[4]))
+            books_list.append(BookReference(
+                book[0], book[1], book[2], book[3], book[4]))
 
         return books_list
 
@@ -53,7 +54,8 @@ class ReferenceRepository:
         """
         cursor = self._connection.cursor()
 
-        cursor.execute("SELECT * FROM book_references WHERE ref_key = ?", (ref_key,))
+        cursor.execute(
+            "SELECT * FROM book_references WHERE ref_key = ?", (ref_key,))
 
         book = cursor.fetchone()
 
@@ -73,7 +75,8 @@ class ReferenceRepository:
         cursor = self._connection.cursor()
 
         try:
-            cursor.execute("DELETE FROM book_references WHERE ref_key = ?", (ref_key,))
+            cursor.execute(
+                "DELETE FROM book_references WHERE ref_key = ?", (ref_key,))
             self._connection.commit()
 
             # Check if any rows were affected (i.e., if the book was found and deleted)

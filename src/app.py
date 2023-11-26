@@ -9,7 +9,8 @@ class App:
 
         while True:
             self.io.write("")
-            self.io.write("Type \"help\" to list commands and their descriptions")
+            self.io.write(
+                "Type \"help\" to list commands and their descriptions")
 
             command = self.io.read("Command (add or list or delete)")
 
@@ -18,10 +19,13 @@ class App:
 
             if command == "help":
                 self.io.write("")
-                self.io.write(f'To EXIT the program simply press enter in the starting menu')
-                self.io.write(f'{"add:":<9} Add a new reference by provinding the required information')
+                self.io.write(
+                    f'To EXIT the program simply press enter in the starting menu')
+                self.io.write(
+                    f'{"add:":<9} Add a new reference by provinding the required information')
                 self.io.write(f'{"list:":<9} List all stored references')
-                self.io.write(f'{"delete:":<9} Delete a reference using its reference key')
+                self.io.write(
+                    f'{"delete:":<9} Delete a reference using its reference key')
                 self.io.write(f'{"cancel:":<9} Return to the starting menu')
 
             if command == "add":
@@ -39,7 +43,8 @@ class App:
 
         source_type = self.io.read("Give source type: ")
 
-        list_of_fields = self.reference_service.get_fields_of_reference_type(source_type)
+        list_of_fields = self.reference_service.get_fields_of_reference_type(
+            source_type)
 
         if source_type == "cancel":
             return
@@ -71,11 +76,11 @@ class App:
         if self.reference_service.create_reference(rd):
             self.io.write("ADDED!")
 
-
     def list_references(self):
         self.io.write("")
         self.list = self.reference_service.get_all()
-        self.io.write(f'{"REF_KEY":<10} {"AUTHOR":<25} {"TITLE":<35} {"YEAR":<10} {"PUBLISHER":<15}')
+        self.io.write(
+            f'{"REF_KEY":<10} {"AUTHOR":<25} {"TITLE":<35} {"YEAR":<10} {"PUBLISHER":<15}')
         self.io.write(f'{"":{"-"}>105}')
         for r in self.list:
             self.io.write(r)
@@ -89,24 +94,26 @@ class App:
             return
 
         if source_ref_key and self.reference_service.ref_key_taken(source_ref_key):
-            self.io.write("Are you sure you want to delete the following reference:")
+            self.io.write(
+                "Are you sure you want to delete the following reference:")
 
-            self.source_fields = self.reference_service.get_book_by_ref_key(source_ref_key)
-            self.io.write(f'{"REF_KEY":<10} {"AUTHOR":<25} {"TITLE":<35} {"YEAR":<10} {"PUBLISHER":<15}')
+            self.source_fields = self.reference_service.get_book_by_ref_key(
+                source_ref_key)
+            self.io.write(
+                f'{"REF_KEY":<10} {"AUTHOR":<25} {"TITLE":<35} {"YEAR":<10} {"PUBLISHER":<15}')
             self.io.write(self.source_fields)
-        else: 
+        else:
             self.io.write("Incorrect reference key!")
             return
-
 
         confirmation = self.io.read("(Y to continue)")
         if confirmation.lower() == "y":
             if self.reference_service.delete_book_by_ref_key(source_ref_key):
                 self.io.write("DELETED!")
                 return
-            else: 
-                self.io.write("Something went wrong with deleting the reference")
+            else:
+                self.io.write(
+                    "Something went wrong with deleting the reference")
                 return
         else:
             self.io.write("Deletion canceled")
-

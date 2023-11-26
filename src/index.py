@@ -4,6 +4,7 @@ from database_connection import get_db_connection
 from services.reference_service import ReferenceService
 from repositories.reference_repository import ReferenceRepository
 
+
 def main():
     console_io = ConsoleIO()
     connection = get_db_connection()
