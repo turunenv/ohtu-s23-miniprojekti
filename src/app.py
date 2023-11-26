@@ -8,11 +8,21 @@ class App:
     def run(self):
 
         while True:
+            self.io.write("")
+            self.io.write("Type \"help\" to list commands and their descriptions")
 
             command = self.io.read("Command (add or list or delete)")
 
             if not command:
                 break
+
+            if command == "help":
+                self.io.write("")
+                self.io.write(f'To EXIT the program simply press enter in the starting menu')
+                self.io.write(f'{"add:":<9} Add a new reference by provinding the required information')
+                self.io.write(f'{"list:":<9} List all stored references')
+                self.io.write(f'{"delete:":<9} Delete a reference using its reference key')
+                self.io.write(f'{"cancel:":<9} Return to the starting menu')
 
             if command == "add":
                 self.add_reference()
@@ -24,7 +34,7 @@ class App:
                 self.delete_reference()
 
     def add_reference(self):
-
+        self.io.write("")
         self.io.write("Type \"cancel\" to cancel")
 
         source_type = self.io.read("Give source type: ")
@@ -63,14 +73,10 @@ class App:
 
 
     def list_references(self):
-
+        self.io.write("")
         self.list = self.reference_service.get_all()
-        r = "REF_KEY"
-        a = "AUTHOR"
-        t = "TITLE"
-        y = "YEAR"
-        p = "PUBLISHER"
-        self.io.write(f"{r:10} {a:25} {t:20} {y:5} {p:15}")
+        self.io.write(f'{"REF_KEY":<10} {"AUTHOR":<25} {"TITLE":<35} {"YEAR":<10} {"PUBLISHER":<15}')
+        self.io.write(f'{"":{"-"}>105}')
         for r in self.list:
             self.io.write(r)
 
@@ -86,12 +92,7 @@ class App:
             self.io.write("Are you sure you want to delete the following reference:")
 
             self.source_fields = self.reference_service.get_book_by_ref_key(source_ref_key)
-            r = "REF_KEY"
-            a = "AUTHOR"
-            t = "TITLE"
-            y = "YEAR"
-            p = "PUBLISHER"
-            self.io.write(f"{r:10} {a:25} {t:20} {y:5} {p:15}")
+            self.io.write(f'{"REF_KEY":<10} {"AUTHOR":<25} {"TITLE":<35} {"YEAR":<10} {"PUBLISHER":<15}')
             self.io.write(self.source_fields)
         else: 
             self.io.write("Incorrect reference key!")
