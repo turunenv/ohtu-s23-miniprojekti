@@ -1,7 +1,6 @@
 import unittest
 from unittest.mock import Mock, ANY
 from repositories.reference_repository import ReferenceRepository
-from unittest.mock import Mock
 from app import App
 
 
@@ -14,8 +13,6 @@ class TestApp(unittest.TestCase):
         self.mock_io = Mock()
         self.mock_rs = Mock()
         self.testApp = App(self.mock_io, self.mock_rs)
-        self.test_list = ["ref1", "ref2"]
-        self.mock_rs.get_all.return_value = self.test_list
 
     def test_app_creates_empty_list(self):
         self.assertEqual(len(self.app.list), 0)
@@ -44,12 +41,16 @@ class TestApp(unittest.TestCase):
         self._io_mock.write.assert_called_with(ANY)
         self._io_mock.write.assert_called_with(ANY)
 
-    def test_app_list_references_gets_list(self):
+    def test_list_references_gets_list(self):
+        self.test_list = ["ref1", "ref2"]
+        self.mock_rs.get_all.return_value = self.test_list
         self.testApp.list_references()
 
         self.mock_rs.get_all.assert_called()
 
-    def test_app_list_references_calls_io_write(self):
+    def test_list_references_calls_io_write(self):
+        self.test_list = ["ref1", "ref2"]
+        self.mock_rs.get_all.return_value = self.test_list
         self.testApp.list_references()
 
         self.mock_io.write.assert_called_with(self.test_list[1])
@@ -67,7 +68,7 @@ class TestApp(unittest.TestCase):
         self.testApp.delete_reference()
 
         self.mock_rs.delete_book_by_ref_key.assert_not_called()
-        self.mock_io.write.assert_called_with("Deletion canceled")
+        self.mock_io.write.assert_called_with("Deletion cancelled")
 
     def test_delete_reference_with_wrong_ref_key(self):
         self.mock_io.read.return_value = 123

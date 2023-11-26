@@ -116,4 +116,4 @@ class App:
                     "Something went wrong with deleting the reference")
                 return
         else:
-            self.io.write("Deletion canceled")
+            self.io.write("Deletion cancelled")
