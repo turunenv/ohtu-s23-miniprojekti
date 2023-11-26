@@ -106,7 +106,7 @@ class App:
             self.io.write("Incorrect reference key!")
             return
 
-        confirmation = self.io.read("(Y to continue)")
+        confirmation = str(self.io.read("(Y to continue)"))
         if confirmation.lower() == "y":
             if self.reference_service.delete_book_by_ref_key(source_ref_key):
                 self.io.write("DELETED!")
