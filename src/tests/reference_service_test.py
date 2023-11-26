@@ -16,6 +16,12 @@ class FakeReferenceRepository:
     def delete_all(self):
         self.references = []
 
+    def get_book_by_ref_key(self, ref_key):
+        return True
+
+    def delete_book_by_ref_key(self, ref_key):
+        return True
+
 class TestReferenceService(unittest.TestCase):
     def setUp(self):
         self.reference_service = ReferenceService(FakeReferenceRepository())
@@ -44,3 +50,24 @@ class TestReferenceService(unittest.TestCase):
     def test_get_fields_of_reference_type_book(self):
         fields = self.reference_service.get_fields_of_reference_type("book")
         self.assertEqual(fields, ["ref_key", "author", "title", "year", "publisher"])
+
+    def test_get_fields_of_reference_type_not_found_returns_empty(self):
+        fields = self.reference_service.get_fields_of_reference_type("notfound")
+        self.assertEqual(len(fields), 0)
+
+    def test_get_book_by_ref_key_calls_repository(self):
+        self.assertTrue(self.reference_service.get_book_by_ref_key("1"))
+
+    def test_delete_book_by_ref_key_calls_repository(self):
+        self.assertTrue(self.reference_service.delete_book_by_ref_key("1"))
+
+    def test_ref_key_taken_returns_false_if_not_taken(self):
+        taken = self.reference_service.ref_key_taken("1")
+
+        self.assertFalse(taken)
+
+    def test_ref_key_taken_returns_true_if_taken(self):
+        self.reference_service.create_reference(self.test_book)
+        taken = self.reference_service.ref_key_taken("KEY")
+
+        self.assertTrue(taken)
