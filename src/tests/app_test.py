@@ -50,7 +50,7 @@ class TestApp(unittest.TestCase):
         self.mock_rs.get_all.return_value = self.test_list
         self.testApp.list_references()
 
-        self.mock_io.write.assert_called_with(str(self.test_list[1]))
+        self.mock_io.write.assert_called_with(self.test_list[1])
 
     def test_delete_reference_cancels_when_command_is_given(self):
         self.mock_io.read.return_value = "cancel"
