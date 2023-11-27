@@ -85,7 +85,7 @@ class ReferenceRepository:
             else:
                 return False
 
-        except Exception as e:
+        except Exception:
             # Handle exceptions (e.g., database error)
             return False
         finally:

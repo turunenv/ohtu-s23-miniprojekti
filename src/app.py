@@ -20,7 +20,7 @@ class App:
             if command == "help":
                 self.io.write("")
                 self.io.write(
-                    f'To EXIT the program simply press enter in the starting menu')
+                    'To EXIT the program simply press enter in the starting menu')
                 self.io.write(
                     f'{"add:":<9} Add a new reference by provinding the required information')
                 self.io.write(f'{"list:":<9} List all stored references')
@@ -110,10 +110,8 @@ class App:
         if confirmation.lower() == "y":
             if self.reference_service.delete_book_by_ref_key(source_ref_key):
                 self.io.write("DELETED!")
-                return
             else:
                 self.io.write(
                     "Something went wrong with deleting the reference")
-                return
         else:
             self.io.write("Deletion cancelled")
