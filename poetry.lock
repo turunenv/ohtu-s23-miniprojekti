@@ -304,6 +304,17 @@ files = [
 cli = ["click (>=5.0)"]
 
 [[package]]
+name = "robotframework"
+version = "6.1.1"
+description = "Generic automation framework for acceptance testing and robotic process automation (RPA)"
+optional = false
+python-versions = ">=3.6"
+files = [
+    {file = "robotframework-6.1.1-py3-none-any.whl", hash = "sha256:ee0d512d557e72ed760dd075525f6226baaab309010a48f9c9bf1f416ca434f7"},
+    {file = "robotframework-6.1.1.zip", hash = "sha256:3fa18f2596a4df2418c4b59abf43248327c15ed38ad8665f6a9a9c75c95d7789"},
+]
+
+[[package]]
 name = "tomli"
 version = "2.0.1"
 description = "A lil' TOML parser"
@@ -339,4 +350,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "1f224be7d37d053582e2ec87fec513cb91b3f4c3403342a43da9809245299c75"
+content-hash = "d317f4f4d85e7ce76a93ce11f456842653fa6b4d3ec48de07c5f9614c359756d"
