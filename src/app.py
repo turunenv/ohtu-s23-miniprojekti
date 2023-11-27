@@ -90,16 +90,7 @@ class App:
             # JOS RIVIN KOLUMNIT =! EDELLISEN RIVIN KOLUMNIT
             if r.get_field_names() != field_names:
                 field_names = r.get_field_names()
-                field_lengths = r.get_field_lengths()
-                column_amount = len(field_names)
-
-                columns = ""
-
-                for i in range(column_amount):
-                    columns += f'{field_names[i]:<{field_lengths[i]}} '
-
-                self.io.write("\n" + columns)
-                self.io.write(f'{"":{"-"}>105}')
+                self.write_columns(r)
 
             self.io.write(r)
 
@@ -115,11 +106,11 @@ class App:
             self.io.write(
                 "Are you sure you want to delete the following reference:")
 
-            self.source_values = self.reference_service.get_book_by_ref_key(
+            reference = self.reference_service.get_book_by_ref_key(
                 source_ref_key)
-            self.io.write(
-                f'{"REF_KEY":<35} {"AUTHOR":<35} {"TITLE":<35} {"YEAR":<35} {"PUBLISHER":<35}')
-            self.io.write(self.source_values)
+            
+            self.write_columns(reference)
+            self.io.write(reference)
         else:
             self.io.write("Incorrect reference key!")
             return
@@ -133,3 +124,16 @@ class App:
                     "Something went wrong with deleting the reference")
         else:
             self.io.write("Deletion cancelled")
+
+    def write_columns(self, reference):
+        field_names = reference.get_field_names()
+        field_lengths = reference.get_field_lengths()
+        column_amount = len(field_names)
+
+        columns = ""
+
+        for i in range(column_amount):
+            columns += f'{field_names[i]:<{field_lengths[i]}} '
+            
+        self.io.write("\n" + columns)
+        self.io.write(f'{"":{"-"}>115}')

@@ -13,6 +13,8 @@ class TestApp(unittest.TestCase):
         self.mock_io = Mock()
         self.mock_rs = Mock()
         self.testApp = App(self.mock_io, self.mock_rs)
+        self.testApp.write_columns = Mock()
+
 
     def test_app_creates_empty_list(self):
         self.assertEqual(len(self.app.list), 0)
@@ -29,14 +31,18 @@ class TestApp(unittest.TestCase):
         self.assertEqual(self._io_mock.write.call_count, 10)
 
     def test_list_references_gets_list(self):
-        self.test_list = ["ref1", "ref2"]
+        self.book1 = Mock()
+        self.book2 = Mock()
+        self.test_list = [self.book1, self.book2]
         self.mock_rs.get_all.return_value = self.test_list
         self.testApp.list_references()
 
         self.mock_rs.get_all.assert_called()
 
     def test_list_references_calls_io_write(self):
-        self.test_list = ["ref1", "ref2"]
+        self.book1 = Mock()
+        self.book2 = Mock()
+        self.test_list = [self.book1, self.book2]
         self.mock_rs.get_all.return_value = self.test_list
         self.testApp.list_references()
 
