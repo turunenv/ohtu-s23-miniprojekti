@@ -1,3 +1,4 @@
+import sqlite3
 from entities.book_reference import BookReference
 
 
@@ -21,7 +22,7 @@ class ReferenceRepository:
             )
 
             self._connection.commit()
-        except Exception as e:
+        except (AttributeError, sqlite3.Error) as e:
             print(e)
             return False
 
@@ -62,9 +63,9 @@ class ReferenceRepository:
         if book:
             # If a row is found, create a BookReference object
             return BookReference(book[0], book[1], book[2], book[3], book[4])
-        else:
-            # If no row is found, return None
-            return None
+
+        # If no row is found, return None
+        return None
 
     def delete_book_by_ref_key(self, ref_key):
         """Deletes a book by ref_key from the database.
@@ -80,13 +81,11 @@ class ReferenceRepository:
             self._connection.commit()
 
             # Check if any rows were affected (i.e., if the book was found and deleted)
-            if cursor.rowcount > 0:
-                return True
-            else:
-                return False
+            return cursor.rowcount > 0
 
-        except Exception:
+        except (AttributeError, sqlite3.Error) as e:
             # Handle exceptions (e.g., database error)
+            print(e)
             return False
         finally:
             # Close the cursor

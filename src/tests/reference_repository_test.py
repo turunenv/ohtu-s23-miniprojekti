@@ -20,7 +20,7 @@ class TestReferenceRepository(unittest.TestCase):
 
     def test_create_book_fails_with_invalid_input(self):
         success = repository.create_book("Not a book")
-
+        print(success)
         self.assertFalse(success)
 
     def test_get_all_returns_list(self):

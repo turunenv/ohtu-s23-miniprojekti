@@ -1,6 +1,6 @@
 [MASTER]
 
-ignore=tests
+ignore=tests,AppLibrary.py
 
 [MESSAGE CONTROL]
 
@@ -21,3 +21,6 @@ disable=raw-checker-failed,
 [REFACTORING]
 
 [DESIGN]
+max-args=6
+max-line-length=110
+min-public-methods=1

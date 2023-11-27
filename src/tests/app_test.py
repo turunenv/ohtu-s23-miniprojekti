@@ -1,7 +1,11 @@
 import unittest
-from unittest.mock import Mock, ANY
+from unittest.mock import Mock, ANY, patch
+from io import StringIO
 from repositories.reference_repository import ReferenceRepository
 from app import App
+from services.reference_service import ReferenceService
+from console_io import ConsoleIO
+from database_connection import get_db_connection
 
 
 class TestApp(unittest.TestCase):
@@ -65,8 +69,71 @@ class TestApp(unittest.TestCase):
 
     def test_delete_reference_with_wrong_ref_key(self):
         self.mock_io.read.return_value = 123
-        self.mock_rs.ref_key_taken.return_value = None
+        self.mock_rs.ref_key_taken.return_value = False
         self.mock_rs.get_book_by_ref_key.return_value = "reference"
         self.testApp.delete_reference()
 
         self.mock_rs.get_book_by_ref_key.assert_not_called()
+
+    def test_delete_reference_with_acceptable_ref_key(self):
+        self.mock_io.read.side_effect = [123, "y"]
+        self.mock_rs.ref_key_taken.return_value = True
+        self.mock_rs.get_book_by_ref_key.return_value = "reference"
+        self.mock_rs.delete_book_by_ref_key.return_value = True
+        self.testApp.delete_reference()
+
+        self.mock_rs.delete_book_by_ref_key.assert_called_with(123)
+        self.mock_io.write.assert_called_with("DELETED!")
+
+    def test_delete_reference_problem_deleting_from_db(self):
+        self.mock_io.read.side_effect = [123, "y"]
+        self.mock_rs.ref_key_taken.return_value = True
+        self.mock_rs.get_book_by_ref_key.return_value = "reference"
+        self.mock_rs.delete_book_by_ref_key.return_value = False
+        self.testApp.delete_reference()
+
+        self.mock_rs.delete_book_by_ref_key.assert_called_with(123)
+        self.mock_io.write.assert_called_with(
+            "Something went wrong with deleting the reference")
+
+    def test_command_add_calls_add_reference(self):
+        self.testApp.add_reference = Mock()
+        self.mock_io.read.side_effect = ["add", ""]
+        self.testApp.run()
+
+        self.testApp.add_reference.assert_called_once()
+
+    def test_command_delete_calls_delete_reference(self):
+        self.testApp.delete_reference = Mock()
+        self.mock_io.read.side_effect = ["delete", ""]
+        self.testApp.run()
+
+        self.testApp.delete_reference.assert_called_once()
+
+    def test_command_list_calls_delete_references(self):
+        self.testApp.list_references = Mock()
+        self.mock_io.read.side_effect = ["list", ""]
+        self.testApp.run()
+
+        self.testApp.list_references.assert_called_once()
+
+    @patch('builtins.input', side_effect=['book', "ref", "auth", "title", "year", "publisher"])
+    def test_add_reference(self, input):
+        console_io = ConsoleIO()
+        connection = get_db_connection()
+        reference_repository = ReferenceRepository(connection)
+        reference_service = ReferenceService(reference_repository)
+        self.testApp = App(console_io, reference_service)
+
+        with patch('sys.stdout', new_callable=StringIO) as mock_stdout:
+            result = self.testApp.add_reference()
+
+            printed_output = mock_stdout.getvalue().strip()
+
+            expected_output_lines = [
+                'Type "cancel" to cancel',
+                "ADDED!"
+            ]
+
+            for expected_line in expected_output_lines:
+                self.assertIn(expected_line, printed_output)
