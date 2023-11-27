@@ -89,6 +89,27 @@ class TestApp(unittest.TestCase):
         self.mock_rs.delete_book_by_ref_key.assert_called_with(123)
         self.mock_io.write.assert_called_with("Something went wrong with deleting the reference")
 
+    def test_command_add_calls_add_reference(self):
+        self.testApp.add_reference = Mock()
+        self.mock_io.read.side_effect = ["add", ""]
+        self.testApp.run()
+
+        self.testApp.add_reference.assert_called_once()
+
+    def test_command_delete_calls_delete_reference(self):
+        self.testApp.delete_reference = Mock()
+        self.mock_io.read.side_effect = ["delete", ""]
+        self.testApp.run()
+
+        self.testApp.delete_reference.assert_called_once()
+
+    def test_command_list_calls_delete_references(self):
+        self.testApp.list_references = Mock()
+        self.mock_io.read.side_effect = ["list", ""]
+        self.testApp.run()
+
+        self.testApp.list_references.assert_called_once()
+
     @patch('builtins.input', side_effect=['book', "ref", "auth", "title", "year", "publisher"])
     def test_add_reference(self, input):
         console_io = ConsoleIO()
