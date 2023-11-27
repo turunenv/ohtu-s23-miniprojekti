@@ -97,11 +97,11 @@ class App:
             self.io.write(
                 "Are you sure you want to delete the following reference:")
 
-            self.source_fields = self.reference_service.get_book_by_ref_key(
+            source_fields = self.reference_service.get_book_by_ref_key(
                 source_ref_key)
             self.io.write(
                 f'{"REF_KEY":<10} {"AUTHOR":<25} {"TITLE":<35} {"YEAR":<10} {"PUBLISHER":<15}')
-            self.io.write(self.source_fields)
+            self.io.write(source_fields)
         else:
             self.io.write("Incorrect reference key!")
             return
