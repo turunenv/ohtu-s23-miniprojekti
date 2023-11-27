@@ -10,4 +10,4 @@ class AppLibrary:
         self._reference_repository = ReferenceRepository()
         self._reference_service = ReferenceService()
 
-        self._app = App(self.reference_service, self._io)
+        self._app = App(self._reference_service, self._io)
