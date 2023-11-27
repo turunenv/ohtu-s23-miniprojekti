@@ -84,7 +84,6 @@ class App:
             return
 
         field_names = []
-        field_lengths = []
 
         for r in self.list:
             # JOS RIVIN KOLUMNIT =! EDELLISEN RIVIN KOLUMNIT
@@ -108,7 +107,7 @@ class App:
 
             reference = self.reference_service.get_book_by_ref_key(
                 source_ref_key)
-            
+
             self.write_columns(reference)
             self.io.write(reference)
         else:
@@ -134,6 +133,6 @@ class App:
 
         for i in range(column_amount):
             columns += f'{field_names[i]:<{field_lengths[i]}} '
-            
+
         self.io.write("\n" + columns)
         self.io.write(f'{"":{"-"}>115}')
