@@ -79,10 +79,28 @@ class App:
     def list_references(self):
         self.io.write("")
         self.list = self.reference_service.get_all()
-        self.io.write(
-            f'{"REF_KEY":<10} {"AUTHOR":<25} {"TITLE":<35} {"YEAR":<10} {"PUBLISHER":<15}')
-        self.io.write(f'{"":{"-"}>105}')
+
+        if len(self.list) == 0:
+            return
+
+        field_names = []
+        field_lengths = []
+
         for r in self.list:
+            # JOS RIVIN KOLUMNIT =! EDELLISEN RIVIN KOLUMNIT
+            if r.get_field_names() != field_names:
+                field_names = r.get_field_names()
+                field_lengths = r.get_field_lengths()
+                column_amount = len(field_names)
+
+                columns = ""
+
+                for i in range(column_amount):
+                    columns += f'{field_names[i]:<{field_lengths[i]}} '
+
+                self.io.write("\n" + columns)
+                self.io.write(f'{"":{"-"}>105}')
+
             self.io.write(r)
 
     def delete_reference(self):
@@ -97,11 +115,11 @@ class App:
             self.io.write(
                 "Are you sure you want to delete the following reference:")
 
-            self.source_fields = self.reference_service.get_book_by_ref_key(
+            self.source_values = self.reference_service.get_book_by_ref_key(
                 source_ref_key)
             self.io.write(
-                f'{"REF_KEY":<10} {"AUTHOR":<25} {"TITLE":<35} {"YEAR":<10} {"PUBLISHER":<15}')
-            self.io.write(self.source_fields)
+                f'{"REF_KEY":<35} {"AUTHOR":<35} {"TITLE":<35} {"YEAR":<35} {"PUBLISHER":<35}')
+            self.io.write(self.source_values)
         else:
             self.io.write("Incorrect reference key!")
             return

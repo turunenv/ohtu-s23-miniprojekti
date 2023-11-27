@@ -17,7 +17,19 @@ class BookReference:
         # self.volume = volume
         # self.pages = pages
 
+    def get_field_names(self):
+
+        list = ["REF_KEY", "AUTHOR", "TITLE", "YEAR", "PUBLISHER"]
+        # LISÄTÄÄN VALINNAISET KENTÄT
+        # list += ["EDITOR", "VOLUME", "PAGES"]
+
+        return list
+
+    # HAETAAN KENTTIEN PITUUDET TAULUKOSSA TULOSTUSTA VARTEN
+    def get_field_lengths(self):
+        return [10, 25, 35, 6, 15]
+
     def __str__(self):
         return (
-            f"{self.ref_key:<10} {self.author:<25} {self.title:<35} {self.year:<10} {self.publisher:<15}"
+            f"{self.ref_key:<10} {self.author:<25} {self.title:<35} {self.year:<6} {self.publisher:<15}"
         )
