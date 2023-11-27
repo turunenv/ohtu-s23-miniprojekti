@@ -8,7 +8,7 @@
 - [Backlogs](https://github.com/users/turunenv/projects/1)
 - [Task estimation and burndown chart](https://docs.google.com/spreadsheets/d/1_CVzRfBNQlAJu8JO0la84PiaUmfVOdazKIZoOWZOVVI/edit#gid=0)
 
-# Definition of Done
+## Definition of Done
 
 - Requirements met.
 - Python test coverage at a decent level
@@ -82,13 +82,13 @@ Give source type:
 ```
 Currently the only supported source type is book.
 If you type ***cancel*** before a reference is added, you can cancel adding a reference and return to the starting menu.
-The required information are for a book are:
+The required information for a book are:
 
-- Ref_key of the book
-- Author of the book
-- Title of the book
-- Year of the book
-- Publisher of the book
+- Reference key
+- Author
+- Title
+- Year
+- Publisher
 
 Once a reference is successfully added, the app will print:
 ```
