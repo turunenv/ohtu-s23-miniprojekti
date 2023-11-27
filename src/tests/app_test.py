@@ -87,7 +87,8 @@ class TestApp(unittest.TestCase):
         self.testApp.delete_reference()
 
         self.mock_rs.delete_book_by_ref_key.assert_called_with(123)
-        self.mock_io.write.assert_called_with("Something went wrong with deleting the reference")
+        self.mock_io.write.assert_called_with(
+            "Something went wrong with deleting the reference")
 
     @patch('builtins.input', side_effect=['book', "ref", "auth", "title", "year", "publisher"])
     def test_add_reference(self, input):
@@ -96,8 +97,8 @@ class TestApp(unittest.TestCase):
         reference_repository = ReferenceRepository(connection)
         reference_service = ReferenceService(reference_repository)
         self.testApp = App(console_io, reference_service)
-        
-        with patch('sys.stdout', new_callable=StringIO) as mock_stdout:           
+
+        with patch('sys.stdout', new_callable=StringIO) as mock_stdout:
             result = self.testApp.add_reference()
 
             printed_output = mock_stdout.getvalue().strip()

@@ -1,6 +1,7 @@
 import sqlite3
 from entities.book_reference import BookReference
 
+
 class ReferenceRepository:
 
     def __init__(self, connection):
