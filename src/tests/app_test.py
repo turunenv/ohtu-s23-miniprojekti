@@ -1,7 +1,11 @@
 import unittest
-from unittest.mock import Mock, ANY
+from unittest.mock import Mock, ANY, patch
+from io import StringIO
 from repositories.reference_repository import ReferenceRepository
 from app import App
+from services.reference_service import ReferenceService
+from console_io import ConsoleIO
+from database_connection import get_db_connection
 
 
 class TestApp(unittest.TestCase):
@@ -77,3 +81,24 @@ class TestApp(unittest.TestCase):
         self.testApp.delete_reference()
 
         self.mock_rs.get_book_by_ref_key.assert_not_called()
+
+    @patch('builtins.input', side_effect=['book', "ref", "auth", "title", "year", "publisher"])
+    def test_add_reference(self, input):
+        console_io = ConsoleIO()
+        connection = get_db_connection()
+        reference_repository = ReferenceRepository(connection)
+        reference_service = ReferenceService(reference_repository)
+        self.testApp = App(console_io, reference_service)
+        
+        with patch('sys.stdout', new_callable=StringIO) as mock_stdout:           
+            result = self.testApp.add_reference()
+
+            printed_output = mock_stdout.getvalue().strip()
+
+            expected_output_lines = [
+                'Type "cancel" to cancel',
+                "ADDED!"
+            ]
+
+            for expected_line in expected_output_lines:
+                self.assertIn(expected_line, printed_output)
