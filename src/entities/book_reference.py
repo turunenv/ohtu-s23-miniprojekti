@@ -19,6 +19,6 @@ class BookReference:
 
     def __str__(self):
         return (
-            f"{self.ref_key:<10} {self.author:<25} {
-                self.title:<35} {self.year:<10} {self.publisher:<15}"
+            f"""{self.ref_key:<10} {self.author:<25}
+                {self.title:<35} {self.year:<10} {self.publisher:<15}"""
         )
