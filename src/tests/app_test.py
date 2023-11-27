@@ -26,20 +26,7 @@ class TestApp(unittest.TestCase):
     def test_run_help_works(self):
         self._io_mock.read.side_effect = ["help", ""]
         self.app.run()
-        self._io_mock.write.assert_called_with(ANY)
-        self._io_mock.write.assert_called_with(ANY)
-
-        # help list starts here
-        self._io_mock.write.assert_called_with(ANY)
-        self._io_mock.write.assert_called_with(ANY)
-        self._io_mock.write.assert_called_with(ANY)
-        self._io_mock.write.assert_called_with(ANY)
-        self._io_mock.write.assert_called_with(ANY)
-        self._io_mock.write.assert_called_with(ANY)
-
-        # 2 more calls before ending loop
-        self._io_mock.write.assert_called_with(ANY)
-        self._io_mock.write.assert_called_with(ANY)
+        self.assertEqual(self._io_mock.write.call_count, 10)
 
     def test_list_references_gets_list(self):
         self.test_list = ["ref1", "ref2"]
