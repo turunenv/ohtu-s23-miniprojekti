@@ -91,7 +91,7 @@ class App:
                 field_names = r.get_field_names()
                 self.write_columns(r)
 
-            self.io.write(r)
+            self.io.write(str(r))
 
     def delete_reference(self):
         self.io.write("Type \"cancel\" to cancel")
