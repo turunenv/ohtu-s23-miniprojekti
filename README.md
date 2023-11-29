@@ -104,6 +104,12 @@ Give source reference key:
 ```
 To delete a reference you need the correct reference key. You can check by using the command ***list*** to see all sources and their reference keys.
 
+After giving the key the app asks for confimation. To confirm write capital or lowercase y.
+```
+y
+```
+Any other value will cancel the deletion
+
 #### Closing the app
 
 You can close the app by pressing enter in the starting menu:
