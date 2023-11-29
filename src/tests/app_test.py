@@ -137,3 +137,20 @@ class TestApp(unittest.TestCase):
 
             for expected_line in expected_output_lines:
                 self.assertIn(expected_line, printed_output)
+
+    def test_add_reference_with_empty_user_input(self):
+        self.mock_io.read.side_effect = ["book", " ", "aa"]
+        self.mock_rs.get_fields_of_reference_type.return_value = ["title"]
+        self.mock_rs.create_reference.return_value = False
+        self.testApp.add_reference()
+
+        self.mock_io.write.assert_called_with("This field is required!")
+
+    def test_add_reference_with_taken_re_key(self):
+        self.mock_io.read.side_effect = ["book", "1", "2"]
+        self.mock_rs.get_fields_of_reference_type.return_value = ["ref_key"]
+        self.mock_rs.create_reference.return_value = False
+        self.mock_rs.ref_key_taken.side_effect = [True, False]
+        self.testApp.add_reference()
+
+        self.mock_io.write.assert_called_with("This ref_key is already taken!!")
