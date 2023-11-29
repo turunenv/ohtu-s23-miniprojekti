@@ -1,11 +1,8 @@
 import unittest
 from unittest.mock import Mock, ANY, patch
-from io import StringIO
 from repositories.reference_repository import ReferenceRepository
 from app import App
-from services.reference_service import ReferenceService
-from console_io import ConsoleIO
-from database_connection import get_db_connection
+from io import StringIO
 
 
 class TestApp(unittest.TestCase):
@@ -16,6 +13,8 @@ class TestApp(unittest.TestCase):
         self.app = App(self._io_mock, self._reference_repository_mock)
         self.mock_io = Mock()
         self.mock_rs = Mock()
+        self.reference_service = Mock()
+        self.mock_rs.reference_service = Mock()
         self.testApp = App(self.mock_io, self.mock_rs)
         self.testApp.write_columns = Mock()
 
@@ -117,27 +116,16 @@ class TestApp(unittest.TestCase):
 
         self.testApp.list_references.assert_called_once()
 
-    @patch('builtins.input', side_effect=['book', "ref", "auth", "title", "year", "publisher"])
-    def test_add_reference(self, input):
-        console_io = ConsoleIO()
-        connection = get_db_connection()
-        reference_repository = ReferenceRepository(connection)
-        reference_service = ReferenceService(reference_repository)
-        self.testApp = App(console_io, reference_service)
+    def test_add_reference(self):
+        self.testApp.io.read.side_effect = ['book', "ref", "auth", "title", "year", "publisher"]
+        self.testApp.reference_service.ref_key_taken.return_value = False
+        self.testApp.reference_service.get_fields_of_reference_type.return_value = ["ref_key", "author", "title", "year", "publisher"]
+        self.testApp.reference_service.create_reference.return_value = True
+        self.testApp.add_reference()
 
-        with patch('sys.stdout', new_callable=StringIO) as mock_stdout:
-            result = self.testApp.add_reference()
-
-            printed_output = mock_stdout.getvalue().strip()
-
-            expected_output_lines = [
-                'Type "cancel" to cancel',
-                "ADDED!"
-            ]
-
-            for expected_line in expected_output_lines:
-                self.assertIn(expected_line, printed_output)
-
+        self.testApp.reference_service.get_fields_of_reference_type.assert_called_with('book')
+        self.testApp.reference_service.create_reference.assert_called_with({'type': 'book', 'ref_key': 'ref', 'author': 'auth', 'title': 'title', 'year': 'year', 'publisher': 'publisher'})    
+        
     def test_add_reference_with_empty_user_input(self):
         self.mock_io.read.side_effect = ["book", " ", "aa"]
         self.mock_rs.get_fields_of_reference_type.return_value = ["title"]
