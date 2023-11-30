@@ -18,15 +18,6 @@ Input Reference Type
     [Arguments]  ${ref_type}
     Input  ${ref_type}
 
-
-    
-
-
-    
-
-
-
-
-
-
-
+Input Reference Key
+    [Arguments]  ${ref_key}
+    Input  ${ref_key}
