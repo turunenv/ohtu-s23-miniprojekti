@@ -91,8 +91,14 @@ class ReferenceRepository:
             # Close the cursor
             cursor.close()
 
+    def delete_all_test_books(self):
+        cursor = self._connection.cursor()
+
+        cursor.execute("DELETE FROM book_references WHERE ref_key LIKE 'test%'")
+        self._connection.commit()
+
     def delete_all_books(self):
         cursor = self._connection.cursor()
 
-        cursor.execute("DELETE from book_references")
+        cursor.execute("DELETE FROM book_references")
         self._connection.commit()

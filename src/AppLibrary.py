@@ -33,7 +33,13 @@ class AppLibrary:
         self._app.list_references()
 
     def clear_database(self):
-        self._reference_repository.delete_all_books()
+        self._reference_repository.delete_all_test_books()
         
     def run_application(self):
         self._app.run()
+
+    def output_should_not_contain(self, value):
+        outputs = self._io.outputs
+
+        if value in outputs:
+            raise AssertionError(f"Output \"{value}\" is in {str(outputs)}")
