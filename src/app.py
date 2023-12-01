@@ -88,7 +88,6 @@ class App:
         field_names = []
 
         for r in self.list:
-            # JOS RIVIN KOLUMNIT =! EDELLISEN RIVIN KOLUMNIT
             if r.get_field_names() != field_names:
                 field_names = r.get_field_names()
                 self.write_columns(r)

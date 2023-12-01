@@ -30,6 +30,6 @@ class BookReference:
         return [10, 25, 35, 6, 15]
 
     def __str__(self):
-        string = f"{self.ref_key:<10} {self.author:<25}"
+        string = f"{self.ref_key:<10} {self.author:<25} "
         string += f"{self.title:<35} {self.year:<6} {self.publisher:<15}"
         return string
