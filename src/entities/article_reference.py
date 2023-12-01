@@ -25,6 +25,9 @@ class ArticleReference:
         return [10, 25, 25, 25, 6, 6, 6]
 
     def __str__(self):
-        string = f"{self.ref_key:<10} {self.author:<25} {self.title:<25} "
-        string += f"{self.journal:<25} {self.year:<6} {self.volume:<6} {self.pages:<6}"
+        string = f"{self.ref_key:<10} {self.author[:25]:<25} {self.title[:25]:<25} "
+        string += f"{self.journal:<25} {self.year:<6} {self.volume:<6} {self.pages:<8}"
+        if len(self.author) > 25 or len(self.title) > 25:
+            string += f"\n{' ':<11} {self.author[25:50]:<25} {self.title[25:50]:<25}"
+
         return string

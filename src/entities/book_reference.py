@@ -30,6 +30,8 @@ class BookReference:
         return [10, 25, 35, 6, 15]
 
     def __str__(self):
-        string = f"{self.ref_key:<10} {self.author:<25} "
-        string += f"{self.title:<35} {self.year:<6} {self.publisher:<15}"
+        string = f"{self.ref_key:<10} {self.author[:25]:<25} "
+        string += f"{self.title[:35]:<35} {self.year:<6} {self.publisher:<15}"
+        if len(self.author) > 25 or len(self.title) > 35:
+            string += f"\n{' ':<11} {self.author[25:50]:<25} {self.title[35:70]:<35}"
         return string
