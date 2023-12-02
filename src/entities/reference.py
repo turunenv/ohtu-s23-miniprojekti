@@ -30,7 +30,7 @@ class Reference:
             bib_str += f"{next_line}\n"
 
         #add closing curly brace and ending newline
-        bib_str += "}}\n"
+        bib_str += "}\n"
 
         return bib_str
 
