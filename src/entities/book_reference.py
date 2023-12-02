@@ -1,4 +1,6 @@
-class BookReference:
+from .reference import Reference
+
+class BookReference(Reference):
     """Class that describes a reference of type Book
 
         Mandatory arguments:
@@ -8,6 +10,8 @@ class BookReference:
     """
 
     def __init__(self, ref_key, author, title, year, publisher):
+        super().__init__("book")
+
         self.ref_key = ref_key
         self.author = author
         self.title = title

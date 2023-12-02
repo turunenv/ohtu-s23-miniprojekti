@@ -1,4 +1,6 @@
-class ArticleReference:
+from .reference import Reference
+
+class ArticleReference(Reference):
     """Class that describes an article type reference
 
         Arguments: 
@@ -7,6 +9,8 @@ class ArticleReference:
     """
 
     def __init__(self, ref_key, author, title, journal, year, volume, pages): #pylint: disable=too-many-arguments
+        super().__init__("article")
+
         self.ref_key = ref_key
         self.author = author
         self.title = title
