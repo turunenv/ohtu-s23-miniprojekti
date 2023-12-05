@@ -20,7 +20,6 @@ class BookReference(Reference):
         # self.editor = editor
         # self.volume = volume
         # self.pages = pages
-
         self.type = "book"
 
     def get_field_names(self):

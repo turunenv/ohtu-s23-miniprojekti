@@ -22,5 +22,6 @@ disable=raw-checker-failed,
 
 [DESIGN]
 max-args=6
+max-attributes=12
 max-line-length=110
 min-public-methods=1
