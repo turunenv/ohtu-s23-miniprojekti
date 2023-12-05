@@ -93,6 +93,7 @@ class App:
 
         for r in self.list:
             if r.get_field_names() != field_names:
+                self.io.write(f'\n\n{r.type.upper()}S')
                 field_names = r.get_field_names()
                 self.write_columns(r)
 

@@ -21,6 +21,8 @@ class BookReference(Reference):
         # self.volume = volume
         # self.pages = pages
 
+        self.type = "book"
+
     def get_field_names(self):
 
         field_list = ["REF_KEY", "AUTHOR", "TITLE", "YEAR", "PUBLISHER"]

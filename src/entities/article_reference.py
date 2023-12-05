@@ -18,6 +18,7 @@ class ArticleReference(Reference):
         self.year = year
         self.volume = volume
         self.pages = pages
+        self.type = "article"
 
     def get_field_names(self):
         field_list = ["REF_KEY", "AUTHOR", "TITLE",
