@@ -1,5 +1,7 @@
 from stub_io import StubIO
 from database_connection import get_db_connection
+from file_io import FileIO
+from bibtex_writer import BibTexWriter
 from repositories.reference_repository import ReferenceRepository
 from services.reference_service import ReferenceService
 from app import App
@@ -8,10 +10,12 @@ from app import App
 class AppLibrary:
     def __init__(self):
         self._io = StubIO()
+        self._file_io = FileIO()
+        self._bib = BibTexWriter(self._file_io)
         self._reference_repository = ReferenceRepository(get_db_connection())
         self._reference_service = ReferenceService(self._reference_repository)
 
-        self._app = App(self._io, self._reference_service)
+        self._app = App(self._io, self._reference_service, self._bib)
 
     def input(self, value):
         self._io.add_input(value)
@@ -33,7 +37,7 @@ class AppLibrary:
         self._app.list_references()
 
     def clear_database(self):
-        self._reference_repository.delete_all_test_books()
+        self._reference_repository.delete_all_test_references()
         
     def run_application(self):
         self._app.run()
