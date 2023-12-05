@@ -8,14 +8,15 @@ from io import StringIO
 class TestApp(unittest.TestCase):
     def setUp(self):
         self._io_mock = Mock()
+        self.mock_bibwriter = Mock()
         self._reference_repository_mock = Mock(
             wraps=ReferenceRepository("connection"))
-        self.app = App(self._io_mock, self._reference_repository_mock)
+        self.app = App(self._io_mock, self._reference_repository_mock, self.mock_bibwriter)
         self.mock_io = Mock()
         self.mock_rs = Mock()
         self.reference_service = Mock()
         self.mock_rs.reference_service = Mock()
-        self.testApp = App(self.mock_io, self.mock_rs)
+        self.testApp = App(self.mock_io, self.mock_rs, self.mock_bibwriter)
         self.testApp.write_columns = Mock()
 
 

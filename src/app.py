@@ -1,9 +1,10 @@
 class App:
 
-    def __init__(self, io, rs):
+    def __init__(self, io, rs, bib):
         self.list = []
         self.io = io
         self.reference_service = rs
+        self.bibtex_writer = bib
 
     def run(self):
 
@@ -12,7 +13,7 @@ class App:
             self.io.write(
                 "Type \"help\" to list commands and their descriptions")
 
-            command = self.io.read("Command (add or list or delete)")
+            command = self.io.read("Command (add or list or delete or file)")
 
             if not command:
                 break
@@ -36,6 +37,9 @@ class App:
 
             elif command == "delete":
                 self.delete_reference()
+
+            elif command == "file":
+                self.create_bib_file()
 
     def add_reference(self):
         self.io.write("")
@@ -88,7 +92,6 @@ class App:
         field_names = []
 
         for r in self.list:
-            # JOS RIVIN KOLUMNIT =! EDELLISEN RIVIN KOLUMNIT
             if r.get_field_names() != field_names:
                 field_names = r.get_field_names()
                 self.write_columns(r)
@@ -138,3 +141,28 @@ class App:
 
         self.io.write("\n" + columns)
         self.io.write(f'{"":{"-"}>115}')
+
+    def create_bib_file(self):
+        filename = self.io.read("Give the name of file:")
+
+        if not filename:
+            self.io.write("File creation cancelled")
+            return
+
+        if not filename.endswith(".bib"):
+            filename += ".bib"
+
+        references = self.reference_service.get_all()
+
+        file_write_success = self.bibtex_writer.write_references_to_file(
+            filename,
+            references
+        )
+
+        if file_write_success:
+            self.io.write(
+                f"{len(references)} references succesfully written to {filename}"
+            )
+
+        else:
+            self.io.write(f"There was an error creating file {filename}.")

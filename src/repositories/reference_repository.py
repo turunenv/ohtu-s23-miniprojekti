@@ -1,9 +1,14 @@
 import sqlite3
 from entities.book_reference import BookReference
+from entities.article_reference import ArticleReference
 
 
 class ReferenceRepository:
+    """Class that handles all database actions
 
+        Arguments:
+            -connection: database connection
+    """
     def __init__(self, connection):
         self._connection = connection
 
@@ -28,30 +33,69 @@ class ReferenceRepository:
 
         return True
 
+    def create_article(self, article):
+        """Saves article reference into database.
+
+        Args:
+            article (_type_): ArticleReference
+        """
+
+        cursor = self._connection.cursor()
+        try:
+            cursor.execute(
+                """INSERT INTO article_references
+                (ref_key, author, title, journal, year, volume, pages)
+                VALUES (?, ?, ?, ?, ?, ?, ?)""",
+                (article.ref_key, article.author, article.title,
+                 article.journal, article.year, article.volume,
+                 article.pages)
+            )
+
+            self._connection.commit()
+        except (AttributeError, sqlite3.Error) as e:
+            # Handle exceptions
+            print(e)
+            return False
+        finally:
+            # Close the cursor
+            cursor.close()
+
+        return True
+
     def get_all(self):
         """Finds all references from database.
 
         Returns:
-            Returns a list of BookReferences
+            Returns a list of references
         """
         cursor = self._connection.cursor()
-        cursor.execute("SELECT * from book_references")
+        cursor.execute("SELECT * FROM book_references")
 
         books = cursor.fetchall()
 
-        books_list = []
+        reference_list = []
 
         for book in books:
-            books_list.append(BookReference(
+            reference_list.append(BookReference(
                 book[0], book[1], book[2], book[3], book[4]))
 
-        return books_list
+        cursor.execute("SELECT * FROM article_references")
+
+        articles = cursor.fetchall()
+
+        for article in articles:
+            reference_list.append(ArticleReference(
+                article[0], article[1], article[2], article[3],
+                article[4], article[5], article[6]))
+
+        return reference_list
 
     def get_book_by_ref_key(self, ref_key):
-        """Finds a reference by ref_key from the database. Works only with books atm
+        """Finds a reference by ref_key from the database.
 
         Returns:
-            Returns a single BookReference or None if not found.
+            Returns a single BookReference or ArticleReference
+            or None if not found.
         """
         cursor = self._connection.cursor()
 
@@ -63,6 +107,17 @@ class ReferenceRepository:
         if book:
             # If a row is found, create a BookReference object
             return BookReference(book[0], book[1], book[2], book[3], book[4])
+
+        cursor.execute(
+            "SELECT * FROM article_references WHERE ref_key = ?", (ref_key,))
+
+        article = cursor.fetchone()
+
+        if article:
+            # If a row is found, create an ArticleReference object
+            return ArticleReference(article[0], article[1], article[2],
+                                    article[3], article[4], article[5],
+                                    article[6])
 
         # If no row is found, return None
         return None
@@ -80,7 +135,13 @@ class ReferenceRepository:
                 "DELETE FROM book_references WHERE ref_key = ?", (ref_key,))
             self._connection.commit()
 
-            # Check if any rows were affected (i.e., if the book was found and deleted)
+            # If nothing was deleted from book_references, try article_references
+            if cursor.rowcount == 0:
+                cursor.execute(
+                    "DELETE FROM article_references WHERE ref_key = ?", (ref_key,))
+                self._connection.commit()
+
+            # Check if any rows were affected (i.e., if the reference was found and deleted)
             return cursor.rowcount > 0
 
         except (AttributeError, sqlite3.Error) as e:
@@ -101,4 +162,5 @@ class ReferenceRepository:
         cursor = self._connection.cursor()
 
         cursor.execute("DELETE FROM book_references")
+        cursor.execute("DELETE FROM article_references")
         self._connection.commit()
