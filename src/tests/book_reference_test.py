@@ -75,13 +75,7 @@ class TestBookReference(unittest.TestCase):
         expected_book = reference_list[0]
         string = expected_book.__str__()
 
-        expected_book_string = (
-            f"{expected_book.ref_key:<10} "
-            f"{expected_book.author[:25]:<25} "
-            f"{expected_book.title[:35]:<35} "
-            f"{expected_book.year:<6} "
-            f"{expected_book.publisher:<15}"
-        )
+        expected_book_string = ("KEY        test_author               test_title                          2023   OTA            ")
 
         self.assertEqual(string, expected_book_string)
 
@@ -90,17 +84,7 @@ class TestBookReference(unittest.TestCase):
         expected_book = reference_list[1]
         string = expected_book.__str__()
 
-        expected_book_string = (
-            f"{expected_book.ref_key:<10} "
-            f"{expected_book.author[:25]:<25} "
-            f"{expected_book.title[:35]:<35} "
-            f"{expected_book.year:<6} "
-            f"{expected_book.publisher:<15}"
-        )
-        expected_book_string += (
-            f"\n{' ':<11} {expected_book.author[25:50]:<25} "
-            f"{expected_book.title[35:70]:<35}"
-        )
+        expected_book_string = ("KEY2       test_author_with_long_nam test_title2                         2023   OTA            \n            e                                                            ")
 
         self.assertEqual(string, expected_book_string)
 
@@ -109,16 +93,6 @@ class TestBookReference(unittest.TestCase):
         expected_book = reference_list[2]
         string = expected_book.__str__()
 
-        expected_book_string = (
-            f"{expected_book.ref_key:<10} "
-            f"{expected_book.author[:25]:<25} "
-            f"{expected_book.title[:35]:<35} "
-            f"{expected_book.year:<6} "
-            f"{expected_book.publisher:<15}"
-        )
-        expected_book_string += (
-            f"\n{' ':<11} {expected_book.author[25:50]:<25} "
-            f"{expected_book.title[35:70]:<35}"
-        )
+        expected_book_string = (f"KEY3       test_author               test_title_with_too_long_name_it_ca 2023   OTA            \n                                      nt_fit                             ")
 
         self.assertEqual(string, expected_book_string)
