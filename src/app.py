@@ -28,6 +28,8 @@ class App:
                 self.io.write(
                     f'{"delete:":<9} Delete a reference using its reference key')
                 self.io.write(f'{"cancel:":<9} Return to the starting menu')
+                self.io.write(
+                    f'{"file:":<9} Enter a file name to create a .bib file of all references')
 
             if command == "add":
                 self.add_reference()
