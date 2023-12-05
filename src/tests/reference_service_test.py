@@ -1,5 +1,6 @@
 import unittest
 from entities.book_reference import BookReference
+from entities.article_reference import ArticleReference
 from services.reference_service import ReferenceService
 
 
@@ -13,6 +14,10 @@ class FakeReferenceRepository:
     def create_book(self, book):
         self.references.append(book)
         return book
+
+    def create_article(self, article):
+        self.references.append(article)
+        return article
 
     def delete_all(self):
         self.references = []
@@ -35,7 +40,16 @@ class TestReferenceService(unittest.TestCase):
         self.test_book["year"] = "2023"
         self.test_book["publisher"] = "OTA"
 
-    def test_create_reference(self):
+        self.test_article = {"type": "article",
+                             "ref_key": "abc",
+                             "author": "joku",
+                             "title": "jotain",
+                             "journal": "aku-ankka",
+                             "year": 2023,
+                             "volume": 2,
+                             "pages": "1-3"}
+
+    def test_create_reference_book(self):
         self.reference_service.create_reference(self.test_book)
         reference_list = self.reference_service.get_all()
         expected_book = reference_list[0]
@@ -46,6 +60,20 @@ class TestReferenceService(unittest.TestCase):
         self.assertEqual(expected_book.title, self.test_book["title"])
         self.assertEqual(expected_book.year, self.test_book["year"])
         self.assertEqual(expected_book.publisher, self.test_book["publisher"])
+
+    def test_create_reference_article(self):
+        self.reference_service.create_reference(self.test_article)
+        reference_list = self.reference_service.get_all()
+        expected_article = reference_list[0]
+
+        self.assertEqual(len(reference_list), 1)
+        self.assertEqual(expected_article.ref_key, self.test_article["ref_key"])
+        self.assertEqual(expected_article.author, self.test_article["author"])
+        self.assertEqual(expected_article.title, self.test_article["title"])
+        self.assertEqual(expected_article.journal, self.test_article["journal"])
+        self.assertEqual(expected_article.year, self.test_article["year"])
+        self.assertEqual(expected_article.volume, self.test_article["volume"])
+        self.assertEqual(expected_article.pages, self.test_article["pages"])
 
     def test_get_fields_of_reference_type_book(self):
         fields = self.reference_service.get_fields_of_reference_type("book")
