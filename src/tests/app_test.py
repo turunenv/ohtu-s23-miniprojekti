@@ -143,3 +143,61 @@ class TestApp(unittest.TestCase):
         self.testApp.add_reference()
 
         self.mock_io.write.assert_called_with("This ref_key is already taken!!")
+
+    def test_add_not_supported_reference_type(self):
+        self.mock_io.read.return_value = "Film"
+        self.mock_rs.get_fields_of_reference_type.return_value = None
+        self.testApp.add_reference()
+
+        self.mock_io.write.assert_called_with("ERROR: Source type not supported!")
+
+    def test_add_method_cancel_works(self):
+        self.mock_io.read.side_effect = ["cancel", "book", "cancel",
+                                         "book", "1", "cancel", "book", "", "cancel"]
+        self.mock_rs.get_fields_of_reference_type.return_value = ["ref_key"]
+        self.mock_rs.ref_key_taken.side_effect = [True, False]
+        self.testApp.add_reference()
+
+        self.mock_rs.get_fields_of_reference_type.assert_not_called()
+
+        self.testApp.add_reference()
+
+        self.testApp.add_reference()
+        self.mock_io.write.assert_called_with("This ref_key is already taken!!")
+
+        self.testApp.add_reference()
+        self.mock_io.write.assert_called_with("This field is required!")
+
+    #def test_write_columns_works(self):
+    #    reference_mock = Mock()
+    #    reference_mock.get_field_names.return_value = ["Title", "Author"]
+    #    reference_mock.get_field_lengths.return_value = [2, 2]
+
+    #    self.testApp.write_columns(reference_mock)
+    #    reference_mock.get_field_names.assert_called()
+    #    expected = "\nTitle   Author  "
+    #    self.mock_io.write.assert_called_with(expected)
+    #    self.mock_io.write.assert_called_with(f'{"":{"-"}>115}')
+
+    def test_create_bib_file_cancels(self):
+        self.mock_io.read.return_value = ""
+        self.testApp.create_bib_file()
+
+        self.mock_io.write.assert_called_with("File creation cancelled")
+
+    def test_create_bib_file_works(self):
+        self.mock_io.read.return_value = "test"
+        self.mock_rs.get_all.return_value = ["1"]
+        self.mock_bibwriter.write_references_to_file.return_value = True
+        self.testApp.create_bib_file()
+
+        self.mock_bibwriter.write_references_to_file.assert_called_with("test.bib", ["1"])
+        self.mock_io.write.assert_called_with("1 references succesfully written to test.bib")
+
+    def test_create_bib_file_fails(self):
+        self.mock_io.read.return_value = "test.bib"
+        self.mock_rs.get_all.return_value = ["1"]
+        self.mock_bibwriter.write_references_to_file.return_value = False
+        self.testApp.create_bib_file()
+
+        self.mock_io.write.assert_called_with("There was an error creating file test.bib.")
