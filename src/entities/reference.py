@@ -37,4 +37,3 @@ class Reference:
     # this gets overwritten by the subclasses
     def get_field_names(self):
         return []
-    
