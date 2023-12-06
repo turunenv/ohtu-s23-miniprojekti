@@ -1,7 +1,6 @@
 *** Settings ***
 Resource  resource.robot
-Test Setup  Add Book Reference
-Test Setup  Add Article Reference
+Test Setup  Add References
 Test Teardown  Empty Database
 
 
@@ -50,6 +49,20 @@ Input Book Reference Fields
     Input  ${publisher}
     Run Application
 
+Input Article Reference Fields
+    [Arguments]  ${ref_key}  ${author}  ${title}  ${journal}  ${year}  ${volume}  ${pages}
+    Input  ${ref_key}
+    Input  ${author}
+    Input  ${title}
+    Input  ${journal}
+    Input  ${year}
+    Input  ${volume}
+    Input  ${pages}
+    Run Application
 
 Empty Database
     Clear Database
+
+Add References
+    Add Book Reference
+    Add Article Reference

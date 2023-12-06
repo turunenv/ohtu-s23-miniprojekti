@@ -26,19 +26,19 @@ class AppLibrary:
         value_included = filter(
             lambda x: value in x, outputs
         )
-        
+
         # check if any element in the outputs list contained given value
         if not len(list(value_included)) > 0:
             raise AssertionError(
                     f"expected value '{value}' not found in the outputs: {str(outputs)}"
                 )
-        
+
     def list_all_references(self):
         self._app.list_references()
 
     def clear_database(self):
         self._reference_repository.delete_all_test_references()
-        
+
     def run_application(self):
         self._app.run()
 
