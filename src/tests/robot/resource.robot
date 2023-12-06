@@ -14,6 +14,9 @@ Input List Command
 Input Delete Command
     Input  delete
 
+Input File Command
+    Input  file
+
 Input Reference Type
     [Arguments]  ${ref_type}
     Input  ${ref_type}
@@ -21,3 +24,7 @@ Input Reference Type
 Input Reference Key
     [Arguments]  ${ref_key}
     Input  ${ref_key}
+
+Input File Name
+    [Arguments]  ${file_name}
+    Input  ${file_name}

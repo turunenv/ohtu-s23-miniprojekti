@@ -5,6 +5,7 @@ from bibtex_writer import BibTexWriter
 from repositories.reference_repository import ReferenceRepository
 from services.reference_service import ReferenceService
 from app import App
+import os
 
 
 class AppLibrary:
@@ -47,3 +48,14 @@ class AppLibrary:
 
         if value in outputs:
             raise AssertionError(f"Output \"{value}\" is in {str(outputs)}")
+        
+    def delete_test_file(self, file):
+        if os.path.exists(file):
+            try:
+                os.remove(file)
+                print(f"File '{file}' deleted successfully.")
+            except Exception as e:
+                print(f"An error occurred: {e}")
+        else:
+            print(f"File '{file}' not found.")
+
