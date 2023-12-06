@@ -9,11 +9,15 @@ class TestConsole(unittest.TestCase):
 
     def test_print_to_terminal(self):
         with patch('sys.stdout', new_callable=StringIO) as mock_stdout:
-            self.test_console.write("Hello, world!")
+            #makes a mock of pythons standard output file to read data
+            self.test_console.write("Hello world!")
 
             printed_output = mock_stdout.getvalue().strip()
 
-            self.assertEqual(printed_output, "Hello, world!")
-    
-    def test_io_read(self):
-        todo=''
+            self.assertEqual(printed_output, "Hello world!")
+
+    @patch('builtins.input', return_value='Goodbye world!') 
+    #makes a mock of pythons own input
+    def test_read(self, mock_input):
+        result = self.test_console.read("Enter something: ")
+        self.assertEqual(result, 'Goodbye world!')
