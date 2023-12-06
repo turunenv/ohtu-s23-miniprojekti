@@ -7,6 +7,9 @@ __pycache__
 *.py[cod]
 *$py.class
 
+#created .bib files
+*.bib
+
 # data files
 data/database.sqlite
 data/test-database.sqlite
