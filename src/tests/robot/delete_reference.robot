@@ -1,6 +1,7 @@
 *** Settings ***
 Resource  resource.robot
 Test Setup  Add Book Reference
+Test Setup  Add Article Reference
 Test Teardown  Empty Database
 
 
@@ -9,7 +10,22 @@ Delete Book Reference With Reference Key
     Input Delete Command
     Input Reference Key  test1
     Input  y
+    List All References
     Output Should Not Contain  test1
+
+Delete Article Reference With Reference Key
+    Input Delete Command
+    Input Reference Key  test2
+    Input  y
+    List All References
+    Output Should Not Contain  AI In Customer Service
+
+Delete Article With Reference Key Does Not Delete Book
+    Input Delete Command
+    Input Reference Key  test2
+    Input  y
+    List All References
+    Output Should Contain  test1
 
 *** Keywords ***
 Add Book Reference
@@ -17,6 +33,13 @@ Add Book Reference
     Input Reference Type    book
     Input Book Reference Fields    test1    tove jansson    muumit    1977    otava
 
+Add Article Reference
+    Input Add Command
+    Input Reference Type  article
+    Input Article Reference Fields    test2    Allix    AI In Customer Service    AI-Magazine    2023    11    50-51
+
+List References
+    Input List Command
 
 Input Book Reference Fields
     [Arguments]  ${ref_key}  ${author}  ${title}  ${year}  ${publisher}
