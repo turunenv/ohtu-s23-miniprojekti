@@ -16,7 +16,7 @@ class TestConsole(unittest.TestCase):
 
             self.assertEqual(printed_output, "Hello world!")
 
-    @patch('builtins.input', return_value='Goodbye world!') 
+    @patch('builtins.input', return_value='Goodbye world!')
     #makes a mock of pythons own input
     def test_read(self, mock_input):
         result = self.test_console.read("Enter something: ")

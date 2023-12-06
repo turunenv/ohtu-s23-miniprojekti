@@ -1,7 +1,7 @@
 *** Settings ***
 Resource  resource.robot
 Library  OperatingSystem
-Test Setup  Add Book Reference
+Test Setup  One Reference
 Test Teardown  Empty Database
 
 
@@ -18,6 +18,10 @@ Create Bibtext File
 
 
 *** Keywords ***
+One Reference
+    Clear Database
+    Add Book Reference
+
 Add Book Reference
     Input Add Command
     Input Reference Type    book
