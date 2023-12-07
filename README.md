@@ -57,7 +57,7 @@ python3 src/index.py
 The app will open to the starting menu:
 ```
 Type "help" to list commands and their descriptions
-Command (add or list or delete)
+Command (add or list or delete or file)
 ```
 
 If you type ***help*** the app prints the following:
@@ -67,6 +67,7 @@ add:      Add a new reference by provinding the required information
 list:     List all stored references
 delete:   Delete a reference using its reference key
 cancel:   Return to the starting menu
+file:     Enter a file name to create a .bib file of all references
 ```
 
 #### Listing references
@@ -80,8 +81,9 @@ If you type ***add*** you can add a new reference.
 Type "cancel" to cancel
 Give source type:
 ```
-Currently the only supported source type is book.
+Currently the supported reference types are book and article.
 If you type ***cancel*** before a reference is added, you can cancel adding a reference and return to the starting menu.
+
 The required information for a book are:
 
 - Reference key
@@ -89,6 +91,16 @@ The required information for a book are:
 - Title
 - Year
 - Publisher
+
+The required information for an article are:
+
+- Reference key
+- Author
+- Title
+- Journal
+- Year
+- Volume
+- Pages
 
 Once a reference is successfully added, the app will print:
 ```
@@ -109,6 +121,19 @@ After giving the key the app asks for confimation. To confirm write capital or l
 y
 ```
 Any other value will cancel the deletion
+
+#### Creating a BibTex -file
+
+If you type ***file*** you can create a bibtex file containing your references.
+```
+Give the name of file:
+```
+Give the file a suitable name. For example my_references.
+
+The app prints a message containing how many references were saved to a BibTex-file
+```
+2 references succesfully written to my_references.bib
+```
 
 #### Closing the app
 
