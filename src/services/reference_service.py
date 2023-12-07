@@ -63,9 +63,7 @@ class ReferenceService:
         if tag_id is None:
             val = self._reference_repository.create_tag(tag_name)
             if val is True:
-                print('created')
-            else:
-                print('something went wrong here')
+                newtag = "New tag created"
             tag_id = self._reference_repository.get_tag_id(tag_name)
             if tag_id is None:
                 return False, "Something went wrong with creating the tag"
