@@ -18,6 +18,27 @@ Add Article Reference With Invalid Reference Key
     List All References
     Output Should Contain  test4
 
+Add Article Reference With Invalid Year
+    Input Add Command
+    Input Reference Type    article
+    Input Article Reference Fields With Invalid Value   test5    Allix    AI In Customer Service    AI-Magazine    1970's  2023    11    50--51
+    List All References
+    Output Should Contain    test5
+
+Add Article Reference With Invalid Volume
+    Input Add Command
+    Input Reference Type    article
+    Input Article Reference Fields With Invalid Value   test6    Allix    AI In Customer Service    AI-Magazine    2023    v11  11   50--51
+    List All References
+    Output Should Contain    test6
+
+Add Article Reference With Invalid Pages
+    Input Add Command
+    Input Reference Type    article
+    Input Article Reference Fields With Invalid Value   test7    Allix    AI In Customer Service    AI-Magazine    2023    11    50-51  50--51
+    List All References
+    Output Should Contain    test7
+
 *** Keywords ***
 Input Article Reference Fields
     [Arguments]  ${ref_key}  ${author}  ${title}  ${journal}  ${year}  ${volume}  ${pages}
@@ -40,6 +61,18 @@ Input Article Reference Fields
     Input  ${year}
     Input  ${volume}
     Input  ${pages}
+    Run Application
+
+Input Article Reference Fields With Invalid Value
+    [Arguments]  ${ref_key}  ${author}  ${title}  ${journal}  ${maybeValid1}  ${maybeValid2}  ${maybeValid3}  ${maybeValid4}
+    Input  ${ref_key}
+    Input  ${author}
+    Input  ${title}
+    Input  ${journal}
+    Input  ${maybeValid1}
+    Input  ${maybeValid2}
+    Input  ${maybeValid3}
+    Input  ${maybeValid4}
     Run Application
 
 Empty Database
