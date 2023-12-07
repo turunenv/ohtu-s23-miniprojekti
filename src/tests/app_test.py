@@ -1,9 +1,8 @@
 import unittest
-from unittest.mock import Mock, ANY, patch
+from unittest.mock import Mock, ANY, patch, MagicMock
 from repositories.reference_repository import ReferenceRepository
 from app import App
 from io import StringIO
-
 
 class TestApp(unittest.TestCase):
     def setUp(self):
@@ -175,16 +174,17 @@ class TestApp(unittest.TestCase):
         self.testApp.add_reference()
         self.mock_io.write.assert_called_with("Invalid input! Please check help-menu for instructions")
 
-    # def test_write_columns_works(self):
-    #    reference_mock = Mock()
-    #    reference_mock.get_field_names.return_value = ["Title", "Author"]
-    #    reference_mock.get_field_lengths.return_value = [2, 2]
+    def test_write_columns_works(self):
+        reference_mock = MagicMock()
+        reference_mock.get_field_names().return_value = ["Title", "Author"]
+        reference_mock.get_field_lengths().return_value = [2, 2]
 
-    #    self.testApp.write_columns(reference_mock)
-    #    reference_mock.get_field_names.assert_called()
-    #    expected = "\nTitle   Author  "
-    #    self.mock_io.write.assert_called_with(expected)
-    #    self.mock_io.write.assert_called_with(f'{"":{"-"}>115}')
+        expected = "\nTitle  Author  "
+        self.app.write_columns(reference_mock)
+
+        #self._io_mock.write.assert_called_with(expected)
+
+        self._io_mock.write.assert_called_with(f'{"":{"-"}>115}')
 
     def test_create_bib_file_cancels(self):
         self.mock_io.read.return_value = ""
