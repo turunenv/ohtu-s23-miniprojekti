@@ -1,5 +1,6 @@
 from .reference import Reference
 
+
 class BookReference(Reference):
     """Class that describes a reference of type Book
 

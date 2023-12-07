@@ -1,5 +1,6 @@
 from .reference import Reference
 
+
 class ArticleReference(Reference):
     """Class that describes an article type reference
 
@@ -8,7 +9,7 @@ class ArticleReference(Reference):
             volume, pages
     """
 
-    def __init__(self, ref_key, author, title, journal, year, volume, pages): #pylint: disable=too-many-arguments
+    def __init__(self, ref_key, author, title, journal, year, volume, pages):  # pylint: disable=too-many-arguments
         super().__init__("article")
 
         self.ref_key = ref_key

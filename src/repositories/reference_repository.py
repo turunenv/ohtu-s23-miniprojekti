@@ -9,6 +9,7 @@ class ReferenceRepository:
         Arguments:
             -connection: database connection
     """
+
     def __init__(self, connection):
         self._connection = connection
 
@@ -49,6 +50,44 @@ class ReferenceRepository:
                 (article.ref_key, article.author, article.title,
                  article.journal, article.year, article.volume,
                  article.pages)
+            )
+
+            self._connection.commit()
+        except (AttributeError, sqlite3.Error) as e:
+            # Handle exceptions
+            print(e)
+            return False
+        finally:
+            # Close the cursor
+            cursor.close()
+
+        return True
+
+    def create_tag(self, tag_name):
+        cursor = self._connection.cursor()
+        try:
+            cursor.execute(
+                """INSERT INTO reference_tags (tag_name) VALUES (?)""",
+                (tag_name,)
+            )
+            self._connection.commit()
+        except (AttributeError, sqlite3.Error) as e:
+            # Handle exceptions
+            print(e)
+            return False
+        finally:
+            # Close the cursor
+            cursor.close()
+
+        return True
+
+    def create_tag_relation(self, tag_key, ref_key):
+        cursor = self._connection.cursor()
+
+        try:
+            cursor.execute(
+                """INSERT INTO tag_relations (tag_id, ref_key) VALUES (?, ?)""",
+                (tag_key, ref_key)
             )
 
             self._connection.commit()
@@ -155,8 +194,10 @@ class ReferenceRepository:
     def delete_all_test_references(self):
         cursor = self._connection.cursor()
 
-        cursor.execute("DELETE FROM book_references WHERE ref_key LIKE 'test%'")
-        cursor.execute("DELETE FROM article_references WHERE ref_key LIKE 'test%'")
+        cursor.execute(
+            "DELETE FROM book_references WHERE ref_key LIKE 'test%'")
+        cursor.execute(
+            "DELETE FROM article_references WHERE ref_key LIKE 'test%'")
         self._connection.commit()
 
     def delete_all_books(self):
@@ -165,3 +206,13 @@ class ReferenceRepository:
         cursor.execute("DELETE FROM book_references")
         cursor.execute("DELETE FROM article_references")
         self._connection.commit()
+
+    def get_tag_id(self, tag_name):
+        cursor = self._connection.cursor()
+        cursor.execute(
+            "SELECT * FROM reference_tags WHERE tag_name = ?", (tag_name,))
+
+        tag = cursor.fetchone()
+        if tag:
+            return tag[0]
+        return None

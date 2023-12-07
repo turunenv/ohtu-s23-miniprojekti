@@ -94,7 +94,7 @@ class TestReferenceRepository(unittest.TestCase):
         success = repository.create_article("Not an article")
 
         self.assertFalse(success)
-    
+
     def test_delete_by_ref_key_deletes_only_wanted(self):
         repository.create_article(self.test_article)
         repository.create_book(self.test_book)

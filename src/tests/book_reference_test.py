@@ -2,6 +2,7 @@ import unittest
 from entities.book_reference import BookReference
 from services.reference_service import ReferenceService
 
+
 class FakeReferenceRepository:
     def __init__(self):
         self.references = []
@@ -53,20 +54,18 @@ class TestBookReference(unittest.TestCase):
         self.test_book3["publisher"] = "OTA"
         self.reference_service.create_reference(self.test_book3)
 
-
     def test_get_field_names(self):
         ref_list = self.reference_service.get_all()
         for ref in ref_list:
             fields = ref.get_field_names()
 
-        self.assertEqual(fields, ["REF_KEY", "AUTHOR", "TITLE", "YEAR", "PUBLISHER"])
-
+        self.assertEqual(fields, ["REF_KEY", "AUTHOR",
+                         "TITLE", "YEAR", "PUBLISHER"])
 
     def test_get_field_lengths(self):
         ref_list = self.reference_service.get_all()
         for ref in ref_list:
             field_lengths = ref.get_field_lengths()
-
 
         self.assertEqual(field_lengths, [10, 25, 35, 6, 15])
 
@@ -75,7 +74,8 @@ class TestBookReference(unittest.TestCase):
         expected_book = reference_list[0]
         string = expected_book.__str__()
 
-        expected_book_string = ("KEY        test_author               test_title                          2023   OTA            ")
+        expected_book_string = (
+            "KEY        test_author               test_title                          2023   OTA            ")
 
         self.assertEqual(string, expected_book_string)
 
@@ -84,7 +84,8 @@ class TestBookReference(unittest.TestCase):
         expected_book = reference_list[1]
         string = expected_book.__str__()
 
-        expected_book_string = ("KEY2       test_author_with_long_nam test_title2                         2023   OTA            \n            e                                                            ")
+        expected_book_string = (
+            "KEY2       test_author_with_long_nam test_title2                         2023   OTA            \n            e                                                            ")
 
         self.assertEqual(string, expected_book_string)
 
@@ -93,6 +94,7 @@ class TestBookReference(unittest.TestCase):
         expected_book = reference_list[2]
         string = expected_book.__str__()
 
-        expected_book_string = (f"KEY3       test_author               test_title_with_too_long_name_it_ca 2023   OTA            \n                                      nt_fit                             ")
+        expected_book_string = (
+            f"KEY3       test_author               test_title_with_too_long_name_it_ca 2023   OTA            \n                                      nt_fit                             ")
 
         self.assertEqual(string, expected_book_string)

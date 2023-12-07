@@ -19,4 +19,22 @@ Mad:
 - Työmäärä stressaa!
 - Muut kurssit stressaa!
 
+## Sprint 3 - Retrospektiivi
 
+Glad:
+- Verneri hoiti hommansa hyvin, vaikka oli sairaana!
+- Työnjako onnistui articlejen kanssa!
+- Kaikki hoitivat hommansa ja pystyi luottamaan muihin!
+- Tärkeimmät muutokset saatiin ajoissa tehtyä niin jäi aikaa testaamiselle
+
+Sad:
+- Testaus vei odotettua enemmän aikaa
+- Tagit jäi tekemättä
+- Verneri oli kipeänä
+- Verneri ei päässyt asiakastapaamiseen
+- Työnjakoa voisi edelleen kehittää kun aina ei ollut varmaa mitä kukin oli tekemässä
+
+Mad:
+- Kaikki ei pääse loppudemoon!
+- Työmäärä stressaa edelleen!
+- Kipeänä olo ei ole kivaa!

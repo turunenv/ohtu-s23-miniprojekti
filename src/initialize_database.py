@@ -11,6 +11,12 @@ def drop_tables(connection):
     cursor.execute("""
         DROP TABLE IF EXISTS article_references
     """)
+    cursor.execute("""
+        DROP TABLE IF EXISTS reference_tags
+    """)
+    cursor.execute("""
+        DROP TABLE IF EXISTS tag_relations
+    """)
 
     connection.commit()
 
@@ -42,6 +48,21 @@ def create_tables(connection):
             year INTEGER,
             volume INTEGER,
             pages TEXT
+        )
+    """)
+
+    cursor.execute("""
+        CREATE TABLE reference_tags (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            tag_name TEXT
+        )
+    """)
+
+    cursor.execute("""
+        CREATE TABLE tag_relations (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            tag_id INT,
+            ref_key TEXT
         )
     """)
 

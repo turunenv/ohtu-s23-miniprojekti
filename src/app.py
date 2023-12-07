@@ -43,6 +43,9 @@ class App:
             elif command == "file":
                 self.create_bib_file()
 
+            elif command == "tag":
+                self.create_tag()
+
     def add_reference(self):
         self.io.write("")
         self.io.write("Type \"cancel\" to cancel")
@@ -169,3 +172,23 @@ class App:
 
         else:
             self.io.write(f"There was an error creating file {filename}.")
+
+    def create_tag(self):
+        self.io.write("")
+        self.io.write("Type \"cancel\" to cancel")
+
+        tag_name = self.io.read("Give tag name: ")
+        if tag_name == "cancel":
+            return
+
+        ref_key = self.io.read(
+            "Give ref_key of the reference you want to tag: ")
+        if ref_key == "cancel":
+            return
+
+        val = self.reference_service.add_tag_relation(tag_name, ref_key)
+        if val[0] is False:
+            self.io.write(val[1])
+        else:
+            self.io.write(val[1])
+            self.io.write("TAGGED!")

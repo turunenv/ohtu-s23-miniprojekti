@@ -67,10 +67,12 @@ class TestReferenceService(unittest.TestCase):
         expected_article = reference_list[0]
 
         self.assertEqual(len(reference_list), 1)
-        self.assertEqual(expected_article.ref_key, self.test_article["ref_key"])
+        self.assertEqual(expected_article.ref_key,
+                         self.test_article["ref_key"])
         self.assertEqual(expected_article.author, self.test_article["author"])
         self.assertEqual(expected_article.title, self.test_article["title"])
-        self.assertEqual(expected_article.journal, self.test_article["journal"])
+        self.assertEqual(expected_article.journal,
+                         self.test_article["journal"])
         self.assertEqual(expected_article.year, self.test_article["year"])
         self.assertEqual(expected_article.volume, self.test_article["volume"])
         self.assertEqual(expected_article.pages, self.test_article["pages"])
