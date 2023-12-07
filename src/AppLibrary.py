@@ -31,8 +31,7 @@ class AppLibrary:
         # check if any element in the outputs list contained given value
         if not len(list(value_included)) > 0:
             raise AssertionError(
-                f"expected value '{
-                    value}' not found in the outputs: {str(outputs)}"
+                f"expected value '{value}' not found in the outputs: {str(outputs)}"
             )
 
     def list_all_references(self):
