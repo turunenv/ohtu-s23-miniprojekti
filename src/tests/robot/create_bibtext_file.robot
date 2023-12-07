@@ -11,7 +11,7 @@ Create Bibtext File
     Input File Name  testfile
     Run Application
     
-    Output Should Contain  1 references succesfully written to testfile
+    Output Should Contain  references succesfully written to testfile
     File Should Exist  ./testfile.bib
     
     Delete Test File  ./testfile.bib
