@@ -42,7 +42,6 @@ class ReferenceService:
 
                 return self._reference_repository.create_article(article)
 
-
     def get_all(self):
         return self._reference_repository.get_all()
 

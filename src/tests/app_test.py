@@ -11,14 +11,14 @@ class TestApp(unittest.TestCase):
         self.mock_bibwriter = Mock()
         self._reference_repository_mock = Mock(
             wraps=ReferenceRepository("connection"))
-        self.app = App(self._io_mock, self._reference_repository_mock, self.mock_bibwriter)
+        self.app = App(
+            self._io_mock, self._reference_repository_mock, self.mock_bibwriter)
         self.mock_io = Mock()
         self.mock_rs = Mock()
         self.reference_service = Mock()
         self.mock_rs.reference_service = Mock()
         self.testApp = App(self.mock_io, self.mock_rs, self.mock_bibwriter)
         self.testApp.write_columns = Mock()
-
 
     def test_app_creates_empty_list(self):
         self.assertEqual(len(self.app.list), 0)
@@ -118,15 +118,19 @@ class TestApp(unittest.TestCase):
         self.testApp.list_references.assert_called_once()
 
     def test_add_reference(self):
-        self.testApp.io.read.side_effect = ['book', "ref", "auth", "title", "year", "publisher"]
+        self.testApp.io.read.side_effect = [
+            'book', "ref", "auth", "title", "year", "publisher"]
         self.testApp.reference_service.ref_key_taken.return_value = False
-        self.testApp.reference_service.get_fields_of_reference_type.return_value = ["ref_key", "author", "title", "year", "publisher"]
+        self.testApp.reference_service.get_fields_of_reference_type.return_value = [
+            "ref_key", "author", "title", "year", "publisher"]
         self.testApp.reference_service.create_reference.return_value = True
         self.testApp.add_reference()
 
-        self.testApp.reference_service.get_fields_of_reference_type.assert_called_with('book')
-        self.testApp.reference_service.create_reference.assert_called_with({'type': 'book', 'ref_key': 'ref', 'author': 'auth', 'title': 'title', 'year': 'year', 'publisher': 'publisher'})    
-        
+        self.testApp.reference_service.get_fields_of_reference_type.assert_called_with(
+            'book')
+        self.testApp.reference_service.create_reference.assert_called_with(
+            {'type': 'book', 'ref_key': 'ref', 'author': 'auth', 'title': 'title', 'year': 'year', 'publisher': 'publisher'})
+
     def test_add_reference_with_empty_user_input(self):
         self.mock_io.read.side_effect = ["book", " ", "aa"]
         self.mock_rs.get_fields_of_reference_type.return_value = ["title"]
@@ -142,14 +146,16 @@ class TestApp(unittest.TestCase):
         self.mock_rs.ref_key_taken.side_effect = [True, False]
         self.testApp.add_reference()
 
-        self.mock_io.write.assert_called_with("This ref_key is already taken!!")
+        self.mock_io.write.assert_called_with(
+            "This ref_key is already taken!!")
 
     def test_add_not_supported_reference_type(self):
         self.mock_io.read.return_value = "Film"
         self.mock_rs.get_fields_of_reference_type.return_value = None
         self.testApp.add_reference()
 
-        self.mock_io.write.assert_called_with("ERROR: Source type not supported!")
+        self.mock_io.write.assert_called_with(
+            "ERROR: Source type not supported!")
 
     def test_add_method_cancel_works(self):
         self.mock_io.read.side_effect = ["cancel", "book", "cancel",
@@ -163,12 +169,13 @@ class TestApp(unittest.TestCase):
         self.testApp.add_reference()
 
         self.testApp.add_reference()
-        self.mock_io.write.assert_called_with("This ref_key is already taken!!")
+        self.mock_io.write.assert_called_with(
+            "This ref_key is already taken!!")
 
         self.testApp.add_reference()
         self.mock_io.write.assert_called_with("This field is required!")
 
-    #def test_write_columns_works(self):
+    # def test_write_columns_works(self):
     #    reference_mock = Mock()
     #    reference_mock.get_field_names.return_value = ["Title", "Author"]
     #    reference_mock.get_field_lengths.return_value = [2, 2]
@@ -191,8 +198,10 @@ class TestApp(unittest.TestCase):
         self.mock_bibwriter.write_references_to_file.return_value = True
         self.testApp.create_bib_file()
 
-        self.mock_bibwriter.write_references_to_file.assert_called_with("test.bib", ["1"])
-        self.mock_io.write.assert_called_with("1 references succesfully written to test.bib")
+        self.mock_bibwriter.write_references_to_file.assert_called_with("test.bib", [
+                                                                        "1"])
+        self.mock_io.write.assert_called_with(
+            "1 references succesfully written to test.bib")
 
     def test_create_bib_file_fails(self):
         self.mock_io.read.return_value = "test.bib"
@@ -200,4 +209,5 @@ class TestApp(unittest.TestCase):
         self.mock_bibwriter.write_references_to_file.return_value = False
         self.testApp.create_bib_file()
 
-        self.mock_io.write.assert_called_with("There was an error creating file test.bib.")
+        self.mock_io.write.assert_called_with(
+            "There was an error creating file test.bib.")

@@ -57,15 +57,14 @@ def create_tables(connection):
             tag_name TEXT
         )
     """)
-                   
+
     cursor.execute("""
         CREATE TABLE tag_relations (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             tag_id INT,
             ref_key TEXT
         )
-    """)               
-    
+    """)
 
     connection.commit()
 

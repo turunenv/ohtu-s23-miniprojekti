@@ -1,9 +1,10 @@
 class BibTexWriter:
     """A Class to write references into a file
-       
+
     Arguments:
         - file_io object with a write method
     """
+
     def __init__(self, file_io):
         self.file_io = file_io
 
@@ -14,10 +15,11 @@ class BibTexWriter:
         """
         try:
             for i, ref in enumerate(references):
-                #in any case, do not overwrite after the initial reference
+                # in any case, do not overwrite after the initial reference
                 if i > 0:
                     over_write = False
-                self.file_io.write(filename, ref.create_bib_string(), over_write)
+                self.file_io.write(
+                    filename, ref.create_bib_string(), over_write)
             return True
         except OSError:
             return False

@@ -9,6 +9,7 @@ class ReferenceRepository:
         Arguments:
             -connection: database connection
     """
+
     def __init__(self, connection):
         self._connection = connection
 
@@ -61,7 +62,7 @@ class ReferenceRepository:
             cursor.close()
 
         return True
-    
+
     def create_tag(self, tag_name):
         cursor = self._connection.cursor()
         try:
@@ -79,10 +80,10 @@ class ReferenceRepository:
             cursor.close()
 
         return True
-    
+
     def create_tag_relation(self, tag_key, ref_key):
         cursor = self._connection.cursor()
-        
+
         try:
             cursor.execute(
                 """INSERT INTO tag_relations (tag_id, ref_key) VALUES (?, ?)""",
@@ -99,8 +100,6 @@ class ReferenceRepository:
             cursor.close()
 
         return True
-
-
 
     def get_all(self):
         """Finds all references from database.
@@ -195,8 +194,10 @@ class ReferenceRepository:
     def delete_all_test_references(self):
         cursor = self._connection.cursor()
 
-        cursor.execute("DELETE FROM book_references WHERE ref_key LIKE 'test%'")
-        cursor.execute("DELETE FROM article_references WHERE ref_key LIKE 'test%'")
+        cursor.execute(
+            "DELETE FROM book_references WHERE ref_key LIKE 'test%'")
+        cursor.execute(
+            "DELETE FROM article_references WHERE ref_key LIKE 'test%'")
         self._connection.commit()
 
     def delete_all_books(self):
@@ -215,4 +216,3 @@ class ReferenceRepository:
         if tag:
             return tag[0]
         return None
-    

@@ -180,17 +180,15 @@ class App:
         tag_name = self.io.read("Give tag name: ")
         if tag_name == "cancel":
             return
-        
-        ref_key = self.io.read("Give ref_key of the reference you want to tag: ")
+
+        ref_key = self.io.read(
+            "Give ref_key of the reference you want to tag: ")
         if ref_key == "cancel":
             return
 
         val = self.reference_service.add_tag_relation(tag_name, ref_key)
         if val[0] is False:
             self.io.write(val[1])
-        else: 
+        else:
             self.io.write(val[1])
             self.io.write("TAGGED!")
-        
-        
-        
