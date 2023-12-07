@@ -119,7 +119,7 @@ class TestApp(unittest.TestCase):
 
     def test_add_reference(self):
         self.testApp.io.read.side_effect = [
-            'book', "ref", "auth", "title", "year", "publisher"]
+            'book', "ref", "auth", "title", "1999", "publisher"]
         self.testApp.reference_service.ref_key_taken.return_value = False
         self.testApp.reference_service.get_fields_of_reference_type.return_value = [
             "ref_key", "author", "title", "year", "publisher"]
@@ -129,7 +129,7 @@ class TestApp(unittest.TestCase):
         self.testApp.reference_service.get_fields_of_reference_type.assert_called_with(
             'book')
         self.testApp.reference_service.create_reference.assert_called_with(
-            {'type': 'book', 'ref_key': 'ref', 'author': 'auth', 'title': 'title', 'year': 'year', 'publisher': 'publisher'})
+            {'type': 'book', 'ref_key': 'ref', 'author': 'auth', 'title': 'title', 'year': '1999', 'publisher': 'publisher'})
 
     def test_add_reference_with_empty_user_input(self):
         self.mock_io.read.side_effect = ["book", " ", "aa"]
@@ -137,7 +137,7 @@ class TestApp(unittest.TestCase):
         self.mock_rs.create_reference.return_value = False
         self.testApp.add_reference()
 
-        self.mock_io.write.assert_called_with("This field is required!")
+        self.mock_io.write.assert_called_with("Invalid input! Please check help-menu for instructions")
 
     def test_add_reference_with_taken_re_key(self):
         self.mock_io.read.side_effect = ["book", "1", "2"]
@@ -173,7 +173,7 @@ class TestApp(unittest.TestCase):
             "This ref_key is already taken!!")
 
         self.testApp.add_reference()
-        self.mock_io.write.assert_called_with("This field is required!")
+        self.mock_io.write.assert_called_with("Invalid input! Please check help-menu for instructions")
 
     # def test_write_columns_works(self):
     #    reference_mock = Mock()
@@ -211,3 +211,39 @@ class TestApp(unittest.TestCase):
 
         self.mock_io.write.assert_called_with(
             "There was an error creating file test.bib.")
+        
+    def test_validate_input_works_with_year(self):
+        self.field = "year"
+        self.user_input = "1233"
+        val = self.testApp.validate_input(self.field, self.user_input)
+        self.assertIsNotNone(val)
+
+    def test_validate_input_fails_with_year(self):
+        self.field = "year"
+        self.user_input = "1930's"
+        val = self.testApp.validate_input(self.field, self.user_input)
+        self.assertIsNone(val)
+
+    def test_validate_input_works_with_volume(self):
+        self.field = "volume"
+        self.user_input = "1"
+        val = self.testApp.validate_input(self.field, self.user_input)
+        self.assertIsNotNone(val)
+
+    def test_validate_input_fails_with_volume(self):
+        self.field = "volume"
+        self.user_input = "9th"
+        val = self.testApp.validate_input(self.field, self.user_input)
+        self.assertIsNone(val)
+
+    def test_validate_input_works_with_pages(self):
+        self.field = "pages"
+        self.user_input = "12--33"
+        val = self.testApp.validate_input(self.field, self.user_input)
+        self.assertIsNotNone(val)
+
+    def test_validate_input_fails_with_pages(self):
+        self.field = "pages"
+        self.user_input = "12-33"
+        val = self.testApp.validate_input(self.field, self.user_input)
+        self.assertIsNone(val)

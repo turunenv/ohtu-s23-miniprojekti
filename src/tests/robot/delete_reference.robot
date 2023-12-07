@@ -35,7 +35,7 @@ Add Book Reference
 Add Article Reference
     Input Add Command
     Input Reference Type  article
-    Input Article Reference Fields    test2    Allix    AI In Customer Service    AI-Magazine    2023    11    50-51
+    Input Article Reference Fields    test2    Allix    AI In Customer Service    AI-Magazine    2023    11    50--51
 
 List References
     Input List Command

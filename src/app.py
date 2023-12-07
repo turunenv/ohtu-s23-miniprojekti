@@ -1,3 +1,5 @@
+import re
+
 class App:
 
     def __init__(self, io, rs, bib):
@@ -75,9 +77,8 @@ class App:
                 user_input = self.io.read(f"Add {f} of the {source_type}: ")
                 if user_input == "cancel":
                     return
-
-            while user_input.strip() == "":
-                self.io.write("This field is required!")
+            while user_input.strip() == "" or not self.validate_input(f, user_input):
+                self.io.write("Invalid input! Please check help-menu for instructions")
                 user_input = self.io.read(f"Add {f} of the {source_type}: ")
                 if user_input == "cancel":
                     return
@@ -192,3 +193,14 @@ class App:
         else:
             self.io.write(val[1])
             self.io.write("TAGGED!")
+
+    def validate_input(self, field, user_input):
+        match field:
+            case "year":
+                return re.match("^[0-9]+$", user_input)
+            case "volume":
+                return re.match("^[0-9]+$", user_input)
+            case "pages":
+                return re.match("^[0-9]+--[0-9]+$", user_input)
+            case _:
+                return True
