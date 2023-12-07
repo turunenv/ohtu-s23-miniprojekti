@@ -1,5 +1,5 @@
 import unittest
-from unittest.mock import Mock, ANY, patch, MagicMock
+from unittest.mock import Mock, ANY, patch, MagicMock, call
 from repositories.reference_repository import ReferenceRepository
 from app import App
 from io import StringIO
@@ -175,16 +175,14 @@ class TestApp(unittest.TestCase):
         self.mock_io.write.assert_called_with("Invalid input! Please check help-menu for instructions")
 
     def test_write_columns_works(self):
-        reference_mock = MagicMock()
-        reference_mock.get_field_names().return_value = ["Title", "Author"]
-        reference_mock.get_field_lengths().return_value = [2, 2]
+        reference_mock = Mock()
+        reference_mock.get_field_names.return_value = ["Title ", "Author "]
+        reference_mock.get_field_lengths.return_value = [2, 2]
 
         expected = "\nTitle  Author  "
         self.app.write_columns(reference_mock)
-
-        #self._io_mock.write.assert_called_with(expected)
-
-        self._io_mock.write.assert_called_with(f'{"":{"-"}>115}')
+        calls = [call(expected), call(f'{"":{"-"}>115}')]
+        self._io_mock.write.assert_has_calls(calls)
 
     def test_create_bib_file_cancels(self):
         self.mock_io.read.return_value = ""
