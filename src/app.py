@@ -33,6 +33,12 @@ class App:
                 self.io.write(f'{"cancel:":<9} Return to the starting menu')
                 self.io.write(
                     f'{"file:":<9} Enter a file name to create a .bib file of all references')
+                self.io.write(
+                    f'{"doi:":<9} Add a new reference using DOI identifier or full DOI URL')
+                self.io.write("\nValid inputs:")
+                self.io.write(f'   {"year: ":<10} Year must consist of only numbers')
+                self.io.write(f'   {"volume: ":<10} Volume must consist of only numbers')
+                self.io.write(f'   {"pages: ":<10} Pages must consist of numbers separated by \"--\"')
 
             if command == "add":
                 self.add_reference()
@@ -57,8 +63,9 @@ class App:
         self.io.write("Type \"cancel\" to cancel")
 
         source_type = self.io.read("Give source type: ")
-        if source_type == "cancel":
+        if not self.validate_input("source_type", source_type):
             return
+
         list_of_fields = self.reference_service.get_fields_of_reference_type(
             source_type)
 
@@ -143,24 +150,25 @@ class App:
     def get_doi_reference(self):
         ref_key = self.io.read("Give ref_key for this reference: ")
 
-        while self.reference_service.ref_key_taken(ref_key) or not self.validate_input("ref_key", ref_key):
-            self.io.write("This ref_key was already taken!")
-            ref_key = self.io.read("Give a ref_key for this reference: ")
-
-        if ref_key == "cancel":
+        if not self.validate_input("ref_key", ref_key):
             return
 
+        while self.reference_service.ref_key_taken(ref_key):
+            self.io.write("This ref_key was already taken!")
+            ref_key = self.io.read("Give a ref_key for this reference: ")
+            if not self.validate_input("ref_key", ref_key):
+                return
+
         doi_string = self.io.read("Give DOI identifier or full URL: ")
-        if doi_string == "cancel":
+        if not self.validate_input("doi_string", doi_string):
             return
 
         reference = self.doi_service.get_doi(doi_string, ref_key)
 
-        if not bool(reference):
-            self.io.write("Something went wrong with creating reference")
+        if not reference:
             return
 
-        self.io.write("Do you want to add the following reference?")
+        self.io.write("\nDo you want to add the following reference?")
         for field, value in reference.items():
             self.io.write(f'{field[:15]:<15}: {value}')
 
@@ -236,7 +244,7 @@ class App:
             self.io.write("TAGGED!")
 
     def validate_input(self, field, user_input):
-        if user_input.strip() == "":
+        if user_input.strip() == "" or user_input == "cancel":
             return False
 
         match field:

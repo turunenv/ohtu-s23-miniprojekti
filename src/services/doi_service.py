@@ -3,7 +3,7 @@ import requests
 class DOIService:
     def __init__(self, io):
         self.io = io
-        self.base_url = 'http://doi.org/'
+        self.base_url = 'https://doi.org/'
         self.headers = {'accept': 'application/vnd.citationstyles.csl+json'}
         self.timeout = 3
 
@@ -11,15 +11,22 @@ class DOIService:
         url = self.resolve_url(doi)
         data = self.retrieve_data(url)
         reference = {}
+
+        if not bool(data):
+            return reference
+
         try:
             reference_type = data["type"]
 
             if reference_type == "journal-article":
                 reference = self.create_article(data, ref_key)
-            if reference_type == "book":
+            elif reference_type == "book":
                 reference = self.create_book(data, ref_key)
+            else:
+                self.io.write("This reference type is not supported")
         except KeyError:
-            self.io.write("This reference type is not supported")
+            self.io.write("Reference could not be created:")
+            self.io.write(f'{" ":<10}Some necessary information was missing')
 
         return reference
 
@@ -30,6 +37,8 @@ class DOIService:
             data = r.json()
         except (requests.exceptions.HTTPError, requests.exceptions.JSONDecodeError):
             self.io.write('DOI not found')
+        except Exception: #pylint: disable=broad-exception-caught
+            self.io.write("There was an unexpected network error")
 
         return data
 
