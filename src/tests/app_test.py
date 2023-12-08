@@ -31,7 +31,7 @@ class TestApp(unittest.TestCase):
     def test_run_help_works(self):
         self._io_mock.read.side_effect = ["help", ""]
         self.app.run()
-        self.assertEqual(self._io_mock.write.call_count, 16)
+        self.assertEqual(self._io_mock.write.call_count, 18)
 
     def test_list_references_gets_list(self):
         self.book1 = Mock()

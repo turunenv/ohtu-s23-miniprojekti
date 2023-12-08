@@ -16,7 +16,7 @@ class App:
             self.io.write(
                 "Type \"help\" to list commands and their descriptions")
 
-            command = self.io.read("Command (add or list or delete or file)")
+            command = self.io.read("Command (add or list or delete or file or tag or search)")
 
             if not command:
                 break
@@ -30,6 +30,9 @@ class App:
                 self.io.write(f'{"list:":<9} List all stored references')
                 self.io.write(
                     f'{"delete:":<9} Delete a reference using its reference key')
+                self.io.write(
+                    f'{"tag:":<9} Enter a tag name and a reference key to tag a reference')
+                self.io.write(f'{"search:":<9} Enter tag name to search tagged references')
                 self.io.write(f'{"cancel:":<9} Return to the starting menu')
                 self.io.write(
                     f'{"file:":<9} Enter a file name to create a .bib file of all references')
