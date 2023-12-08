@@ -10,6 +10,8 @@ python = "^3.10"
 python-dotenv = "^1.0.0"
 requests = "^2.31.0"
 colorama = "^0.4.6"
+setuptools = "^69.0.2"
+pybtex = "^0.24.0"
 
 
 [tool.poetry.group.dev.dependencies]
