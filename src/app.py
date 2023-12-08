@@ -262,7 +262,6 @@ class App:
             self.io.write(tag_id[1])
             return
         tag_id = tag_id[1]
-        print(tag_id)
 
         self.list = self.reference_service.get_tagged(tag_id)
 

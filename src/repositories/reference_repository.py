@@ -180,15 +180,22 @@ class ReferenceRepository:
                     "DELETE FROM article_references WHERE ref_key = ?", (ref_key,))
                 self._connection.commit()
 
+            #save amount of deleted rows because teg_relations will change it
+            deleted_rows = cursor.rowcount
+
+            # If a reference was deleted, delete that references tag relations
+            if cursor.rowcount > 0:
+                cursor.execute(
+                    "DELETE FROM tag_relations WHERE ref_key = ?", (ref_key,))
+                self._connection.commit()
+
             # Check if any rows were affected (i.e., if the reference was found and deleted)
-            return cursor.rowcount > 0
+            return deleted_rows > 0
 
         except (AttributeError, sqlite3.Error) as e:
-            # Handle exceptions (e.g., database error)
             print(e)
             return False
         finally:
-            # Close the cursor
             cursor.close()
 
     def delete_all_test_references(self):
