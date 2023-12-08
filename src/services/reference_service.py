@@ -68,3 +68,12 @@ class ReferenceService:
             if tag_id is None:
                 return False, "Something went wrong with creating the tag"
         return self._reference_repository.create_tag_relation(tag_id, ref_key), newtag
+
+    def get_tag_id(self, tag_name):
+        tag_id = self._reference_repository.get_tag_id(tag_name)
+        if tag_id is None:
+            return False, "Not an existing tag"
+        return True, tag_id
+
+    def get_tagged(self, tag_id):
+        return self._reference_repository.get_tagged(tag_id)

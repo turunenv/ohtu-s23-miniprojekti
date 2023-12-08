@@ -58,6 +58,9 @@ class App:
             elif command == "tag":
                 self.create_tag()
 
+            elif command == "search":
+                self.search_tags()
+
     def add_reference(self):
         self.io.write("")
         self.io.write("Type \"cancel\" to cancel")
@@ -242,6 +245,38 @@ class App:
         else:
             self.io.write(val[1])
             self.io.write("TAGGED!")
+
+    def search_tags(self):
+        self.io.write("")
+        self.io.write("Type \"cancel\" to cancel")
+
+        tag_name = self.io.read("Give tag name: ")
+        if tag_name in ('cancel', ''):
+            return
+
+        tag_id = self.reference_service.get_tag_id(tag_name)
+        if tag_id[0] is False:
+            self.io.write(tag_id[1])
+            return
+        tag_id = tag_id[1]
+        print(tag_id)
+
+        self.list = self.reference_service.get_tagged(tag_id)
+
+        if len(self.list) == 0:
+            self.io.write("No references are using the tag")
+            return
+
+        field_names = []
+
+        for r in self.list:
+            if r.get_field_names() != field_names:
+                self.io.write(f'\n\n{r.ref_type.upper()}S')
+                field_names = r.get_field_names()
+                self.write_columns(r)
+
+            self.io.write(r)
+
 
     def validate_input(self, field, user_input):
         if user_input.strip() == "" or user_input == "cancel":

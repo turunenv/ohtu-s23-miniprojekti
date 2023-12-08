@@ -205,6 +205,8 @@ class ReferenceRepository:
 
         cursor.execute("DELETE FROM book_references")
         cursor.execute("DELETE FROM article_references")
+        cursor.execute("DELETE FROM tag_relations")
+
         self._connection.commit()
 
     def get_tag_id(self, tag_name):
@@ -216,3 +218,34 @@ class ReferenceRepository:
         if tag:
             return tag[0]
         return None
+
+    def get_tagged(self, tag_id):
+        cursor = self._connection.cursor()
+        cursor.execute(
+            "SELECT * FROM book_references B, tag_relations T "
+            "WHERE T.tag_id = ? AND B.ref_key = T.ref_key",
+            (tag_id,))
+
+        books = cursor.fetchall()
+
+        reference_list = []
+
+        for book in books:
+            reference_list.append(BookReference(
+                book[0], book[1], book[2], book[3], book[4]))
+
+        cursor.execute(
+            "SELECT * FROM article_references A, tag_relations T "
+            "WHERE T.tag_id = ? AND A.ref_key = T.ref_key",
+            (tag_id,)
+        )
+
+
+        articles = cursor.fetchall()
+
+        for article in articles:
+            reference_list.append(ArticleReference(
+                article[0], article[1], article[2], article[3],
+                article[4], article[5], article[6]))
+
+        return reference_list
