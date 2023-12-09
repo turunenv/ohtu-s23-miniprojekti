@@ -49,7 +49,7 @@ class TestApp(unittest.TestCase):
         self.mock_rs.get_all.return_value = self.test_list
         self.testApp.list_references()
 
-        self.mock_io.write.assert_called_with(self.test_list[1])
+        self.mock_io.write.assert_called_with(f"\x1b[36m{self.test_list[1]}")
 
     def test_delete_reference_cancels_when_command_is_given(self):
         self.mock_io.read.return_value = "cancel"
@@ -64,7 +64,7 @@ class TestApp(unittest.TestCase):
         self.testApp.delete_reference()
 
         self.mock_rs.delete_book_by_ref_key.assert_not_called()
-        self.mock_io.write.assert_called_with("Deletion cancelled")
+        self.mock_io.write.assert_called_with("\x1b[35mDeletion cancelled")
 
     def test_delete_reference_with_wrong_ref_key(self):
         self.mock_io.read.return_value = 123
@@ -82,7 +82,7 @@ class TestApp(unittest.TestCase):
         self.testApp.delete_reference()
 
         self.mock_rs.delete_book_by_ref_key.assert_called_with(123)
-        self.mock_io.write.assert_called_with("DELETED!")
+        self.mock_io.write.assert_called_with("\x1b[31mDELETED!")
 
     def test_delete_reference_problem_deleting_from_db(self):
         self.mock_io.read.side_effect = [123, "y"]
@@ -93,7 +93,7 @@ class TestApp(unittest.TestCase):
 
         self.mock_rs.delete_book_by_ref_key.assert_called_with(123)
         self.mock_io.write.assert_called_with(
-            "Something went wrong with deleting the reference")
+            "\x1b[31mSomething went wrong with deleting the reference")
 
     def test_command_add_calls_add_reference(self):
         self.testApp.add_reference = Mock()
@@ -136,7 +136,7 @@ class TestApp(unittest.TestCase):
         self.mock_rs.create_reference.return_value = False
         self.testApp.add_reference()
 
-        self.mock_io.write.assert_called_with("Invalid input! Please check help-menu for instructions")
+        self.mock_io.write.assert_called_with("\x1b[31mInvalid input! Please check help-menu for instructions")
 
     def test_add_reference_with_taken_re_key(self):
         self.mock_io.read.side_effect = ["book", "1", "2"]
@@ -146,7 +146,7 @@ class TestApp(unittest.TestCase):
         self.testApp.add_reference()
 
         self.mock_io.write.assert_called_with(
-            "This ref_key is already taken!!")
+            "\x1b[31mThis ref_key is already taken!!")
 
     def test_add_not_supported_reference_type(self):
         self.mock_io.read.return_value = "Film"
@@ -154,7 +154,7 @@ class TestApp(unittest.TestCase):
         self.testApp.add_reference()
 
         self.mock_io.write.assert_called_with(
-            "ERROR: Source type not supported!")
+            "\x1b[31mERROR: Source type not supported!")
 
     def test_add_method_cancel_works(self):
         self.mock_io.read.side_effect = ["cancel", "book", "cancel",
@@ -169,17 +169,17 @@ class TestApp(unittest.TestCase):
 
         self.testApp.add_reference()
         self.mock_io.write.assert_called_with(
-            "This ref_key is already taken!!")
+            "\x1b[31mThis ref_key is already taken!!")
 
         self.testApp.add_reference()
-        self.mock_io.write.assert_called_with("Invalid input! Please check help-menu for instructions")
+        self.mock_io.write.assert_called_with("\x1b[31mInvalid input! Please check help-menu for instructions")
 
     def test_write_columns_works(self):
         reference_mock = Mock()
         reference_mock.get_field_names.return_value = ["Title ", "Author "]
         reference_mock.get_field_lengths.return_value = [2, 2]
 
-        expected = "\nTitle  Author  "
+        expected = "\x1b[36m\nTitle  Author  "
         self.app.write_columns(reference_mock)
         calls = [call(expected), call(f'{"":{"-"}>115}')]
         self._io_mock.write.assert_has_calls(calls)
@@ -188,7 +188,7 @@ class TestApp(unittest.TestCase):
         self.mock_io.read.return_value = ""
         self.testApp.create_bib_file()
 
-        self.mock_io.write.assert_called_with("File creation cancelled")
+        self.mock_io.write.assert_called_with("\x1b[35mFile creation cancelled")
 
     def test_create_bib_file_works(self):
         self.mock_io.read.return_value = "test"
@@ -199,7 +199,7 @@ class TestApp(unittest.TestCase):
         self.mock_bibwriter.write_references_to_file.assert_called_with("test.bib", [
                                                                         "1"])
         self.mock_io.write.assert_called_with(
-            "1 references succesfully written to test.bib")
+            "\x1b[32m1 references succesfully written to test.bib")
 
     def test_create_bib_file_fails(self):
         self.mock_io.read.return_value = "test.bib"
@@ -208,7 +208,7 @@ class TestApp(unittest.TestCase):
         self.testApp.create_bib_file()
 
         self.mock_io.write.assert_called_with(
-            "There was an error creating file test.bib.")
+            "\x1b[31mThere was an error creating file test.bib.")
         
     def test_validate_input_works_with_year(self):
         self.field = "year"
