@@ -142,6 +142,17 @@ class TestReferenceRepository(unittest.TestCase):
 
         self.assertTrue(success)
 
+    def test_create_tag_relation_fails_with_duplicate_tag(self):
+        tag_id = 1
+        ref_key = "1"
+        first_add = repository.create_tag_relation(tag_id, ref_key)
+
+        self.assertTrue(first_add)
+
+        second_try = repository.create_tag_relation(tag_id, ref_key)
+
+        self.assertFalse(second_try)
+
     def test_get_tagged_returns_correct_list(self):
         testbook2 = BookReference(
                                 "3",
