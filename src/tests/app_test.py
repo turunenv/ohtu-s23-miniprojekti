@@ -245,3 +245,66 @@ class TestApp(unittest.TestCase):
         self.user_input = "12-33"
         val = self.testApp.validate_input(self.field, self.user_input)
         self.assertIsNone(val)
+
+    def test_create_tag_cancel_works(self):
+        self.mock_io.read.side_effect = ["cancel", "test_tag", "cancel"]
+        self.testApp.create_tag()
+
+        self.mock_io.read.assert_called_once()
+
+        self.testApp.create_tag()
+
+        self.mock_rs.add_tag_relation.assert_not_called()
+
+    def test_create_tag_fails(self):
+        self.mock_io.read.side_effect = ["test_tag", "test_ref_key"]
+        self.mock_rs.add_tag_relation.return_value = (False, "Error message")
+
+        self.testApp.create_tag()
+
+        self.mock_io.write.assert_called_with("\x1b[31mError message")
+
+    def test_create_tag_works(self):
+        self.mock_io.read.side_effect = ["test_tag", "test_ref_key"]
+        self.mock_rs.add_tag_relation.return_value = (True, "Good message")
+
+        self.testApp.create_tag()
+
+        self.mock_io.write.assert_called_with("\x1b[32mTAGGED!")
+
+    def test_search_tags_cancel_works(self):
+        self.mock_io.read.return_value = "cancel"
+
+        self.testApp.search_tags()
+
+        self.mock_rs.get_tag_id.assert_not_called()
+
+    def test_search_tags_fails(self):
+        self.mock_io.read.return_value = "test_tag"
+        self.mock_rs.get_tag_id.return_value = (False, "Error message")
+
+        self.testApp.search_tags()
+
+        self.mock_io.write.assert_called_with("\x1b[31mError message")
+
+    def test_search_tags_with_no_linked_references(self):
+        self.mock_io.read.return_value = "test_tag"
+        self.mock_rs.get_tag_id.return_value = (True, 1)
+        self.mock_rs.get_tagged.return_value = []
+
+        self.testApp.search_tags()
+
+        self.mock_io.write.assert_called_with("\x1b[31mNo references are using the tag")
+
+    def test_search_tags_works(self):
+        self.mock_io.read.return_value = "test_tag"
+        self.mock_rs.get_tag_id.return_value = (True, 1)
+        reference_mock = Mock()
+        reference_mock.ref_type = "Book"
+        reference_mock.get_field_names.return_value = ["REF_KEY", "AUTHOR"]
+        reference_mock.get_field_lengths.return_value = [10, 10]
+        self.mock_rs.get_tagged.return_value = [reference_mock]
+
+        self.testApp.search_tags()
+
+        self.mock_io.write.assert_called_with(reference_mock)
