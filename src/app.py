@@ -156,7 +156,7 @@ class App:
                 source_ref_key)
 
             self.write_columns(reference)
-            self.io.write(Fore.RED + reference)
+            self.io.write(Fore.RED + reference.__str__())
         else:
             self.io.write(Fore.RED + "Incorrect reference key!")
             return
