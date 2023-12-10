@@ -62,7 +62,8 @@ def create_tables(connection):
         CREATE TABLE tag_relations (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             tag_id INT,
-            ref_key TEXT
+            ref_key TEXT,
+            UNIQUE(tag_id, ref_key)
         )
     """)
 
