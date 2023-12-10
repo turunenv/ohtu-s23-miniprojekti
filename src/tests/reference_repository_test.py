@@ -122,3 +122,57 @@ class TestReferenceRepository(unittest.TestCase):
         self.assertEqual(ref_key, self.test_article.ref_key)
         self.assertEqual(author, self.test_article.author)
         self.assertEqual(title, self.test_article.title)
+
+    def test_create_and_get_tag_id_works(self):
+        test_tag = "Chemistry"
+        succes = repository.create_tag(test_tag)
+
+        self.assertTrue(succes)
+
+        tag_id = repository.get_tag_id(test_tag)
+        self.assertEqual(tag_id, 1)
+
+        no_tag_id = repository.get_tag_id("NA")
+        self.assertIsNone(no_tag_id)
+
+    def test_create_tag_relation_works(self):
+        tag_id = 1
+        ref_key = "abc"
+        success = repository.create_tag_relation(tag_id, ref_key)
+
+        self.assertTrue(success)
+
+    def test_get_tagged_returns_correct_list(self):
+        testbook2 = BookReference(
+                                "3",
+                                "So",
+                                "Testin2",
+                                2010,
+                                "OTAWA"
+        )
+
+        testarticle2 = ArticleReference(
+                                "4",
+                                "Matt Smith",
+                                "Wowzie",
+                                "journal2",
+                                2011,
+                                1,
+                                "10-12"
+        )
+
+        repository.create_book(self.test_book)
+        repository.create_article(self.test_article)
+        repository.create_book(testbook2)
+        repository.create_article(testarticle2)
+
+        repository.create_tag_relation(1, "3")
+        repository.create_tag_relation(1, "4")
+
+        searched_tags = repository.get_tagged(1)
+
+        expected_book = searched_tags[0]
+        expected_article = searched_tags[1]
+
+        self.assertEqual(expected_book.title, testbook2.title)
+        self.assertEqual(expected_article.author, testarticle2.author)
