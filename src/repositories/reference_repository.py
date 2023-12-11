@@ -162,7 +162,7 @@ class ReferenceRepository:
         return None
 
     def delete_reference_by_ref_key(self, ref_key):
-        """Deletes a book by ref_key from the database.
+        """Deletes a reference by ref_key from the database.
 
         Returns:
             Returns True if the book was successfully deleted, False otherwise.
@@ -207,7 +207,7 @@ class ReferenceRepository:
             "DELETE FROM article_references WHERE ref_key LIKE 'test%'")
         self._connection.commit()
 
-    def delete_all_books(self):
+    def delete_all_references(self):
         cursor = self._connection.cursor()
 
         cursor.execute("DELETE FROM book_references")

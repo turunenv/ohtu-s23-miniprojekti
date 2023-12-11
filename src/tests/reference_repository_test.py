@@ -10,7 +10,7 @@ repository = ReferenceRepository(get_db_connection())
 
 class TestReferenceRepository(unittest.TestCase):
     def setUp(self):
-        repository.delete_all_books()
+        repository.delete_all_references()
         self.test_book = BookReference("1", "Pekka", "Kokeilua",
                                        2002, "OTA")
         self.test_article = ArticleReference("2", "Matti",
@@ -44,10 +44,10 @@ class TestReferenceRepository(unittest.TestCase):
         self.assertEqual(expected_article.ref_key, self.test_article.ref_key)
         self.assertEqual(expected_article.author, self.test_article.author)
 
-    def test_delete_all_books_works(self):
+    def test_delete_all_references_works(self):
         repository.create_book(self.test_book)
         repository.create_article(self.test_article)
-        repository.delete_all_books()
+        repository.delete_all_references()
 
         references = repository.get_all()
 
