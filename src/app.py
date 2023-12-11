@@ -121,7 +121,7 @@ class App:
         self.list = self.reference_service.get_all()
 
         if len(self.list) == 0:
-            self.io.write(Fore.RED + f"You have no references saved.")
+            self.io.write(Fore.RED + "You have no references saved.")
             return
 
         field_names = []
@@ -236,7 +236,7 @@ class App:
         references = self.reference_service.get_all()
 
         if len(references) == 0:
-            self.io.write(Fore.RED + f"You have no references saved.")
+            self.io.write(Fore.RED + "You have no references saved.")
             return
 
         file_write_success = self.bibtex_writer.write_references_to_file(
@@ -245,8 +245,6 @@ class App:
         )
 
         if file_write_success:
-            num_files = len(references)
-
             self.io.write(Fore.GREEN +
                 f"{len(references)} references succesfully written to {filename}"
             )
