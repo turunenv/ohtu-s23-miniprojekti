@@ -28,7 +28,7 @@ def create_tables(connection):
 
     cursor = connection.cursor()
 
-    # create the book_references table
+    # create tables for all reference types
     cursor.execute("""
         CREATE TABLE book_references (
             ref_key TEXT PRIMARY KEY,
@@ -48,6 +48,15 @@ def create_tables(connection):
             year INTEGER,
             volume INTEGER,
             pages TEXT
+        )
+    """)
+
+    cursor.execute("""
+        CREATE TABLE inproceedings_references (
+            ref_key TEXT PRIMARY KEY,
+            title TEXT,
+            booktitle TEXT,
+            year INTEGER
         )
     """)
 
