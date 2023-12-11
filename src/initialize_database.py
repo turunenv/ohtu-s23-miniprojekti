@@ -54,6 +54,7 @@ def create_tables(connection):
     cursor.execute("""
         CREATE TABLE inproceedings_references (
             ref_key TEXT PRIMARY KEY,
+            author TEXT,
             title TEXT,
             booktitle TEXT,
             year INTEGER
