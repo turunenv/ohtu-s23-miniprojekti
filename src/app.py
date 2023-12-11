@@ -19,7 +19,7 @@ class App:
                 "Type \"help\" to list commands and their descriptions")
 
             command = self.io.read(Fore.CYAN +
-                "Command (add or list or delete or file or tag or search)"
+                "Command (add or list or delete or file or tag or search): "
                 + Fore.RESET)
 
             if not command:

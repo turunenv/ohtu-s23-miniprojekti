@@ -85,7 +85,7 @@ class TestBookReference(unittest.TestCase):
         string = expected_book.__str__()
 
         expected_book_string = (
-            "KEY2       test_author_with_long_nam test_title2                         2023   OTA            \n            e                                                            ")
+            "KEY2       test_author_with_long_nam test_title2                         2023   OTA            \n           e                                                            ")
 
         self.assertEqual(string, expected_book_string)
 
@@ -95,6 +95,6 @@ class TestBookReference(unittest.TestCase):
         string = expected_book.__str__()
 
         expected_book_string = (
-            f"KEY3       test_author               test_title_with_too_long_name_it_ca 2023   OTA            \n                                      nt_fit                             ")
+            f"KEY3       test_author               test_title_with_too_long_name_it_ca 2023   OTA            \n                                     nt_fit                             ")
 
         self.assertEqual(string, expected_book_string)

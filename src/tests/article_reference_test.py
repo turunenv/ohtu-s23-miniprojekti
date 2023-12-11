@@ -71,7 +71,7 @@ class TestArticleReference(unittest.TestCase):
         string = expected_article.__str__()
 
         expected_article_string = (
-            "CBH91      Allan Collins and John Se Cognitive apprenticeship  American Educator         1991   6      38--46  \n            ely Brown and Ann Holum                            ")
+            "CBH91      Allan Collins and John Se Cognitive apprenticeship  American Educator         1991   6      38--46  \n           ely Brown and Ann Holum                            ")
 
         self.assertEqual(string, expected_article_string)
 
@@ -84,7 +84,7 @@ class TestArticleReference(unittest.TestCase):
         string = expected_article.__str__()
 
         expected_article_string = (
-            "CBH91      Allan Collins et al       Cognitive apprenticeship: American Educator         1991   6      38--46  \n                                       making thinking visible ")
+            "CBH91      Allan Collins et al       Cognitive apprenticeship: American Educator         1991   6      38--46  \n                                      making thinking visible ")
 
         self.assertEqual(string, expected_article_string)
 

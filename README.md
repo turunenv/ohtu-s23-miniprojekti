@@ -57,7 +57,7 @@ python3 src/index.py
 The app will open to the starting menu:
 ```
 Type "help" to list commands and their descriptions
-Command (add or list or delete or file or tag or search)
+Command (add or list or delete or file or tag or search):
 ```
 
 If you type ***help*** the app prints the following:
