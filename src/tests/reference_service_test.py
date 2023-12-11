@@ -26,7 +26,7 @@ class FakeReferenceRepository:
     def get_reference_by_ref_key(self, ref_key):
         return True
 
-    def delete_book_by_ref_key(self, ref_key):
+    def delete_reference_by_ref_key(self, ref_key):
         return True
 
     def get_tagged(self, tag_id):
@@ -110,8 +110,8 @@ class TestReferenceService(unittest.TestCase):
     def test_get_reference_by_ref_key_calls_repository(self):
         self.assertTrue(self.reference_service.get_reference_by_ref_key("1"))
 
-    def test_delete_book_by_ref_key_calls_repository(self):
-        self.assertTrue(self.reference_service.delete_book_by_ref_key("1"))
+    def test_delete_reference_by_ref_key_calls_repository(self):
+        self.assertTrue(self.reference_service.delete_reference_by_ref_key("1"))
 
     def test_ref_key_taken_returns_false_if_not_taken(self):
         taken = self.reference_service.ref_key_taken("1")

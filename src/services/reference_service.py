@@ -48,8 +48,8 @@ class ReferenceService:
     def get_reference_by_ref_key(self, ref_key):
         return self._reference_repository.get_reference_by_ref_key(ref_key)
 
-    def delete_book_by_ref_key(self, ref_key):
-        return self._reference_repository.delete_book_by_ref_key(ref_key)
+    def delete_reference_by_ref_key(self, ref_key):
+        return self._reference_repository.delete_reference_by_ref_key(ref_key)
 
     def ref_key_taken(self, key):
         ref_list = map(lambda x: x.ref_key, self.get_all())

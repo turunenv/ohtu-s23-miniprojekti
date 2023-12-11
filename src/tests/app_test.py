@@ -63,7 +63,7 @@ class TestApp(unittest.TestCase):
         self.mock_rs.get_reference_by_ref_key.return_value = "reference"
         self.testApp.delete_reference()
 
-        self.mock_rs.delete_book_by_ref_key.assert_not_called()
+        self.mock_rs.delete_reference_by_ref_key.assert_not_called()
         self.mock_io.write.assert_called_with("\x1b[35mDeletion cancelled")
 
     def test_delete_reference_with_wrong_ref_key(self):
@@ -78,20 +78,20 @@ class TestApp(unittest.TestCase):
         self.mock_io.read.side_effect = [123, "y"]
         self.mock_rs.ref_key_taken.return_value = True
         self.mock_rs.get_reference_by_ref_key.return_value = "reference"
-        self.mock_rs.delete_book_by_ref_key.return_value = True
+        self.mock_rs.delete_reference_by_ref_key.return_value = True
         self.testApp.delete_reference()
 
-        self.mock_rs.delete_book_by_ref_key.assert_called_with(123)
+        self.mock_rs.delete_reference_by_ref_key.assert_called_with(123)
         self.mock_io.write.assert_called_with("\x1b[31mDELETED!")
 
     def test_delete_reference_problem_deleting_from_db(self):
         self.mock_io.read.side_effect = [123, "y"]
         self.mock_rs.ref_key_taken.return_value = True
         self.mock_rs.get_reference_by_ref_key.return_value = "reference"
-        self.mock_rs.delete_book_by_ref_key.return_value = False
+        self.mock_rs.delete_reference_by_ref_key.return_value = False
         self.testApp.delete_reference()
 
-        self.mock_rs.delete_book_by_ref_key.assert_called_with(123)
+        self.mock_rs.delete_reference_by_ref_key.assert_called_with(123)
         self.mock_io.write.assert_called_with(
             "\x1b[31mSomething went wrong with deleting the reference")
 

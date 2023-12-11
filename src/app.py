@@ -163,7 +163,7 @@ class App:
 
         confirmation = str(self.io.read(Fore.MAGENTA + "(Y to continue)" + Fore.RESET))
         if confirmation.lower() == "y":
-            if self.reference_service.delete_book_by_ref_key(source_ref_key):
+            if self.reference_service.delete_reference_by_ref_key(source_ref_key):
                 self.io.write(Fore.RED + "DELETED!")
             else:
                 self.io.write(Fore.RED +

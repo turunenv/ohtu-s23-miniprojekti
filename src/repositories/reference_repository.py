@@ -161,7 +161,7 @@ class ReferenceRepository:
         # If no row is found, return None
         return None
 
-    def delete_book_by_ref_key(self, ref_key):
+    def delete_reference_by_ref_key(self, ref_key):
         """Deletes a book by ref_key from the database.
 
         Returns:

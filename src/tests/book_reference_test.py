@@ -20,7 +20,7 @@ class FakeReferenceRepository:
     def get_reference_by_ref_key(self, ref_key):
         return True
 
-    def delete_book_by_ref_key(self, ref_key):
+    def delete_reference_by_ref_key(self, ref_key):
         return True
 
 

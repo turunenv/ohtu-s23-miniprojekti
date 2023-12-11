@@ -55,12 +55,12 @@ class TestReferenceRepository(unittest.TestCase):
 
     def test_delete_book_with_valid_ref_key(self):
         repository.create_book(self.test_book)
-        success = repository.delete_book_by_ref_key("1")
+        success = repository.delete_reference_by_ref_key("1")
 
         self.assertTrue(success)
 
     def test_delete_book_with_invalid_ref_key(self):
-        success = repository.delete_book_by_ref_key("1")
+        success = repository.delete_reference_by_ref_key("1")
 
         self.assertFalse(success)
 
@@ -103,7 +103,7 @@ class TestReferenceRepository(unittest.TestCase):
         expected_article = references[0]
         expected_book_1 = references[1]
 
-        repository.delete_book_by_ref_key("1")
+        repository.delete_reference_by_ref_key("1")
 
         references = repository.get_all()
         expected_book_2 = references[0]
