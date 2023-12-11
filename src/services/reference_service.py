@@ -45,8 +45,8 @@ class ReferenceService:
     def get_all(self):
         return self._reference_repository.get_all()
 
-    def get_book_by_ref_key(self, ref_key):
-        return self._reference_repository.get_book_by_ref_key(ref_key)
+    def get_reference_by_ref_key(self, ref_key):
+        return self._reference_repository.get_reference_by_ref_key(ref_key)
 
     def delete_book_by_ref_key(self, ref_key):
         return self._reference_repository.delete_book_by_ref_key(ref_key)

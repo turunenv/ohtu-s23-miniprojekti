@@ -129,7 +129,7 @@ class ReferenceRepository:
 
         return reference_list
 
-    def get_book_by_ref_key(self, ref_key):
+    def get_reference_by_ref_key(self, ref_key):
         """Finds a reference by ref_key from the database.
 
         Returns:

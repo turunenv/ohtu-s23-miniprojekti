@@ -64,9 +64,9 @@ class TestReferenceRepository(unittest.TestCase):
 
         self.assertFalse(success)
 
-    def test_get_book_by_ref_key_creates_correct_book_class(self):
+    def test_get_reference_by_ref_key_creates_correct_book_class(self):
         repository.create_book(self.test_book)
-        fetched_book = repository.get_book_by_ref_key("1")
+        fetched_book = repository.get_reference_by_ref_key("1")
 
         ref_key = fetched_book.ref_key
         author = fetched_book.author
@@ -81,7 +81,7 @@ class TestReferenceRepository(unittest.TestCase):
         self.assertEqual(publisher, self.test_book.publisher)
 
     def test_get_book_returns_none_if_book_not_found(self):
-        fetched_book = repository.get_book_by_ref_key("1")
+        fetched_book = repository.get_reference_by_ref_key("1")
 
         self.assertIsNone(fetched_book)
 
@@ -111,9 +111,9 @@ class TestReferenceRepository(unittest.TestCase):
         self.assertNotEqual(expected_book_2, expected_article)
         self.assertNotEqual(expected_book_2, expected_book_1)
 
-    def test_get_book_by_ref_key_creates_article_when_ref_is_article_type(self):
+    def test_get_reference_by_ref_key_creates_article_when_ref_is_article_type(self):
         repository.create_article(self.test_article)
-        fetched_reference = repository.get_book_by_ref_key("2")
+        fetched_reference = repository.get_reference_by_ref_key("2")
 
         ref_key = fetched_reference.ref_key
         author = fetched_reference.author

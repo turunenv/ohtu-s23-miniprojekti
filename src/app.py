@@ -152,7 +152,7 @@ class App:
             self.io.write(Fore.RED +
                 "Are you sure you want to delete the following reference:" + Fore.RESET)
 
-            reference = self.reference_service.get_book_by_ref_key(
+            reference = self.reference_service.get_reference_by_ref_key(
                 source_ref_key)
 
             self.write_columns(reference)

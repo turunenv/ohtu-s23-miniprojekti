@@ -23,7 +23,7 @@ class FakeReferenceRepository:
     def delete_all(self):
         self.references = []
 
-    def get_book_by_ref_key(self, ref_key):
+    def get_reference_by_ref_key(self, ref_key):
         return True
 
     def delete_book_by_ref_key(self, ref_key):
@@ -107,8 +107,8 @@ class TestReferenceService(unittest.TestCase):
             "notfound")
         self.assertEqual(len(fields), 0)
 
-    def test_get_book_by_ref_key_calls_repository(self):
-        self.assertTrue(self.reference_service.get_book_by_ref_key("1"))
+    def test_get_reference_by_ref_key_calls_repository(self):
+        self.assertTrue(self.reference_service.get_reference_by_ref_key("1"))
 
     def test_delete_book_by_ref_key_calls_repository(self):
         self.assertTrue(self.reference_service.delete_book_by_ref_key("1"))

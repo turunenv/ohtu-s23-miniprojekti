@@ -17,7 +17,7 @@ class FakeReferenceRepository:
     def delete_all(self):
         self.references = []
 
-    def get_book_by_ref_key(self, ref_key):
+    def get_reference_by_ref_key(self, ref_key):
         return True
 
     def delete_book_by_ref_key(self, ref_key):
