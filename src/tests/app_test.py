@@ -8,15 +8,16 @@ class TestApp(unittest.TestCase):
     def setUp(self):
         self._io_mock = Mock()
         self.mock_bibwriter = Mock()
+        self.mock_doi_service = Mock()
         self._reference_repository_mock = Mock(
             wraps=ReferenceRepository("connection"))
         self.app = App(
-            self._io_mock, self._reference_repository_mock, self.mock_bibwriter)
+            self._io_mock, self._reference_repository_mock, self.mock_bibwriter, self.mock_doi_service)
         self.mock_io = Mock()
         self.mock_rs = Mock()
         self.reference_service = Mock()
         self.mock_rs.reference_service = Mock()
-        self.testApp = App(self.mock_io, self.mock_rs, self.mock_bibwriter)
+        self.testApp = App(self.mock_io, self.mock_rs, self.mock_bibwriter, self.mock_doi_service)
         self.testApp.write_columns = Mock()
 
     def test_app_creates_empty_list(self):
@@ -308,3 +309,49 @@ class TestApp(unittest.TestCase):
         self.testApp.search_tags()
 
         self.mock_io.write.assert_called_with(reference_mock)
+
+    def test_get_doi_reference_works(self):
+        self.mock_doi_service.get_doi.return_value= (
+            {'type': 'book', 'ref_key': 'ref', 'author': 'auth', 'title': 'title', 'year': '1999', 'publisher': 'publisher'}
+        )
+        self.mock_io.read.side_effect = ["test_ref_key", "test_doi_url", "y"]
+        self.mock_rs.ref_key_taken.return_value = False
+        self.mock_rs.create_reference.return_value = True
+        self.testApp.get_doi_reference()
+
+        self.testApp.reference_service.create_reference.assert_called_with(
+            {'type': 'book', 'ref_key': 'ref', 'author': 'auth', 'title': 'title', 'year': '1999', 'publisher': 'publisher'})
+        
+    def test_get_doi_reference_cancel_at_ref_key(self):
+        self.mock_doi_service.get_doi.return_value= (
+            {'type': 'book', 'ref_key': 'ref', 'author': 'auth', 'title': 'title', 'year': '1999', 'publisher': 'publisher'}
+        )
+        self.mock_io.read.side_effect = ["cancel", "test_doi_url", "y"]
+        self.mock_rs.ref_key_taken.return_value = False
+        self.mock_rs.create_reference.return_value = True
+        self.testApp.get_doi_reference()
+
+        self.mock_rs.ref_key_taken.assert_not_called()
+
+    def test_get_doi_reference_cancel_at_doi_url(self):
+        self.mock_doi_service.get_doi.return_value= (
+            {'type': 'book', 'ref_key': 'ref', 'author': 'auth', 'title': 'title', 'year': '1999', 'publisher': 'publisher'}
+        )
+        self.mock_io.read.side_effect = ["cancel", "cancel", "y"]
+        self.mock_rs.ref_key_taken.return_value = False
+        self.mock_rs.create_reference.return_value = True
+        self.testApp.get_doi_reference()
+
+        self.mock_doi_service.get_doi.assert_not_called()
+
+    def test_get_doi_reference_key_taken_works(self):
+        self.mock_doi_service.get_doi.return_value= (
+            {'type': 'book', 'ref_key': 'ref', 'author': 'auth', 'title': 'title', 'year': '1999', 'publisher': 'publisher'}
+        )
+        self.mock_io.read.side_effect = ["test_ref_key_taken", "test_ref_key_unsued", "test_doi_url", "y"]
+        self.mock_rs.ref_key_taken.side_effect = [True, False]
+        self.mock_rs.create_reference.return_value = True
+        self.testApp.get_doi_reference()
+
+        self.testApp.reference_service.create_reference.assert_called_with(
+            {'type': 'book', 'ref_key': 'ref', 'author': 'auth', 'title': 'title', 'year': '1999', 'publisher': 'publisher'})

@@ -4,6 +4,7 @@ from file_io import FileIO
 from bibtex_writer import BibTexWriter
 from repositories.reference_repository import ReferenceRepository
 from services.reference_service import ReferenceService
+from services.doi_service import DOIService
 from app import App
 import os
 
@@ -15,8 +16,9 @@ class AppLibrary:
         self._bib = BibTexWriter(self._file_io)
         self._reference_repository = ReferenceRepository(get_db_connection())
         self._reference_service = ReferenceService(self._reference_repository)
+        self._doi_service = DOIService(self._io)
 
-        self._app = App(self._io, self._reference_service, self._bib)
+        self._app = App(self._io, self._reference_service, self._bib, self._doi_service)
 
     def input(self, value):
         self._io.add_input(value)

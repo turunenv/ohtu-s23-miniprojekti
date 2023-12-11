@@ -17,6 +17,9 @@ Input Delete Command
 Input File Command
     Input  file
 
+Input Doi Command
+    Input  doi
+
 Input Reference Type
     [Arguments]  ${ref_type}
     Input  ${ref_type}

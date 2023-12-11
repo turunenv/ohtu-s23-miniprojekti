@@ -1,15 +1,14 @@
 import re
 from colorama import Fore
-from services.doi_service import DOIService
 
 class App:
 
-    def __init__(self, io, rs, bib):
+    def __init__(self, io, rs, bib, ds):
         self.list = []
         self.io = io
         self.reference_service = rs
         self.bibtex_writer = bib
-        self.doi_service = DOIService(io)
+        self.doi_service = ds
 
     def run(self):
 
@@ -19,7 +18,7 @@ class App:
                 "Type \"help\" to list commands and their descriptions")
 
             command = self.io.read(Fore.CYAN +
-                "Command (add or list or delete or file or tag or search): "
+                "Command (add or list or delete or file or tag or search or doi): "
                 + Fore.RESET)
 
             if not command:
@@ -173,6 +172,7 @@ class App:
             self.io.write(Fore.MAGENTA + "Deletion cancelled")
 
     def get_doi_reference(self):
+        self.io.write(Fore.MAGENTA + "Type \"cancel\" to cancel")
         ref_key = self.io.read(Fore.BLUE + "Give ref_key for this reference: ")
 
         if not self.validate_input("ref_key", ref_key):

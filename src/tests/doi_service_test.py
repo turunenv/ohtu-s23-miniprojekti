@@ -127,7 +127,7 @@ class TestDOIService(unittest.TestCase):
     def test_get_doi_fails_key_error(self, mock_retrieve_data):
         mock_retrieve_data.return_value = {"key": "error"}
         self.doi_service.get_doi("any_url", "ref1")
-        self.mock_io.write.assert_called_with(f'{" ":<10}Some necessary information was missing')
+        self.mock_io.write.assert_called_with(f'{" ":<4}Some necessary information was missing')
 
     @patch('services.doi_service.DOIService.retrieve_data')
     def test_get_doi_return_empty(self, mock_retrieve_data):

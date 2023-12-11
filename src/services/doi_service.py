@@ -24,10 +24,11 @@ class DOIService:
                 reference = self.create_book(data, ref_key)
             else:
                 self.io.write("This reference type is not supported")
-        except KeyError:
+        except KeyError as e:
+            self.io.write(e)
             self.io.write("Reference could not be created:")
-            self.io.write(f'{" ":<10}Some necessary information was missing')
-
+            self.io.write(f'{" ":<4}Some necessary information was missing')
+        print(reference)
         return reference
 
     def retrieve_data(self, url):
@@ -45,14 +46,22 @@ class DOIService:
     def resolve_url(self, doi):
         if "doi.org" in doi:
             return doi
+        if doi[0] == "/":
+            return self.base_url + doi[1:]
         return self.base_url + doi
 
     def create_article(self, data, ref_key):
         author, title, journal, year, volume, pages = ("",)*6
 
-        for i in data["author"]:
-            author += i["family"] + ", " + i["given"] + " and "
-        author = author[:-5]
+        if not "author" in data:
+            author = "Undefined"
+        else:
+            for i in data["author"]:
+                if "given" in i and "family" in i:
+                    author += i["family"] + ", " + i["given"] + " and "
+                else:
+                    author += i["family"] + " and "
+            author = author[:-5]
 
         title = data["title"]
 
@@ -61,10 +70,17 @@ class DOIService:
         elif "container-title" in data:
             journal = data["container-title"]
 
-        volume = data["volume"]
+        if "volume" in data:
+            volume = data["volume"]
+        else:
+            volume = "1"
 
         year = str(data["published"]["date-parts"][0][0])
+
         pages = data["page"].replace("-", "--")
+        if "--" not in pages:
+            pages = pages + "--" + pages
+
         article = {
             "type": "article", "ref_key": ref_key, "author": author,
             "title": title, "journal": journal, "year": year,
