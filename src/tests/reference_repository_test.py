@@ -17,6 +17,11 @@ class TestReferenceRepository(unittest.TestCase):
                                              "Cool article",
                                              "journal", 2023,
                                              "vol 3", "56-62")
+        self.test_book_with_test_prefix = BookReference(
+            "test_1", "Kristensen, Terje Solsvik",
+            "Artificial Intelligence", 2021,
+            "Bentham Science Publishers"
+        )
 
     def test_create_book_works_with_valid_input(self):
         success = repository.create_book(self.test_book)
@@ -48,6 +53,14 @@ class TestReferenceRepository(unittest.TestCase):
         repository.create_book(self.test_book)
         repository.create_article(self.test_article)
         repository.delete_all_references()
+
+        references = repository.get_all()
+
+        self.assertEqual(len(references), 0)
+
+    def test_delete_all_test_references_works(self):
+        repository.create_book(self.test_book_with_test_prefix)
+        repository.delete_all_test_references()
 
         references = repository.get_all()
 
