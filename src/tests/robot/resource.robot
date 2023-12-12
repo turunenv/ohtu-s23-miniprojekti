@@ -23,6 +23,9 @@ Input Doi Command
 Input Tag Command
     Input  tag
 
+Input Search Command
+    Input  search
+
 Input Reference Type
     [Arguments]  ${ref_type}
     Input  ${ref_type}
