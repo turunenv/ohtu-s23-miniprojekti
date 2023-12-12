@@ -20,6 +20,9 @@ Input File Command
 Input Doi Command
     Input  doi
 
+Input Tag Command
+    Input  tag
+
 Input Reference Type
     [Arguments]  ${ref_type}
     Input  ${ref_type}
