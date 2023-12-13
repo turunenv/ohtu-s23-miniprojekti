@@ -23,7 +23,7 @@ class InProceedingsReference(Reference):
 
         return field_list
 
-    # HAETAAN KENTTIEN PITUUDET TAULUKOSSA TULOSTUSTA VARTEN
+    # Fetch field lengths for printing
     def get_field_lengths(self):
         return [10, 25, 25, 25, 6]
 

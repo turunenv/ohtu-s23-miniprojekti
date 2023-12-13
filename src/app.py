@@ -70,6 +70,9 @@ class App:
             elif command == "search":
                 self.search_tags()
 
+            elif command == "tags":
+                self.get_tags()
+
     def add_reference(self):
         self.io.write("")
         self.io.write(Fore.MAGENTA + "Type \"cancel\" to cancel")
@@ -315,3 +318,10 @@ class App:
                 return re.match("^[0-9]+--[0-9]+$", user_input)
             case _:
                 return True
+
+    def get_tags(self):
+        tag_list = self.reference_service.get_tags()
+        if len(tag_list) == 0:
+            self.io.write("No existing tags")
+        for tag in tag_list:
+            self.io.write(f'Name: {tag['name']}, Number of references: {tag['count']}')

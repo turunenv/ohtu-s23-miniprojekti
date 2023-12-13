@@ -91,3 +91,6 @@ class ReferenceService:
 
     def get_tagged(self, tag_id):
         return self._reference_repository.get_tagged(tag_id)
+
+    def get_tags(self):
+        return self._reference_repository.get_tags()

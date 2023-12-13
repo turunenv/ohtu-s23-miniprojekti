@@ -330,3 +330,23 @@ class ReferenceRepository:
             ))
 
         return reference_list
+
+    def get_tags(self):
+        """Finds all tags from database.
+
+        Returns:
+            Returns tags and the count of connected references
+        """
+        cursor = self._connection.cursor()
+        cursor.execute(
+            "SELECT T.tag_name, COUNT(R.ref_key) "
+            "FROM reference_tags T, tag_relations R "
+            "WHERE T.id = R.tag_id "
+            "GROUP BY T.tag_name"
+            )
+        tags = cursor.fetchall()
+        tag_list = []
+        for tag in tags:
+            if tag[0] is not None:
+                tag_list.append({'name':tag[0], 'count':tag[1]})
+        return tag_list
