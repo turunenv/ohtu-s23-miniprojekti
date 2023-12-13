@@ -109,12 +109,41 @@ class TestApp(unittest.TestCase):
 
         self.testApp.delete_reference.assert_called_once()
 
-    def test_command_list_calls_delete_references(self):
+    def test_command_list_calls_list_references(self):
         self.testApp.list_references = Mock()
         self.mock_io.read.side_effect = ["list", ""]
         self.testApp.run()
 
         self.testApp.list_references.assert_called_once()
+
+    def test_command_file_calls_create_bib_file(self):
+        self.testApp.create_bib_file = Mock()
+        self.mock_io.read.side_effect = ["file", ""]
+        self.testApp.run()
+
+        self.testApp.create_bib_file.assert_called_once()
+
+    def test_command_doi_calls_get_doi_reference(self):
+        self.testApp.get_doi_reference = Mock()
+        self.mock_io.read.side_effect = ["doi", ""]
+        self.testApp.run()
+
+        self.testApp.get_doi_reference.assert_called_once()
+
+    def test_command_tag_calls_create_tag(self):
+        self.testApp.create_tag = Mock()
+        self.mock_io.read.side_effect = ["tag", ""]
+        self.testApp.run()
+
+        self.testApp.create_tag.assert_called_once()
+
+    def test_command_search_calls_search_tags(self):
+        self.testApp.search_tags = Mock()
+        self.mock_io.read.side_effect = ["search", ""]
+        self.testApp.run()
+
+        self.testApp.search_tags.assert_called_once()
+
 
     def test_add_reference(self):
         self.testApp.io.read.side_effect = [
