@@ -26,6 +26,13 @@ Delete Article With Reference Key Does Not Delete Book
     List All References
     Output Should Contain  test1
 
+Delete Inproceedings Reference With Reference Key
+    Input Delete Command
+    Input Reference Key  test4
+    Input  y
+    List All References
+    Output Should Not Contain  Mary Jones
+
 *** Keywords ***
 Add Book Reference
     Input Add Command
@@ -36,6 +43,11 @@ Add Article Reference
     Input Add Command
     Input Reference Type  article
     Input Article Reference Fields    test2    Allix    AI In Customer Service    AI-Magazine    2023    11    50--51
+
+Add Inproceedings Reference
+    Input Add Command
+    Input Reference Type  inproceedings
+    Input Inproceedings Reference Fields    test4    Mary Jones    An Analysis of Robots    Proceedings of the Conference on Artificial Intelligence    2023
 
 List References
     Input List Command
@@ -58,6 +70,15 @@ Input Article Reference Fields
     Input  ${year}
     Input  ${volume}
     Input  ${pages}
+    Run Application
+
+Input Inproceedings Reference Fields
+    [Arguments]  ${ref_key}  ${author}  ${title}  ${booktitle}  ${year}
+    Input  ${ref_key}
+    Input  ${author}
+    Input  ${title}
+    Input  ${booktitle}
+    Input  ${year}
     Run Application
 
 Empty Database
