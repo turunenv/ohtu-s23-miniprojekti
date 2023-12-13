@@ -7,9 +7,11 @@ def drop_tables(connection):
     cursor.execute("""
         DROP TABLE IF EXISTS book_references
     """)
-
     cursor.execute("""
         DROP TABLE IF EXISTS article_references
+    """)
+    cursor.execute("""
+        DROP TABLE IF EXISTS inproceedings_references
     """)
     cursor.execute("""
         DROP TABLE IF EXISTS reference_tags
@@ -28,7 +30,6 @@ def create_tables(connection):
 
     cursor = connection.cursor()
 
-    # create the book_references table
     cursor.execute("""
         CREATE TABLE book_references (
             ref_key TEXT PRIMARY KEY,
@@ -48,6 +49,16 @@ def create_tables(connection):
             year INTEGER,
             volume INTEGER,
             pages TEXT
+        )
+    """)
+
+    cursor.execute("""
+        CREATE TABLE inproceedings_references (
+            ref_key TEXT PRIMARY KEY,
+            author TEXT,
+            title TEXT,
+            booktitle TEXT,
+            year INTEGER
         )
     """)
 
