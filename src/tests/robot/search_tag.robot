@@ -22,6 +22,7 @@ Search With Invalid Tag
 One Reference
     Clear Database
     Add Book Reference
+    Add Tag
 
 Add Book Reference
     Input Add Command

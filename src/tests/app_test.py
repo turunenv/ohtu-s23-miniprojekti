@@ -16,7 +16,6 @@ class TestApp(unittest.TestCase):
         self.mock_io = Mock()
         self.mock_rs = Mock()
         self.reference_service = Mock()
-        self.mock_rs.reference_service = Mock()
         self.testApp = App(self.mock_io, self.mock_rs, self.mock_bibwriter, self.mock_doi_service)
         self.testApp.write_columns = Mock()
 

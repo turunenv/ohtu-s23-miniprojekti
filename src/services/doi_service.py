@@ -22,13 +22,14 @@ class DOIService:
                 reference = self.create_article(data, ref_key)
             elif reference_type == "book":
                 reference = self.create_book(data, ref_key)
+            elif "proceedings" in reference_type:
+                reference = self.create_inproceedings(data, ref_key)
             else:
                 self.io.write("This reference type is not supported")
         except KeyError as e:
             self.io.write(e)
             self.io.write("Reference could not be created:")
             self.io.write(f'{" ":<4}Some necessary information was missing')
-        print(reference)
         return reference
 
     def retrieve_data(self, url):
@@ -108,3 +109,23 @@ class DOIService:
             "title": title, "year": year, "publisher": publisher
         }
         return book
+
+    def create_inproceedings(self, data, ref_key):
+        author, title, year, booktitle = ("",)*4
+
+        if "author" not in data:
+            author = "Undefined"
+        else:
+            for i in data["author"]:
+                author += i["family"] + ", " + i["given"] + " and "
+            author = author[:-5]
+
+        title = data["title"]
+        year = str(data["created"]["date-parts"][0][0])
+        booktitle = data["container-title"]
+
+        inproceedings = {
+            "type": "inproceedings","ref_key": ref_key, "author": author,
+            "title": title, "year": year, "booktitle": booktitle
+        }
+        return inproceedings

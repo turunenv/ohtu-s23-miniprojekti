@@ -184,7 +184,6 @@ class App:
                 "Give a ref_key for this reference: " + Fore.RESET)
             if not self.validate_input("ref_key", ref_key):
                 return
-
         doi_string = self.io.read(Fore.CYAN +
                 "Give DOI identifier or full URL: " + Fore.RESET)
         if not self.validate_input("doi_string", doi_string):

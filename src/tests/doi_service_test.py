@@ -27,6 +27,28 @@ class TestDOIService(unittest.TestCase):
             "publisher": "Informa UK Limited",
             "page": "77-95"
         }
+        self.data3 = {
+            "type": "inproceedings-article",
+            "author": [{"given": "Arto", "family": "Vihavainen"},
+                       {"given": "Matti", "family": "Paksula"},
+                       {"given": "Matti", "family": "Luukkainen"}],
+            "title": "Extreme Apprenticeship Method in Teaching Programming for Beginners",
+            "other_data": "10231824",
+            "more_data": [{"1": "a", "2": "b"}],
+            "created": {"date-parts":[[2011]]},
+            "container-title": "Proceedings of the 42nd SIGCSE technical symposium on Computer science education",
+        }
+        self.data4 = {
+            "type": "journal-article",
+            "author": [{"given": "Shannon M.", "family": "Silva"},
+                       {"family": "Lambert"}],
+            "title": "Restorative Justice Legislation...",
+            "other_data": "10231824",
+            "more_data": [{"1": "a", "2": "b"}],
+            "published": {"date-parts":[[2015]]},
+            "publisher": "Informa UK Limited",
+            "page": "77"
+        }
         self.doi_service = DOIService(self.mock_io)
 
     def test_create_book_works(self):
@@ -61,6 +83,32 @@ class TestDOIService(unittest.TestCase):
             "pages": "77--95"
             }
         self.assertEqual(article, expected)
+    
+    def test_create_article_works(self):
+        article = self.doi_service.create_article(self.data4, "REF2")
+        expected = {
+            "type": "article",
+            "ref_key": "REF2",
+            "author": "Silva, Shannon M. and Lambert",
+            "title": "Restorative Justice Legislation...",
+            "year": "2015",
+            "volume": '1',
+            "journal": "Informa UK Limited",
+            "pages": "77--77"
+            }
+        self.assertEqual(article, expected)
+
+    def test_create_inproceedings_works(self):
+        inproceedings = self.doi_service.create_inproceedings(self.data3, "REF2")
+        expected = {
+            "type": "inproceedings",
+            "ref_key": "REF2",
+            "author": "Vihavainen, Arto and Paksula, Matti and Luukkainen, Matti",
+            "title": "Extreme Apprenticeship Method in Teaching Programming for Beginners",
+            "year": "2011",
+            "booktitle": "Proceedings of the 42nd SIGCSE technical symposium on Computer science education",
+            }
+        self.assertEqual(inproceedings, expected)
 
     def test_create_article_works_with_container_title(self):
         del self.data2["publisher"]
@@ -116,6 +164,20 @@ class TestDOIService(unittest.TestCase):
             "pages": "77--95"
             }
         self.assertEqual(article, expected)
+
+    @patch('services.doi_service.DOIService.retrieve_data')
+    def test_get_doi_works_for_inproceedings(self, mock_retrieve_data):
+        mock_retrieve_data.return_value = self.data3
+        inproceedings = self.doi_service.get_doi("any_url", "REF2")
+        expected = {
+            "type": "inproceedings",
+            "ref_key": "REF2",
+            "author": "Vihavainen, Arto and Paksula, Matti and Luukkainen, Matti",
+            "title": "Extreme Apprenticeship Method in Teaching Programming for Beginners",
+            "year": "2011",
+            "booktitle": "Proceedings of the 42nd SIGCSE technical symposium on Computer science education",
+            }
+        self.assertEqual(inproceedings, expected)
 
     @patch('services.doi_service.DOIService.retrieve_data')
     def test_get_doi_fails_unsupported_reference_type(self, mock_retrieve_data):
