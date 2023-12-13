@@ -66,8 +66,15 @@ To EXIT the program simply press enter in the starting menu
 add:      Add a new reference by provinding the required information
 list:     List all stored references
 delete:   Delete a reference using its reference key
+tag:      Enter a tag name and a reference key to tag a reference
+search:   Enter tag name to search tagged references
 cancel:   Return to the starting menu
 file:     Enter a file name to create a .bib file of all references
+doi:      Add a new reference using DOI identifier or full DOI URL
+Valid inputs:
+   year:      Year must consist of only numbers
+   volume:    Volume must consist of only numbers
+   pages:     Pages must consist of numbers separated by "--"
 ```
 
 #### Listing references
@@ -107,6 +114,20 @@ Once a reference is successfully added, the app will print:
 ADDED!
 ```
 
+#### Adding a reference with DOI
+
+If you type ***doi*** you can add a new reference by giving it's DOI identifier or full URL.
+```
+Type "cancel" to cancel
+Give ref_key for this reference:
+```
+After you have given a valid reference key, give the reference's DOI identifier or full URL. Keep in mind not all references have a DOI.
+
+The app prints the reference's information and asks for confirmation. Write a capital or lowercase y to confirm.
+```
+y
+```
+
 #### Deleting a reference
 
 If you type ***delete*** you can delete an existing reference.
@@ -116,11 +137,37 @@ Give source reference key:
 ```
 To delete a reference you need the correct reference key. You can check by using the command ***list*** to see all sources and their reference keys.
 
-After giving the key the app asks for confimation. To confirm write capital or lowercase y.
+After giving the key the app asks for confimation. To confirm write a capital or lowercase y.
 ```
 y
 ```
 Any other value will cancel the deletion
+
+Once a reference is succesfully deleted, the app will print:
+```
+DELETED!
+```
+
+#### Tagging a file
+If you type ***tag*** you can give an existing reference a tag
+```
+Type "cancel" to cancel
+Give tag name:
+```
+To give a tag to a reference you need the correct reference key. You can check by using the command ***list*** to see all sources and their reference keys.
+
+After giving the key the app asks for confirmation. To confirm write a capital or lowercase y.
+```
+y
+```
+
+#### Searching with a tag
+If you type ***search*** you can search for references that have the same tag.
+```
+Type "cancel" to cancel
+Give tag name:
+```
+The app will print all references with the tag in question.
 
 #### Creating a BibTex -file
 
