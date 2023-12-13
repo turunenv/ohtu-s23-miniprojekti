@@ -1,12 +1,14 @@
 from entities.book_reference import BookReference
 from entities.article_reference import ArticleReference
+from entities.inproceedings_reference import InProceedingsReference
 
 
 class ReferenceService:
     def __init__(self, reference_repository):
         self.fields_from_type = {
             "book": ["ref_key", "author", "title", "year", "publisher", ],
-            "article": ["ref_key", "author", "title", "journal", "year", "volume", "pages"]
+            "article": ["ref_key", "author", "title", "journal", "year", "volume", "pages"],
+            "inproceedings": ["ref_key", "author", "title", "booktitle", "year"]
         }
         self._reference_repository = reference_repository
 
@@ -41,6 +43,18 @@ class ReferenceService:
                 )
 
                 return self._reference_repository.create_article(article)
+
+            case "inproceedings":
+                inproceedings = InProceedingsReference(
+                    content["ref_key"],
+                    content["author"],
+                    content["title"],
+                    content["booktitle"],
+                    content["year"],
+                )
+
+                return self._reference_repository.create_inproceedings(inproceedings)
+
 
     def get_all(self):
         return self._reference_repository.get_all()
