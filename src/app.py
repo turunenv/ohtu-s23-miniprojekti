@@ -18,7 +18,7 @@ class App:
                 "Type \"help\" to list commands and their descriptions")
 
             command = self.io.read(Fore.CYAN +
-                "Command (add or list or delete or file or tag or search or doi): "
+                "Command: "
                 + Fore.RESET)
 
             if not command:
@@ -295,7 +295,7 @@ class App:
 
         for r in self.list:
             if r.get_field_names() != field_names:
-                self.io.write(f'\n\n{r.ref_type.upper()}S')
+                self.io.write(Fore.MAGENTA + f'\n\n{r.ref_type.upper()}S')
                 field_names = r.get_field_names()
                 self.write_columns(r)
 

@@ -18,20 +18,13 @@ class BookReference(Reference):
         self.title = title
         self.year = year
         self.publisher = publisher
-        # self.editor = editor
-        # self.volume = volume
-        # self.pages = pages
         self.type = "book"
 
     def get_field_names(self):
-
         field_list = ["REF_KEY", "AUTHOR", "TITLE", "YEAR", "PUBLISHER"]
-        # LISÄTÄÄN VALINNAISET KENTÄT
-        # list += ["EDITOR", "VOLUME", "PAGES"]
-
         return field_list
 
-    # HAETAAN KENTTIEN PITUUDET TAULUKOSSA TULOSTUSTA VARTEN
+    # Fetch field lengths for printing
     def get_field_lengths(self):
         return [10, 25, 35, 6, 15]
 

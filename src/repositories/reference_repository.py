@@ -1,6 +1,7 @@
 import sqlite3
 from entities.book_reference import BookReference
 from entities.article_reference import ArticleReference
+from entities.inproceedings_reference import InProceedingsReference
 
 
 class ReferenceRepository:
@@ -50,6 +51,34 @@ class ReferenceRepository:
                 (article.ref_key, article.author, article.title,
                  article.journal, article.year, article.volume,
                  article.pages)
+            )
+
+            self._connection.commit()
+        except (AttributeError, sqlite3.Error) as e:
+            # Handle exceptions
+            print(e)
+            return False
+        finally:
+            # Close the cursor
+            cursor.close()
+
+        return True
+
+    def create_inproceedings(self, inproceedings):
+        """Saves inproceedings reference into database.
+
+        Args:
+            article (_type_): InProceedingsReference
+        """
+
+        cursor = self._connection.cursor()
+        try:
+            cursor.execute(
+                """INSERT INTO inproceedings_references
+                (ref_key, author, title, booktitle, year)
+                VALUES (?, ?, ?, ?, ?)""",
+                (inproceedings.ref_key, inproceedings.author, inproceedings.title,
+                 inproceedings.booktitle, inproceedings.year)
             )
 
             self._connection.commit()
@@ -127,6 +156,15 @@ class ReferenceRepository:
                 article[0], article[1], article[2], article[3],
                 article[4], article[5], article[6]))
 
+        cursor.execute("SELECT * FROM inproceedings_references")
+
+        inproceedings = cursor.fetchall()
+
+        for inproc in inproceedings:
+            reference_list.append(InProceedingsReference(inproc[0], inproc[1],
+                                          inproc[2], inproc[3], inproc[4]))
+
+
         return reference_list
 
     def get_reference_by_ref_key(self, ref_key):
@@ -158,6 +196,16 @@ class ReferenceRepository:
                                     article[3], article[4], article[5],
                                     article[6])
 
+        cursor.execute(
+            "SELECT * FROM inproceedings_references WHERE ref_key = ?", (ref_key,))
+
+        inproceedings = cursor.fetchone()
+
+        if inproceedings:
+            return InProceedingsReference(inproceedings[0], inproceedings[1],
+                                          inproceedings[2], inproceedings[3],
+                                          inproceedings[4])
+
         # If no row is found, return None
         return None
 
@@ -178,6 +226,12 @@ class ReferenceRepository:
             if cursor.rowcount == 0:
                 cursor.execute(
                     "DELETE FROM article_references WHERE ref_key = ?", (ref_key,))
+                self._connection.commit()
+
+            # try inproceedings last
+            if cursor.rowcount == 0:
+                cursor.execute(
+                    "DELETE FROM inproceedings_references WHERE ref_key = ?", (ref_key,))
                 self._connection.commit()
 
             #save amount of deleted rows because teg_relations will change it
@@ -216,6 +270,7 @@ class ReferenceRepository:
 
         cursor.execute("DELETE FROM book_references")
         cursor.execute("DELETE FROM article_references")
+        cursor.execute("DELETE FROM inproceedings_references")
         cursor.execute("DELETE FROM tag_relations")
 
         self._connection.commit()
@@ -258,5 +313,20 @@ class ReferenceRepository:
             reference_list.append(ArticleReference(
                 article[0], article[1], article[2], article[3],
                 article[4], article[5], article[6]))
+
+        cursor.execute(
+            "SELECT * FROM inproceedings_references A, tag_relations T "
+            "WHERE T.tag_id = ? AND A.ref_key = T.ref_key",
+            (tag_id,)
+        )
+
+        inproceedings = cursor.fetchall()
+
+        for inproc in inproceedings:
+            reference_list.append(InProceedingsReference(
+                inproc[0], inproc[1],
+                inproc[2], inproc[3],
+                inproc[4]
+            ))
 
         return reference_list
