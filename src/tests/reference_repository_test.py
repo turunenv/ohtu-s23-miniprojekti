@@ -200,3 +200,12 @@ class TestReferenceRepository(unittest.TestCase):
 
         self.assertEqual(expected_book.title, testbook2.title)
         self.assertEqual(expected_article.author, testarticle2.author)
+
+    def test_get_tags_works(self):
+        repository.create_book(self.test_book)
+        repository.create_tag("tag1")
+        id = repository.get_tag_id("tag1")
+        repository.create_tag_relation(id, "1")
+
+        self.assertEqual(repository.get_tags(), ['tag1                 1  '])
+

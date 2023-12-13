@@ -31,6 +31,9 @@ class FakeReferenceRepository:
 
     def get_tagged(self, tag_id):
         return True
+    
+    def get_tags(self):
+        return True
 
     def get_tag_id(self, tag_name):
         if tag_name in self.tag_names:
@@ -164,3 +167,7 @@ class TestReferenceService(unittest.TestCase):
 
     def test_get_tagged_call_works(self):
         self.assertTrue(self.reference_service.get_tagged(1))
+
+    def test_get_tags_call_works(self):
+        self.reference_service.get_tags()
+        self.assertTrue(self.reference_service._reference_repository.get_tags())
