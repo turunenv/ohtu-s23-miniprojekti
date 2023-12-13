@@ -26,6 +26,9 @@ Input Tag Command
 Input Search Command
     Input  search
 
+Input Tags Command
+    Input  tags
+
 Input Reference Type
     [Arguments]  ${ref_type}
     Input  ${ref_type}
