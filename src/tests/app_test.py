@@ -396,6 +396,14 @@ class TestApp(unittest.TestCase):
 
         self.assertEqual(self.testApp.io.write.call_count, 4)
 
+    def test_run_jumps_properly_to_get_tags(self):
+        self.testApp.io.read.side_effect = ["tags", "", ""]
+        self.testApp.reference_service.get_tags.return_value = []
+
+        self.testApp.run()
+
+        self.testApp.reference_service.get_tags.assert_called_once()
+
     def test_get_tags_works_with_no_rows(self):
         self.testApp.reference_service.get_tags.return_value = []
         self.testApp.get_tags()
