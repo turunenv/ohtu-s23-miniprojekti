@@ -30,7 +30,13 @@ class InProceedingsReference(Reference):
     def __str__(self):
         string = f"{self.ref_key[:10]:<10} {self.author[:25]:<25} "
         string += f"{self.title[:25]:<25} {self.booktitle[:25]:<25} {self.year:<6} "
-        if len(self.author) > 25 or len(self.title) > 25 or len(self.booktitle) > 25 or len(self.ref_key) > 10:
+
+        newline = len(self.author) > 25 or len(self.title) > 25
+        if len(self.booktitle) > 25 or len(self.ref_key) > 10:
+            newline = True
+        if newline:
             string += (
-                f"\n{self.ref_key[10:20]:<10} {self.author[25:50]:<25} {self.title[25:50]:<25} {self.booktitle[25:50]:<25}")
+                f"\n{self.ref_key[10:20]:<10} {self.author[25:50]:<25}")
+            string += (
+                f" {self.title[25:50]:<25} {self.booktitle[25:50]:<25}")
         return string
