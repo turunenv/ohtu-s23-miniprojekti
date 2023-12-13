@@ -383,3 +383,23 @@ class TestApp(unittest.TestCase):
 
         self.testApp.reference_service.create_reference.assert_called_with(
             {'type': 'book', 'ref_key': 'ref', 'author': 'auth', 'title': 'title', 'year': '1999', 'publisher': 'publisher'})
+        
+    def test_get_tags_works_with_single_row(self):
+        self.testApp.reference_service.get_tags.return_value = ['tag1                 2  ']
+        self.testApp.get_tags()
+
+        self.assertEqual(self.testApp.io.write.call_count, 3)
+
+    def test_get_tags_works_with_multiple_rows(self):
+        self.testApp.reference_service.get_tags.return_value = ['tag1                 2  ', 'tag2                 1  ']
+        self.testApp.get_tags()
+
+        self.assertEqual(self.testApp.io.write.call_count, 4)
+
+    def test_get_tags_works_with_no_rows(self):
+        self.testApp.reference_service.get_tags.return_value = []
+        self.testApp.get_tags()
+
+        self.testApp.io.write.assert_called_with('\x1b[31mNo existing tags')
+
+        self.assertEqual(self.testApp.io.write.call_count, 1)
