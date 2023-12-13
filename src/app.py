@@ -324,4 +324,4 @@ class App:
         if len(tag_list) == 0:
             self.io.write("No existing tags")
         for tag in tag_list:
-            self.io.write(f'Name: {tag['name']}, Number of references: {tag['count']}')
+            self.io.write(f"Name: {tag['name']}, Number of references: {tag['count']}")
