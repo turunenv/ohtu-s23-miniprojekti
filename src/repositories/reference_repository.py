@@ -259,8 +259,8 @@ class ReferenceRepository:
             "DELETE FROM book_references WHERE ref_key LIKE 'test%'")
         cursor.execute(
             "DELETE FROM article_references WHERE ref_key LIKE 'test%'")
-        #cursor.execute(
-        #    "DELETE FROM inproceedings_references WHERE ref_key LIKE 'test%'")
+        cursor.execute(
+            "DELETE FROM inproceedings_references WHERE ref_key LIKE 'test%'")
         cursor.execute(
             "DELETE FROM tag_relations WHERE ref_key LIKE 'test%'")
         self._connection.commit()
