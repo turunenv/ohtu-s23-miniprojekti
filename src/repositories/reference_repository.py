@@ -348,5 +348,5 @@ class ReferenceRepository:
         tag_list = []
         for tag in tags:
             if tag[0] is not None:
-                tag_list.append({'name':tag[0], 'count':tag[1]})
+                tag_list.append(f"{tag[0]:<20} {tag[1]:<3}")
         return tag_list

@@ -322,6 +322,27 @@ class App:
     def get_tags(self):
         tag_list = self.reference_service.get_tags()
         if len(tag_list) == 0:
-            self.io.write("No existing tags")
+            self.io.write(Fore.RED + "No existing tags")
+            return
+
+        field_names = ["Name", "Number of references"]
+        field_lengths = [20, 3]
+        column_amount = 2
+        color_counter = 0
+
+        columns = ""
+
+        for i in range(column_amount):
+            columns += f'{field_names[i]:<{field_lengths[i]}} '
+
+        self.io.write(Fore.CYAN + "\n" + columns)
+        self.io.write(f'{"":{"-"}>115}')
+
+
         for tag in tag_list:
-            self.io.write(f"Name: {tag['name']}, Number of references: {tag['count']}")
+            if color_counter % 2 == 0:
+                color = Fore.BLUE
+            else:
+                color = Fore.CYAN
+            self.io.write(f"{color}{tag}")
+            color_counter += 1
