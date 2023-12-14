@@ -2,6 +2,7 @@ import unittest
 from repositories.reference_repository import ReferenceRepository
 from entities.book_reference import BookReference
 from entities.article_reference import ArticleReference
+from entities.inproceedings_reference import InProceedingsReference
 from database_connection import get_db_connection
 
 
@@ -22,6 +23,10 @@ class TestReferenceRepository(unittest.TestCase):
             "Artificial Intelligence", 2021,
             "Bentham Science Publishers"
         )
+
+        self.test_inproceedings = InProceedingsReference("5", "Matti",
+                                             "Cool inproc",
+                                             "Book name", 2023)
 
     def test_create_book_works_with_valid_input(self):
         success = repository.create_book(self.test_book)
@@ -187,19 +192,23 @@ class TestReferenceRepository(unittest.TestCase):
 
         repository.create_book(self.test_book)
         repository.create_article(self.test_article)
+        repository.create_inproceedings(self.test_inproceedings)
         repository.create_book(testbook2)
         repository.create_article(testarticle2)
 
         repository.create_tag_relation(1, "3")
         repository.create_tag_relation(1, "4")
+        repository.create_tag_relation(1, "5")
 
         searched_tags = repository.get_tagged(1)
 
         expected_book = searched_tags[0]
         expected_article = searched_tags[1]
+        expected_inproc = searched_tags[2]
 
         self.assertEqual(expected_book.title, testbook2.title)
         self.assertEqual(expected_article.author, testarticle2.author)
+        self.assertEqual(expected_inproc.author, self.test_inproceedings.author)
 
     def test_get_tags_works(self):
         repository.create_book(self.test_book)
@@ -209,3 +218,18 @@ class TestReferenceRepository(unittest.TestCase):
 
         self.assertEqual(repository.get_tags(), ['tag1                 1  '])
 
+    def test_create_inproceedings(self):
+        success = repository.create_inproceedings(self.test_inproceedings)
+        self.assertTrue(success)
+
+    def test_get_reference_by_ref_key_creates_inproc_when_ref_is_inproc_type(self):
+        repository.create_inproceedings(self.test_inproceedings)
+        fetched_reference = repository.get_reference_by_ref_key("5")
+
+        ref_key = fetched_reference.ref_key
+        author = fetched_reference.author
+        title = fetched_reference.title
+
+        self.assertEqual(ref_key, self.test_inproceedings.ref_key)
+        self.assertEqual(author, self.test_inproceedings.author)
+        self.assertEqual(title, self.test_inproceedings.title)

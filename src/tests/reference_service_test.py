@@ -20,6 +20,10 @@ class FakeReferenceRepository:
         self.references.append(article)
         return article
 
+    def create_inproceedings(self, inproceedings):
+        self.references.append(inproceedings)
+        return inproceedings
+
     def delete_all(self):
         self.references = []
 
@@ -31,7 +35,7 @@ class FakeReferenceRepository:
 
     def get_tagged(self, tag_id):
         return True
-    
+
     def get_tags(self):
         return True
 
@@ -72,6 +76,13 @@ class TestReferenceService(unittest.TestCase):
                              "volume": 2,
                              "pages": "1-3"}
 
+        self.test_inproceedings = {"type": "inproceedings",
+                                    "ref_key": "abc",
+                                    "author": "joku",
+                                    "title": "jotain",
+                                    "booktitle": "aku-ankka",
+                                    "year": 2023}
+
     def test_create_reference_book(self):
         self.reference_service.create_reference(self.test_book)
         reference_list = self.reference_service.get_all()
@@ -99,6 +110,20 @@ class TestReferenceService(unittest.TestCase):
         self.assertEqual(expected_article.year, self.test_article["year"])
         self.assertEqual(expected_article.volume, self.test_article["volume"])
         self.assertEqual(expected_article.pages, self.test_article["pages"])
+
+    def test_create_inproceedings(self):
+        self.reference_service.create_reference(self.test_inproceedings)
+        reference_list = self.reference_service.get_all()
+        expected_reference = reference_list[0]
+
+        self.assertEqual(len(reference_list), 1)
+        self.assertEqual(expected_reference.ref_key,
+                         self.test_inproceedings["ref_key"])
+        self.assertEqual(expected_reference.author, self.test_inproceedings["author"])
+        self.assertEqual(expected_reference.title, self.test_inproceedings["title"])
+        self.assertEqual(expected_reference.booktitle,
+                         self.test_inproceedings["booktitle"])
+        self.assertEqual(expected_reference.year, self.test_inproceedings["year"])
 
     def test_get_fields_of_reference_type_book(self):
         fields = self.reference_service.get_fields_of_reference_type("book")
