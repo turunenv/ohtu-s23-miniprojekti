@@ -41,10 +41,12 @@ class TestReferenceRepository(unittest.TestCase):
     def test_get_all_returns_list(self):
         repository.create_book(self.test_book)
         repository.create_article(self.test_article)
+        repository.create_inproceedings(self.test_inproceedings)
 
         references = repository.get_all()
         expected_book = references[0]
         expected_article = references[1]
+        expected_inproceedings = references[2]
 
         self.assertEqual(expected_book.ref_key, self.test_book.ref_key)
         self.assertEqual(expected_book.author, self.test_book.author)
@@ -53,6 +55,7 @@ class TestReferenceRepository(unittest.TestCase):
         self.assertEqual(expected_book.publisher, self.test_book.publisher)
         self.assertEqual(expected_article.ref_key, self.test_article.ref_key)
         self.assertEqual(expected_article.author, self.test_article.author)
+        self.assertEqual(expected_inproceedings.ref_key, self.test_inproceedings.ref_key)
 
     def test_delete_all_references_works(self):
         repository.create_book(self.test_book)
@@ -233,3 +236,18 @@ class TestReferenceRepository(unittest.TestCase):
         self.assertEqual(ref_key, self.test_inproceedings.ref_key)
         self.assertEqual(author, self.test_inproceedings.author)
         self.assertEqual(title, self.test_inproceedings.title)
+
+    def test_create_inproceedings_fails_with_invalid_input(self):
+        success = repository.create_inproceedings("Not an inproceedings")
+
+        self.assertFalse(success)
+
+    def test_create_tag_fails_with_invalid_input(self):
+        success = repository.create_tag(AttributeError)
+
+        self.assertFalse(success)
+
+    def test_delete_ref_ref_by_ref_key_fails_with_invalid_input(self):
+        success = repository.delete_reference_by_ref_key(AttributeError)
+
+        self.assertFalse(success)
