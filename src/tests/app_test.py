@@ -411,3 +411,11 @@ class TestApp(unittest.TestCase):
         self.testApp.io.write.assert_called_with('\x1b[31mNo existing tags')
 
         self.assertEqual(self.testApp.io.write.call_count, 1)
+
+    def test_list_references_message_if_there_are_no_references(self):
+        self.testApp.reference_service.get_all.return_value = []
+        self.testApp.list_references()
+
+        self.testApp.io.write.assert_called_with('\x1b[31mYou have no references saved.')
+
+        self.assertEqual(self.testApp.io.write.call_count, 2)
