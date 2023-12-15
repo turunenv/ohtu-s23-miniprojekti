@@ -15,6 +15,7 @@ class TestApp(unittest.TestCase):
             self._io_mock, self._reference_repository_mock, self.mock_bibwriter, self.mock_doi_service)
         self.mock_io = Mock()
         self.mock_rs = Mock()
+        self.reference = Mock()
         self.reference_service = Mock()
         self.testApp = App(self.mock_io, self.mock_rs, self.mock_bibwriter, self.mock_doi_service)
         self.testApp.write_columns = Mock()
@@ -419,3 +420,12 @@ class TestApp(unittest.TestCase):
         self.testApp.io.write.assert_called_with('\x1b[31mYou have no references saved.')
 
         self.assertEqual(self.testApp.io.write.call_count, 2)
+
+    def test_create_bib_file_fails_if_no_references(self):
+        self.mock_io.read.return_value = "test.bib"
+        self.mock_rs.get_all.return_value = []
+        self.testApp.create_bib_file()
+
+        self.mock_io.write.assert_called_with(
+            "\x1b[31mYou have no references saved.")
+
