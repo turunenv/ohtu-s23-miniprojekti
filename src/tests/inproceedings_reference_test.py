@@ -12,7 +12,11 @@ class TestInProceedingsReference(unittest.TestCase):
             "aaa", "tove jansson and all the other authors", "muumit", 
             "muumilaakso", 2000
             )
-    
+        self.test_inproceedings_with_long_ref_key = InProceedingsReference(
+            "very_long_ref_key", "tove jansson", "muumit", 
+            "muumilaakso", 200
+            )
+
     def test_get_field_names_returns_all_names(self):
         field_names = self.test_inproceedings.get_field_names()
         self.assertEqual(len(field_names), 5)
@@ -32,6 +36,11 @@ class TestInProceedingsReference(unittest.TestCase):
     def test_string_representation_with_long_author_works(self):
         str_repr = self.test_inproceedings_with_long_author.__str__()
         expected_str = "aaa        tove jansson and all the  muumit                    muumilaakso               2000   "
-        expected_str += "            other authors                                                                "
-                                                                
+        expected_str += "\n           other authors                                                                "
 
+        self.assertEqual(str_repr, expected_str)
+
+    def test_string_representation_with_long_ref_key_works(self):
+        str_repr = self.test_inproceedings_with_long_ref_key.__str__()
+        expected_str = "very_long_ tove jansson              muumit                    muumilaakso               2000   "
+        expected_str += "\nref_key                                                                                 "
