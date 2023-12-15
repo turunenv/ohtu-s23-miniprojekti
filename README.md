@@ -5,6 +5,7 @@
 
 
 ## Backlogs
+
 - [Backlogs](https://github.com/users/turunenv/projects/1)
 - [Task estimation and burndown chart](https://docs.google.com/spreadsheets/d/1_CVzRfBNQlAJu8JO0la84PiaUmfVOdazKIZoOWZOVVI/edit#gid=0)
 
@@ -57,7 +58,7 @@ python3 src/index.py
 The app will open to the starting menu:
 ```
 Type "help" to list commands and their descriptions
-Command (add or list or delete or file or tag or search):
+Command:
 ```
 
 If you type ***help*** the app prints the following:
@@ -88,7 +89,7 @@ If you type ***add*** you can add a new reference.
 Type "cancel" to cancel
 Give source type:
 ```
-Currently the supported reference types are book and article.
+Currently the supported reference types are book, article and inproceedings.
 If you type ***cancel*** before a reference is added, you can cancel adding a reference and return to the starting menu.
 
 The required information for a book are:
@@ -108,6 +109,14 @@ The required information for an article are:
 - Year
 - Volume
 - Pages
+
+The required information for an inproceedings are:
+
+- Reference key
+- Author
+- Title
+- Booktitle
+- Year
 
 Once a reference is successfully added, the app will print:
 ```
@@ -149,6 +158,7 @@ DELETED!
 ```
 
 #### Tagging a file
+
 If you type ***tag*** you can give an existing reference a tag
 ```
 Type "cancel" to cancel
@@ -162,6 +172,7 @@ y
 ```
 
 #### Searching with a tag
+
 If you type ***search*** you can search for references that have the same tag.
 ```
 Type "cancel" to cancel
@@ -187,5 +198,5 @@ The app prints a message containing how many references were saved to a BibTex-f
 You can close the app by pressing enter in the starting menu:
 ```
 Type "help" to list commands and their descriptions
-Command (add or list or delete or file or tag or search)
+Command:
 ```
