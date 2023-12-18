@@ -91,7 +91,7 @@ class App:
         rd = {}
         rd["type"] = source_type
 
-        for f in list_of_fields:
+        for field_in_list in list_of_fields:
 
             user_input = self.io.read(Fore.BLUE +
                 f"Add {f} of the {source_type}: " + Fore.RESET)
@@ -99,21 +99,21 @@ class App:
             if user_input == "cancel":
                 return
 
-            while f == "ref_key" and self.reference_service.ref_key_taken(user_input):
+            while field_in_list == "ref_key" and self.reference_service.ref_key_taken(user_input):
                 self.io.write(Fore.RED + "This ref_key is already taken!!")
                 user_input = self.io.read(Fore.CYAN +
-                    f"Add {f} of the {source_type}: " + Fore.RESET)
+                    f"Add {field_in_list} of the {source_type}: " + Fore.RESET)
                 if user_input == "cancel":
                     return
-            while not self.validate_input(f, user_input):
+            while not self.validate_input(field_in_list, user_input):
                 self.io.write(Fore.RED +
                     "Invalid input! Please check help-menu for instructions")
                 user_input = self.io.read(Fore.CYAN +
-                    f"Add {f} of the {source_type}: " + Fore.RESET)
+                    f"Add {field_in_list} of the {source_type}: " + Fore.RESET)
                 if user_input == "cancel":
                     return
 
-            rd[f] = user_input
+            rd[field_in_list] = user_input
 
         if self.reference_service.create_reference(rd):
             self.io.write(Fore.GREEN + "ADDED!")
