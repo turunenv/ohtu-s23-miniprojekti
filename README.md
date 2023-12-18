@@ -15,6 +15,9 @@
 - Python test coverage at a decent level
 - Pushed to main branch and main branch is not broken.
 
+## Loppuraportti
+- [Linkki loppuraporttiin](https://docs.google.com/document/d/1Mq3A44wzgUl_FAoOyu5s4ZrCxR_VRWEi0aB5gCgkTKI/edit?usp=sharing)
+
 ## Installation
 
 1. Install poetry:
